@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Airport" representedClassName="Airport" syncable="YES">
+        <attribute name="airportId" attributeType="Integer 32" indexed="YES" syncable="YES"/>
+        <attribute name="elevationFeet" optional="YES" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="latitude" attributeType="Double" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="latitude"/>
+                <index value="longitude"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="Frequency" representedClassName="Frequency" syncable="YES">
+        <attribute name="airportId" attributeType="Integer 32" indexed="YES" syncable="YES"/>
+        <attribute name="mhz" attributeType="Float" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Runway" representedClassName="Runway" syncable="YES">
+        <attribute name="airportId" attributeType="Integer 32" indexed="YES" syncable="YES"/>
+        <attribute name="identifierA" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="identifierB" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lengthFeet" attributeType="Integer 16" defaultValueString="-1" syncable="YES"/>
+        <attribute name="surface" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="widthFeet" attributeType="Integer 16" defaultValueString="-1" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Airport" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Frequency" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Runway" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>
