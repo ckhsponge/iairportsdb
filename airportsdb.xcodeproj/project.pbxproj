@@ -32,6 +32,7 @@
 		5FA6974618C9128800502B4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FA6974518C9128800502B4A /* Main.storyboard */; };
 		5FA6974918C914FA00502B4A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA6974818C914FA00502B4A /* MainViewController.m */; };
 		5FA6974B18C927E800502B4A /* airport-frequencies.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5FA6974A18C927E800502B4A /* airport-frequencies.csv */; };
+		5FA6976A18C933CF00502B4A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5FA6976918C933CF00502B4A /* README.md */; };
 		5FCAC85718B3F443006F24BF /* FrequencyParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAC85618B3F443006F24BF /* FrequencyParser.m */; };
 		5FCAC85A18B40326006F24BF /* Frequency.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAC85918B40326006F24BF /* Frequency.m */; };
 		5FCAC86518B42079006F24BF /* Runway.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAC86418B42079006F24BF /* Runway.m */; };
@@ -87,6 +88,7 @@
 		5FA6974718C914FA00502B4A /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		5FA6974818C914FA00502B4A /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		5FA6974A18C927E800502B4A /* airport-frequencies.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "airport-frequencies.csv"; path = "data/airport-frequencies.csv"; sourceTree = "<group>"; };
+		5FA6976918C933CF00502B4A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		5FCAC85518B3F443006F24BF /* FrequencyParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrequencyParser.h; sourceTree = "<group>"; };
 		5FCAC85618B3F443006F24BF /* FrequencyParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrequencyParser.m; sourceTree = "<group>"; };
 		5FCAC85818B40326006F24BF /* Frequency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frequency.h; path = models/Frequency.h; sourceTree = SOURCE_ROOT; };
@@ -131,6 +133,7 @@
 		5F60A9BD18B1883500515AAC = {
 			isa = PBXGroup;
 			children = (
+				5FA6976918C933CF00502B4A /* README.md */,
 				5FF4327318B2DC9C00B4E701 /* db */,
 				5F60AA1218B19D5600515AAC /* data */,
 				5F60AA0E18B19C8300515AAC /* lib */,
@@ -348,6 +351,7 @@
 				5F60A9D618B1883500515AAC /* InfoPlist.strings in Resources */,
 				5FA6974B18C927E800502B4A /* airport-frequencies.csv in Resources */,
 				5F60AA6418B1F61900515AAC /* airports.csv in Resources */,
+				5FA6976A18C933CF00502B4A /* README.md in Resources */,
 				5F60A9E118B1883500515AAC /* Images.xcassets in Resources */,
 				5F60AA6518B1F61900515AAC /* runways.csv in Resources */,
 				5FA6974618C9128800502B4A /* Main.storyboard in Resources */,
