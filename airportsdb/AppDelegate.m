@@ -21,15 +21,7 @@
     //self.window.backgroundColor = [UIColor whiteColor];
     //[self.window makeKeyAndVisible];
     
-    //[self parseAll];
-    
-    //[[[Counter alloc] init] count];
-    
     return YES;
-}
-
--(void) parseAll {
-
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

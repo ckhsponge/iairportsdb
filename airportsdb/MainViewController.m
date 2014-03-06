@@ -17,6 +17,8 @@
 #import "IADBModel.h"
 #import "IADBPersistence.h"
 
+#define PROJECT_PATH @"/Users/ckh/dev/iairportsdb"
+
 @interface MainViewController ()
 
 @end
@@ -43,7 +45,7 @@
         //NSString  *documentsDirectory = [paths objectAtIndex:0];
         
         //NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,@"filename.png"];
-        NSString *filePath = [NSString stringWithFormat:@"/Users/ckh/dev/iairportsdb/data/%@.csv",fileName];
+        NSString *filePath = [NSString stringWithFormat:@"%@/data/%@.csv",PROJECT_PATH,fileName];
         if ( [urlData writeToFile:filePath atomically:YES] ) {
             NSLog(@"Wrote to %@", filePath);
         } else {
@@ -62,7 +64,7 @@
 }
 
 - (IBAction)parseAll:(id)sender {
-    [IADBModel setPersistencePath:@"/Users/ckh/dev/airportsdb/db/airportsdb.sqlite"]; //writes to a local project file instead of the compiled documents path
+    [IADBModel setPersistencePath:[NSString stringWithFormat:@"%@/db/airportsdb.sqlite",PROJECT_PATH]]; //writes to a local project file instead of the compiled documents path
     [[IADBModel persistence] persistentStoreClear];
     
     [[[AirportParser alloc] init] parse];

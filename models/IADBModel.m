@@ -22,7 +22,7 @@ static IADBPersistence *_persistence = nil;
 }
 
 +(void) setPersistencePath:(NSString *) path {
-    _persistence = [[IADBPersistence alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"airportsdb" ofType:@"sqlite"]];
+    _persistence = [[IADBPersistence alloc] initWithPath:path];
 }
 
 +(NSManagedObjectContext *) managedObjectContext {
