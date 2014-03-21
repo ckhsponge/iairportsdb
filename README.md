@@ -1,4 +1,6 @@
-This project contains a Cocoa Core Data model and accompanying Objective C classes for airports worldwide. Runway and frequency information is also included. 
+This project is a mac and iOS database for airports worldwide. A Cocoa framework Core Data model and accompanying Objective C classes is used. Runway and frequency information is also included.
+
+This databse is used in the wildly popular [NRST: Descent Rate & Airport Finder](https://itunes.apple.com/us/app/nrst-descent-rate-airport/id828514590?ls=1&mt=8) for iOS.
 
 To get started quickly:
 
@@ -13,7 +15,7 @@ To get started quickly:
 * Make sure "Create groups for any added folders" is selected
 * You are done!
 
-Now you can find airport using:
+Now you can find airports using:
 * [Airport findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance]
 * [Airport findAllByIdentifier:(NSString *) identifier]
 *
