@@ -58,6 +58,11 @@
 
 +(AirportArray *) findAllByIdentifier:(NSString *) identifier {
     if(!identifier || identifier.length == 0) { return [[AirportArray alloc] init]; }
+    if( identifier.length > 1 && [[identifier uppercaseString] hasPrefix:@"K"]) {
+        //if identifier starts with K remove it because we will check with it later
+        //this allows "KCVH" to find CVH
+        identifier = [identifier substringFromIndex:1];
+    }
     NSString *kidentifier = [NSString stringWithFormat:@"K%@",identifier];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
                               @"((identifier BEGINSWITH[c] %@) OR (identifier BEGINSWITH[c] %@)) AND (type contains 'airport')",identifier,kidentifier];

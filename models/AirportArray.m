@@ -23,6 +23,7 @@
         if (self = [super init])
         {
             _array = [[NSMutableArray alloc] initWithArray:a];
+            _center = nil;
         }
         return self;
     }
