@@ -1,4 +1,6 @@
-This project contains an Objective C core data model and accompanying classes for airports worldwide. Runway and frequency information is also included. To get started quickly:
+This project contains a Cocoa Core Data model and accompanying Objective C classes for airports worldwide. Runway and frequency information is also included. 
+
+To get started quickly:
 
 * Create an XCode project
 * In the projects directory run:
