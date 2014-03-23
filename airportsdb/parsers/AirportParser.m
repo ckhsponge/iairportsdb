@@ -38,7 +38,7 @@
     if( fieldEmpty ) { return; }
     switch (index) {
         case INDEX_ID:
-            airport.airportId = [field integerValue];
+            airport.airportId = (int32_t) [field integerValue];
             break;
         case INDEX_IDENTIFIER:
             airport.identifier = field;

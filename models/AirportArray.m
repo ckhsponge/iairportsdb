@@ -9,6 +9,8 @@
 #import "AirportArray.h"
 #import "Airport.h"
 
+#define METERS_PER_NM (1852.0)
+
 @implementation AirportArray
 
 -(id) init {
@@ -41,6 +43,21 @@
             return (NSComparisonResult)NSOrderedSame;
         }
     }];
+}
+
+-(void) excludeAirportsOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center {
+    if( !center || !_array) {return;}
+    CLLocationDistance m = nm * METERS_PER_NM;
+    for( NSInteger i = _array.count - 1; i >= 0; i--) {
+        CLLocationDistance distance = [center distanceFromLocation:((Airport *) _array[i]).location];
+        if ( distance > m) {
+            [_array removeObjectAtIndex:i];
+        }
+    }
+}
+
+-(NSString *) description {
+    return [NSString stringWithFormat:@"Center: %@, Airports: %@",_center, [_array description]];
 }
 
 @end

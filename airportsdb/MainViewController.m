@@ -11,6 +11,7 @@
 #import "FrequencyParser.h"
 #import "RunwayParser.h"
 #import "Airport.h"
+#import "AirportArray.h"
 #import "Frequency.h"
 #import "Runway.h"
 #import "Counter.h"
@@ -68,17 +69,23 @@
     [[IADBModel persistence] persistentStoreClear];
     
     [[[AirportParser alloc] init] parse];
-    NSLog(@"Airports: %d", [Airport countAll]);
+    NSLog(@"Airports: %ld", (long) [Airport countAll]);
     
     [[[FrequencyParser alloc] init] parse];
-    NSLog(@"Frequencies: %d", [Frequency countAll]);
+    NSLog(@"Frequencies: %ld", (long) [Frequency countAll]);
     
     [[[RunwayParser alloc] init] parse];
-    NSLog(@"Runways: %d", [Runway countAll]);
+    NSLog(@"Runways: %ld", (long) [Runway countAll]);
 }
 
 - (IBAction)countAll:(id)sender {
     [[[Counter alloc] init] count];
+}
+
+- (IBAction)findTest:(id)sender {
+    CLLocation *location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(37.0+30.81/60.0, -122-30.07/60.0) altitude:100.0 horizontalAccuracy:100.0 verticalAccuracy:100.0 course:15.0 speed:10.0 timestamp:[NSDate date]];
+    AirportArray *airports = [Airport findNear:location withinNM:18.0];
+    NSLog(@"Airports: %@", [airports description]);
 }
 
 - (void)viewDidLoad

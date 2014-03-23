@@ -28,9 +28,10 @@
 #define METERS_PER_NM (1852.0)
 #define METERS_PER_KTS (METERS_PER_NM/3600.0)
 #define NM(x) (round(x/(METERS_PER_NM)))
-#define NM_PER_DEGREE 60.0
+#define NM_PER_LATITUDE 60.0
 
-#define DEGREES_FROM_NM(x) (x/NM_PER_DEGREE)
+#define LATITUDE_DEGREES_FROM_NM(nm) ((nm)/NM_PER_LATITUDE)
+#define LONGITUDE_DEGREES_FROM_NM(nm,latitude) ((nm)/(NM_PER_LATITUDE*cos((latitude)*M_PI/180.0)))
 
 #define FEET_PER_METER (3.28084)
 
@@ -40,18 +41,26 @@
 @synthesize frequencies = _frequencies;
 @synthesize runways = _runways;
 
+//returns airports near a location sorted by distance
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance {
     
     // Set example predicate and sort orderings...
-    CLLocationDistance degrees = DEGREES_FROM_NM(distance); //not correct near the poles
     CLLocationDegrees latitude = location.coordinate.latitude;
     CLLocationDegrees longitude = location.coordinate.longitude;
+    
+    latitude = MAX(MIN(latitude, 89.0), -89.0); //don't allow calculations at the poles or there will be divide-by-zero errors
+    
+    CLLocationDistance degreesLatitude = LATITUDE_DEGREES_FROM_NM(distance); //approximate because earth is an ellipse
+    CLLocationDistance degreesLongitude = LONGITUDE_DEGREES_FROM_NM(distance,latitude); //longitude degrees are smaller further from equator
+    
+    //finds all airports within a box to take advantage of database indexes
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
                               @"(latitude < %lf) AND (latitude > %lf) AND (longitude < %lf) AND (longitude > %lf) AND (type contains 'airport')",
-                              latitude+degrees, latitude-degrees, longitude+degrees, longitude-degrees];
+                              latitude+degreesLatitude, latitude-degreesLatitude, longitude+degreesLongitude, longitude-degreesLongitude];
     AirportArray *airports = [Airport findAllByPredicate:predicate];
-    
     airports.center = location;
+    [airports excludeAirportsOutsideNM:distance fromCenter:airports.center]; //trims airports to be within circle i.e. distance
+    [airports sortByCenter:airports.center];
     
     return airports;
 }

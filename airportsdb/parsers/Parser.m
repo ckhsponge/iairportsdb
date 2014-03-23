@@ -51,9 +51,9 @@
     self.parser.stripsLeadingAndTrailingWhitespace = YES;
     self.parser.delegate = self;
     
-    NSLog(@"Starting parse, lines: %u", [self countEntities]);
+    NSLog(@"Starting parse, lines: %lu", (unsigned long)[self countEntities]);
     [self.parser parse];
-    NSLog(@"Finished parse, lines: %u", [self countEntities]);
+    NSLog(@"Finished parse, lines: %lu", (unsigned long)[self countEntities]);
 }
 
 -(NSUInteger) countEntities {

@@ -41,7 +41,7 @@
     Airport *airport;
     switch (index) {
         case INDEX_AIRPORT_ID:
-            runway.airportId = [field integerValue];
+            runway.airportId = (int32_t) [field integerValue];
             airport = [Airport findByAirportId:runway.airportId];
             if( !airport ) { NSLog(@"WARNING: No airport %d", runway.airportId); }
             //runway.airport = airport;

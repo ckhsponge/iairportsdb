@@ -17,5 +17,6 @@
 -(id) initWithArray:(NSArray *) a;
 
 -(void) sortByCenter:(CLLocation *) center;
+-(void) excludeAirportsOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center;
 
 @end
