@@ -85,6 +85,7 @@
 - (IBAction)findTest:(id)sender {
     CLLocation *location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(37.0+30.81/60.0, -122-30.07/60.0) altitude:100.0 horizontalAccuracy:100.0 verticalAccuracy:100.0 course:15.0 speed:10.0 timestamp:[NSDate date]];
     AirportArray *airports = [Airport findNear:location withinNM:18.0];
+    //should find SFO but not OAK
     NSLog(@"Airports: %@", [airports description]);
 }
 

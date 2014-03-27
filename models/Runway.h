@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSString * identifierA;
 @property (nonatomic, retain) NSString * identifierB;
 @property (nonatomic, retain) NSString * surface;
+@property (nonatomic) float_t headingDegrees;
 //@property (nonatomic, retain) Airport *airport;
 
 @end

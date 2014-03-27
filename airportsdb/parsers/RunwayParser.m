@@ -19,6 +19,7 @@
 #define INDEX_LIGHTED 6
 #define INDEX_CLOSED 7
 #define INDEX_LE_IDENTIFIER 8
+#define INDEX_HEADING 12
 #define INDEX_HE_IDENTIFIER 14
 
 @implementation RunwayParser
@@ -60,6 +61,10 @@
             break;
         case INDEX_WIDTH:
             runway.widthFeet = [field integerValue];
+            break;
+        case INDEX_HEADING:
+            runway.headingDegrees = [field floatValue];
+            if( runway.headingDegrees < 0.0 ) { NSLog(@"WARNING: runway heading: %f %d", runway.headingDegrees, runway.airportId); }
             break;
             
         default:

@@ -16,6 +16,7 @@
 @dynamic identifierA;
 @dynamic identifierB;
 @dynamic surface;
+@dynamic headingDegrees;
 //@dynamic airport;
 
 @end
