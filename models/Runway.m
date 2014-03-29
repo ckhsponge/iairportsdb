@@ -26,18 +26,18 @@ static inline double withinZeroTo360(double degrees) {
 
 //if headingDegrees is valid add the deviation, otherwise return -1
 //CoreLocation doesn't provide deviation :(
--(CLLocationDegrees) headingMagneticWithDeviation:(CLLocationDegrees) deviation {
+-(CLLocationDirection) headingMagneticWithDeviation:(CLLocationDirection) deviation {
     return self.headingDegrees >= 0.0 ? withinZeroTo360(self.headingDegrees - deviation) : -1.0;
 }
 
 //if the runway headingDegrees is positive return that, otherwise use the identifier to guess degrees
--(CLLocationDegrees) headingMagneticOrGuessWithDeviation:(CLLocationDegrees) deviation {
+-(CLLocationDirection) headingMagneticOrGuessWithDeviation:(CLLocationDirection) deviation {
     return self.headingDegrees >= 0.0 ? [self headingMagneticWithDeviation:deviation] : [self identifierDegrees];
 }
 
 //guess the runway heading from the identifier e.g. 01R heads ~10°
 //returns -1 if guessing fails
--(CLLocationDegrees) identifierDegrees {
+-(CLLocationDirection) identifierDegrees {
     NSCharacterSet *digits = [NSCharacterSet decimalDigitCharacterSet];
     if (self.identifierA && [digits characterIsMember:[self.identifierA characterAtIndex:0]] && [digits characterIsMember:[self.identifierA characterAtIndex:1]]) {
         return [[self.identifierA substringToIndex:2] doubleValue]*10.0;
