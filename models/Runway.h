@@ -19,10 +19,11 @@
 @property (nonatomic, retain) NSString * identifierA;
 @property (nonatomic, retain) NSString * identifierB;
 @property (nonatomic, retain) NSString * surface;
-@property (nonatomic) float_t headingDegrees;
+@property (nonatomic) float_t headingDegrees; //degrees TRUE
 //@property (nonatomic, retain) Airport *airport;
 
--(CLLocationDegrees) headingDegreesWithIdentifier;
+-(CLLocationDegrees) headingDegreesMagneticWithDeviation:(CLLocationDegrees) deviation;
+-(CLLocationDegrees) headingDegreesMagneticOrGuessWithDeviation:(CLLocationDegrees) deviation;
 -(CLLocationDegrees) identifierDegrees;
 
 @end
