@@ -22,4 +22,7 @@
 @property (nonatomic) float_t headingDegrees;
 //@property (nonatomic, retain) Airport *airport;
 
+-(CLLocationDegrees) headingDegreesWithIdentifier;
+-(CLLocationDegrees) identifierDegrees;
+
 @end
