@@ -63,8 +63,8 @@
             runway.widthFeet = [field integerValue];
             break;
         case INDEX_HEADING:
-            runway.headingDegrees = [field floatValue];
-            if( runway.headingDegrees < 0.0 ) { NSLog(@"WARNING: runway heading: %f %d", runway.headingDegrees, runway.airportId); }
+            runway.headingTrue = [field floatValue];
+            if( runway.headingTrue < 0.0 ) { NSLog(@"WARNING: runway heading: %f %d", runway.headingTrue, runway.airportId); }
             break;
             
         default:
