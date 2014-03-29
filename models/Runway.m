@@ -17,17 +17,22 @@
 @dynamic identifierB;
 @dynamic surface;
 @dynamic headingDegrees; //TRUE
-//@dynamic airport;
+
+@synthesize airport;
+
+static inline double withinZeroTo360(double degrees) {
+    return (degrees - (360.0 * floor(degrees/360.0)));
+}
 
 //if headingDegrees is valid add the deviation, otherwise return -1
 //CoreLocation doesn't provide deviation :(
--(CLLocationDegrees) headingDegreesMagneticWithDeviation:(CLLocationDegrees) deviation {
-    return self.headingDegrees >= 0.0 ? (self.headingDegrees + deviation) : -1.0;
+-(CLLocationDegrees) headingMagneticWithDeviation:(CLLocationDegrees) deviation {
+    return self.headingDegrees >= 0.0 ? withinZeroTo360(self.headingDegrees - deviation) : -1.0;
 }
 
 //if the runway headingDegrees is positive return that, otherwise use the identifier to guess degrees
--(CLLocationDegrees) headingDegreesMagneticOrGuessWithDeviation:(CLLocationDegrees) deviation {
-    return self.headingDegrees >= 0.0 ? [self headingDegreesMagneticWithDeviation:deviation] : [self identifierDegrees];
+-(CLLocationDegrees) headingMagneticOrGuessWithDeviation:(CLLocationDegrees) deviation {
+    return self.headingDegrees >= 0.0 ? [self headingMagneticWithDeviation:deviation] : [self identifierDegrees];
 }
 
 //guess the runway heading from the identifier e.g. 01R heads ~10°

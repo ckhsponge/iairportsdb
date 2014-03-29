@@ -110,13 +110,18 @@
 -(NSArray *) runways {
     if( !_runways ) {
         _runways = [Runway findAllByAirportId:self.airportId];
+        for (Runway *runway in _runways) {
+            runway.airport = self;
+        }
     }
     return _runways;
 }
 
+//don't trust the altitude
 -(CLLocation *) location {
     if( !_location ) {
-        _location = [[CLLocation alloc] initWithLatitude:self.latitude longitude:self.longitude];
+        CLLocationDistance altitude = self.elevationFeet ? [self.elevationFeet doubleValue] : 0.0;
+        _location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(self.latitude, self.longitude) altitude:altitude horizontalAccuracy:0.0 verticalAccuracy:0.0 timestamp:[NSDate date]];
     }
     return _location;
 }
