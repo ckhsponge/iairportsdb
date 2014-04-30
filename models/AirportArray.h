@@ -12,11 +12,12 @@
 @interface AirportArray : NSObject
 
 @property (nonatomic, retain) CLLocation * center;
-@property (nonatomic, retain) NSMutableArray * array;
+@property (nonatomic, retain, readonly) NSMutableArray * array;
 
 -(id) initWithArray:(NSArray *) a;
 
 -(void) sortByCenter:(CLLocation *) center;
 -(void) excludeAirportsOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center;
+-(void) setAirports:(NSArray *) a;
 
 @end

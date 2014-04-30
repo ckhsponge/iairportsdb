@@ -31,6 +31,11 @@
     }
 }
 
+
+-(void) setAirports:(NSArray *) a {
+    [self.array setArray:a];
+}
+
 -(void) sortByCenter:(CLLocation *) center {
     [self.array sortUsingComparator: ^(Airport *a, Airport *b) {
         CLLocationDistance dist_a= [a.location distanceFromLocation: center];
