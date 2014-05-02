@@ -31,6 +31,7 @@
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance;
 +(AirportArray *) findAllByIdentifier:(NSString *) identifier;
 -(NSString *) title;
+-(NSString *) klessIdentifier;
 @end
 
 @interface Airport (CoreDataGeneratedAccessors)

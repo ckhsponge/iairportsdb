@@ -126,6 +126,14 @@
     return _location;
 }
 
+-(NSString *) klessIdentifier {
+    if( !self.identifier ) { return @""; }
+    if( [[[self.identifier substringToIndex:1] uppercaseString] isEqualToString:@"K"] ) {
+        return [self.identifier substringFromIndex:1];
+    }
+    return self.identifier;
+}
+
 -(NSString *) title {
     return [NSString stringWithFormat:@"%@: %@",self.identifier,self.name];
 }
