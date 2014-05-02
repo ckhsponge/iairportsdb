@@ -43,7 +43,12 @@
 
 //returns airports near a location sorted by distance
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance {
-    
+    return [Airport findNear:location withinNM:distance withTypes:@[@"large_airport",
+                                                                    @"medium_airport",
+                                                                    @"small_airport"]];
+}
+
++(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types {
     // Set example predicate and sort orderings...
     CLLocationDegrees latitude = location.coordinate.latitude;
     CLLocationDegrees longitude = location.coordinate.longitude;
@@ -53,9 +58,18 @@
     CLLocationDistance degreesLatitude = LATITUDE_DEGREES_FROM_NM(distance); //approximate because earth is an ellipse
     CLLocationDistance degreesLongitude = LONGITUDE_DEGREES_FROM_NM(distance,latitude); //longitude degrees are smaller further from equator
     
+    NSString *predicateString = @"(latitude < %lf) AND (latitude > %lf) AND (longitude < %lf) AND (longitude > %lf)";
+    if (types && types.count > 0) {
+        NSMutableArray *predicateTypes = [NSMutableArray arrayWithArray:types];
+        for(NSUInteger i=0;i<predicateTypes.count; ++i) {
+            [predicateTypes replaceObjectAtIndex:i withObject:[NSString stringWithFormat:@"(type = '%@')",predicateTypes[i]]];
+        } //TODO array map
+        predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[predicateTypes componentsJoinedByString:@" OR "]];
+    }
+    
     //finds all airports within a box to take advantage of database indexes
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"(latitude < %lf) AND (latitude > %lf) AND (longitude < %lf) AND (longitude > %lf) AND (type contains 'airport')",
+                              predicateString,
                               latitude+degreesLatitude, latitude-degreesLatitude, longitude+degreesLongitude, longitude-degreesLongitude];
     AirportArray *airports = [Airport findAllByPredicate:predicate];
     airports.center = location;
@@ -98,6 +112,18 @@
     NSAssert3(airports, @"Unhandled error removing file in %s at line %d: %@", __FUNCTION__, __LINE__, [error localizedDescription]);
     
     return airports;
+}
+
++(NSArray *) types {
+    return @[
+             @"large_airport",
+             @"medium_airport",
+             @"small_airport",
+             @"seaplane_base",
+             @"heliport",
+             @"balloonport",
+             @"closed"
+             ];
 }
 
 -(NSArray *) frequencies {

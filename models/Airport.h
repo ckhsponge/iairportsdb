@@ -29,7 +29,9 @@
 @property (nonatomic, retain, readonly) NSArray * runways;
 
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance;
++(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types;
 +(AirportArray *) findAllByIdentifier:(NSString *) identifier;
++(NSArray *) types;
 -(NSString *) title;
 -(NSString *) klessIdentifier;
 @end
