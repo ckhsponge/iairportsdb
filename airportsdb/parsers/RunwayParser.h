@@ -9,5 +9,6 @@
 #import "Parser.h"
 
 @interface RunwayParser : Parser
+@property (atomic, strong) NSMutableSet *surfaces;
 
 @end

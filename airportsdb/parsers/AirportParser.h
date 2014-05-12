@@ -13,5 +13,6 @@
 @class Airport;
 
 @interface AirportParser : Parser
+@property (atomic, strong) NSMutableSet *types;
 
 @end
