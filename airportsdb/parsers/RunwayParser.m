@@ -33,6 +33,7 @@
 }
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)index {
+    if( !self.surfaces) {self.surfaces = [[NSMutableSet alloc] init];}
     //NSLog(@"%@ %ld",field,(long) index);
     Runway *runway = (Runway *) self.managedObject;
     if( !runway) {return;}
@@ -55,6 +56,7 @@
             break;
         case INDEX_SURFACE:
             runway.surface = field;
+            [self.surfaces addObject:field];
             break;
         case INDEX_LENGTH:
             runway.lengthFeet = [field integerValue];

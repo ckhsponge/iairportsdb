@@ -62,20 +62,25 @@
     for(NSString *name in names) {
         [self downloadFile:name];
     }
+    NSLog(@"Done downloading files.");
 }
 
 - (IBAction)parseAll:(id)sender {
     [IADBModel setPersistencePath:[NSString stringWithFormat:@"%@/db/airportsdb.sqlite",PROJECT_PATH]]; //writes to a local project file instead of the compiled documents path
     [[IADBModel persistence] persistentStoreClear];
     
-    [[[AirportParser alloc] init] parse];
+    AirportParser *airportParser = [[AirportParser alloc] init];
+    [airportParser parse];
     NSLog(@"Airports: %ld", (long) [Airport countAll]);
     
     [[[FrequencyParser alloc] init] parse];
     NSLog(@"Frequencies: %ld", (long) [Frequency countAll]);
     
-    [[[RunwayParser alloc] init] parse];
+    RunwayParser *runwayParser = [[RunwayParser alloc] init];
+    [runwayParser parse];
     NSLog(@"Runways: %ld", (long) [Runway countAll]);
+    //NSLog(@"Surfaces: %@", runwayParser.surfaces);
+    NSLog(@"Airport Types: %@", airportParser.types);
 }
 
 - (IBAction)countAll:(id)sender {

@@ -30,6 +30,7 @@
 }
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)index {
+    if( !self.types) {self.types = [[NSMutableSet alloc] init];}
     //NSLog(@"%@ %ld",field,(long) index);
     Airport *airport = (Airport *) self.managedObject;
     if( !airport) {return;}
@@ -45,6 +46,7 @@
             break;
         case INDEX_TYPE:
             airport.type = field;
+            [self.types addObject:field];
             break;
         case INDEX_NAME:
             airport.name = field;
