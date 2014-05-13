@@ -34,6 +34,8 @@
 +(NSArray *) types;
 -(NSString *) title;
 -(NSString *) klessIdentifier;
+-(BOOL) hasRunways;
+-(NSInteger) longestRunwayFeet;
 @end
 
 @interface Airport (CoreDataGeneratedAccessors)

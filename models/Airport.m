@@ -143,6 +143,18 @@
     return _runways;
 }
 
+-(BOOL) hasRunways {
+    return self.runways && self.runways.count > 0;
+}
+
+-(NSInteger) longestRunwayFeet {
+    NSInteger length = -1;
+    for( Runway *runway in self.runways ) {
+        length = MAX(length, runway.lengthFeet);
+    }
+    return length;
+}
+
 //don't trust the altitude
 -(CLLocation *) location {
     if( !_location ) {
