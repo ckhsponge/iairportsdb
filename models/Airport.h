@@ -13,6 +13,14 @@
 #import "IADBModel.h"
 #import "AirportArray.h"
 
+#define AIRPORT_TYPE_LARGE @"large_airport"
+#define AIRPORT_TYPE_MEDIUM @"medium_airport"
+#define AIRPORT_TYPE_SMALL @"small_airport"
+#define AIRPORT_TYPE_SEAPLANE @"seaplane_base"
+#define AIRPORT_TYPE_HELIPORT @"heliport"
+#define AIRPORT_TYPE_BALLOONPORT @"balloonport"
+#define AIRPORT_TYPE_CLOSED @"closed"
+
 @class Frequency;
 
 @interface Airport : IADBModel

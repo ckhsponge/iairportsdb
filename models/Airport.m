@@ -49,6 +49,7 @@
 }
 
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types {
+    //TODO return empty if types is empty
     // Set example predicate and sort orderings...
     CLLocationDegrees latitude = location.coordinate.latitude;
     CLLocationDegrees longitude = location.coordinate.longitude;
