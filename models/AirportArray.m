@@ -50,15 +50,40 @@
     }];
 }
 
--(void) excludeAirportsOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center {
-    if( !center || !_array) {return;}
-    CLLocationDistance m = nm * METERS_PER_NM;
+- (void)removeObjectsUsingBlock:(BOOL (^)(Airport *airport))block {
     for( NSInteger i = _array.count - 1; i >= 0; i--) {
-        CLLocationDistance distance = [center distanceFromLocation:((Airport *) _array[i]).location];
-        if ( distance > m) {
+        if (block(_array[i])) {
             [_array removeObjectAtIndex:i];
         }
     }
+}
+
+-(void) excludeAirportsOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center {
+    if( !center || !_array) {return;}
+    CLLocationDistance m = nm * METERS_PER_NM;
+//    for( NSInteger i = _array.count - 1; i >= 0; i--) {
+//        CLLocationDistance distance = [center distanceFromLocation:((Airport *) _array[i]).location];
+//        if ( distance > m) {
+//            [_array removeObjectAtIndex:i];
+//        }
+//    }
+    [self removeObjectsUsingBlock:^BOOL(Airport *airport) {
+        CLLocationDistance distance = [center distanceFromLocation:airport.location];
+        return distance > m;
+    }];
+}
+
+-(void) excludeSoft {
+    [self removeObjectsUsingBlock:^BOOL(Airport *airport) {
+        return ![airport hasHardRunway];
+    }];
+}
+
+-(void) excludeShorterThan:(NSInteger) feet {
+    [self removeObjectsUsingBlock:^BOOL(Airport *airport) {
+        NSLog(@"%@ %ld",airport,(long) [airport longestRunwayFeet]);
+        return [airport longestRunwayFeet] < feet;
+    }];
 }
 
 -(NSString *) description {

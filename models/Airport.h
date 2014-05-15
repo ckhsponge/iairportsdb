@@ -44,6 +44,7 @@
 -(NSString *) klessIdentifier;
 -(BOOL) hasRunways;
 -(NSInteger) longestRunwayFeet;
+-(BOOL) hasHardRunway;
 @end
 
 @interface Airport (CoreDataGeneratedAccessors)

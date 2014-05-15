@@ -25,5 +25,6 @@
 -(CLLocationDirection) headingMagneticWithDeviation:(CLLocationDirection) deviation;
 -(CLLocationDirection) headingMagneticOrGuessWithDeviation:(CLLocationDirection) deviation;
 -(CLLocationDirection) identifierDegrees;
+-(BOOL) isHard;
 
 @end

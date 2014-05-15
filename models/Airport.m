@@ -43,13 +43,18 @@
 
 //returns airports near a location sorted by distance
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance {
-    return [Airport findNear:location withinNM:distance withTypes:@[@"large_airport",
-                                                                    @"medium_airport",
-                                                                    @"small_airport"]];
+    return [Airport findNear:location withinNM:distance withTypes:@[AIRPORT_TYPE_LARGE,
+                                                                    AIRPORT_TYPE_MEDIUM,
+                                                                    AIRPORT_TYPE_SMALL]];
 }
 
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types {
-    //TODO return empty if types is empty
+    if( !types || types.count == 0) {
+        AirportArray *airports = [[AirportArray alloc] init];
+        airports.center = location;
+        return airports;
+    }
+    
     // Set example predicate and sort orderings...
     CLLocationDegrees latitude = location.coordinate.latitude;
     CLLocationDegrees longitude = location.coordinate.longitude;
@@ -60,13 +65,12 @@
     CLLocationDistance degreesLongitude = LONGITUDE_DEGREES_FROM_NM(distance,latitude); //longitude degrees are smaller further from equator
     
     NSString *predicateString = @"(latitude < %lf) AND (latitude > %lf) AND (longitude < %lf) AND (longitude > %lf)";
-    if (types && types.count > 0) {
-        NSMutableArray *predicateTypes = [NSMutableArray arrayWithArray:types];
-        for(NSUInteger i=0;i<predicateTypes.count; ++i) {
-            [predicateTypes replaceObjectAtIndex:i withObject:[NSString stringWithFormat:@"(type = '%@')",predicateTypes[i]]];
-        } //TODO array map
-        predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[predicateTypes componentsJoinedByString:@" OR "]];
-    }
+    
+    NSMutableArray *predicateTypes = [[NSMutableArray alloc] initWithCapacity:types.count];
+    [types enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [predicateTypes addObject:[NSString stringWithFormat:@"(type = '%@')",obj]];
+    }];
+    predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[predicateTypes componentsJoinedByString:@" OR "]];
     
     //finds all airports within a box to take advantage of database indexes
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
@@ -105,7 +109,7 @@
     //                                        initWithKey:@"name" ascending:YES];
     //    [request setSortDescriptors:@[sortDescriptor]];
     
-    //NSLog(@"fetch: %@", request);
+    NSLog(@"fetch: %@", request);
     
     NSError *error;
     AirportArray *airports = [[AirportArray alloc] initWithArray:[context executeFetchRequest:request error:&error]];
@@ -117,13 +121,13 @@
 
 +(NSArray *) types {
     return @[
-             @"large_airport",
-             @"medium_airport",
-             @"small_airport",
-             @"seaplane_base",
-             @"heliport",
-             @"balloonport",
-             @"closed"
+             AIRPORT_TYPE_LARGE,
+             AIRPORT_TYPE_MEDIUM,
+             AIRPORT_TYPE_SMALL,
+             AIRPORT_TYPE_SEAPLANE,
+             AIRPORT_TYPE_HELIPORT,
+             AIRPORT_TYPE_BALLOONPORT,
+             AIRPORT_TYPE_CLOSED
              ];
 }
 
@@ -154,6 +158,15 @@
         length = MAX(length, runway.lengthFeet);
     }
     return length;
+}
+
+-(BOOL) hasHardRunway {
+    for( Runway *runway in self.runways ) {
+        if ([runway isHard]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 //don't trust the altitude

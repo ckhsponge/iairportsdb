@@ -18,6 +18,8 @@
 
 -(void) sortByCenter:(CLLocation *) center;
 -(void) excludeAirportsOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center;
+-(void) excludeSoft;
+-(void) excludeShorterThan:(NSInteger) feet;
 -(void) setAirports:(NSArray *) a;
 
 @end

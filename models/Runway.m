@@ -20,6 +20,8 @@
 
 @synthesize airport;
 
+#define HARD_SURFACES @[@"ASP",@"CON"]
+
 static inline double withinZeroTo360(double degrees) {
     return (degrees - (360.0 * floor(degrees/360.0)));
 }
@@ -43,6 +45,16 @@ static inline double withinZeroTo360(double degrees) {
         return [[self.identifierA substringToIndex:2] doubleValue]*10.0;
     }
     return -1.0;
+}
+
+-(BOOL) isHard {
+    NSString *surface = [self.surface uppercaseString];
+    for(NSString *match in HARD_SURFACES) {
+        if ([surface rangeOfString:match].location != NSNotFound) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 -(NSString *) description {
