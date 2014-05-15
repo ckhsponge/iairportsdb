@@ -81,7 +81,7 @@
 
 -(void) excludeShorterThan:(NSInteger) feet {
     [self removeObjectsUsingBlock:^BOOL(Airport *airport) {
-        NSLog(@"%@ %ld",airport,(long) [airport longestRunwayFeet]);
+        //NSLog(@"%@ %ld",airport,(long) [airport longestRunwayFeet]);
         return [airport longestRunwayFeet] < feet;
     }];
 }

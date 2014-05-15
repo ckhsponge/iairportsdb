@@ -22,6 +22,7 @@
 #define AIRPORT_TYPE_CLOSED @"closed"
 
 @class Frequency;
+@class Runway;
 
 @interface Airport : IADBModel
 
@@ -45,6 +46,7 @@
 -(BOOL) hasRunways;
 -(NSInteger) longestRunwayFeet;
 -(BOOL) hasHardRunway;
+-(Runway *) longestRunway;
 @end
 
 @interface Airport (CoreDataGeneratedAccessors)

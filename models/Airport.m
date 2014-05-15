@@ -160,6 +160,16 @@
     return length;
 }
 
+-(Runway *) longestRunway {
+    Runway *max = nil;
+    for( Runway *runway in self.runways ) {
+        if (!max || (max.lengthFeet < runway.lengthFeet) || (max.lengthFeet == runway.lengthFeet && max.widthFeet < runway.widthFeet)) {
+            max = runway;
+        }
+    }
+    return max;
+}
+
 -(BOOL) hasHardRunway {
     for( Runway *runway in self.runways ) {
         if ([runway isHard]) {
