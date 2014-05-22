@@ -183,7 +183,7 @@
 -(CLLocation *) location {
     if( !_location ) {
         CLLocationDistance altitude = self.elevationFeet ? [self.elevationFeet doubleValue] : 0.0;
-        _location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(self.latitude, self.longitude) altitude:altitude horizontalAccuracy:0.0 verticalAccuracy:0.0 timestamp:[NSDate date]];
+        _location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(self.latitude, self.longitude) altitude:altitude/FEET_PER_METER horizontalAccuracy:0.0 verticalAccuracy:0.0 timestamp:[NSDate date]];
     }
     return _location;
 }
