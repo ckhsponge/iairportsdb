@@ -48,7 +48,8 @@
                        @[@"KGRR",@"ATIS",@"type",@118.725],
                            @[@"KGRR",@"LANSING RDO",@"type",@122.25],
                            @[@"KGRR",@"GRAND RAPIDS APP/DEP N",@"type",@124.6],
-                           @[@"KGRR",@"GRAND RAPIDS APP/DEP S",@"type",@128.4]
+                       @[@"KGRR",@"GRAND RAPIDS APP/DEP S",@"type",@128.4],
+                       @[@"K08C",@"CTAF/UNICOM",@"type",@122.9]
                            ];
     for(NSArray *attributes in array) {
         NSString *identifier = attributes[0];
