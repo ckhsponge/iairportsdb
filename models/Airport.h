@@ -39,7 +39,9 @@
 
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance;
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types;
++(Airport *) findByIdentifier:(NSString *) identifier;
 +(AirportArray *) findAllByIdentifier:(NSString *) identifier;
++(AirportArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types;
 +(NSArray *) types;
 -(NSString *) title;
 -(NSString *) klessIdentifier;
@@ -47,6 +49,7 @@
 -(NSInteger) longestRunwayFeet;
 -(BOOL) hasHardRunway;
 -(Runway *) longestRunway;
+-(Frequency *) frequencyForName:(NSString *) name;
 @end
 
 @interface Airport (CoreDataGeneratedAccessors)

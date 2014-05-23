@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5F163FAD18BA86A80092724F /* Counter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F163FAC18BA86A80092724F /* Counter.m */; };
+		5F272F28192FF7C10024DCC5 /* Correction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F272F27192FF7C10024DCC5 /* Correction.m */; };
 		5F60A9CA18B1883500515AAC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F60A9C918B1883500515AAC /* Foundation.framework */; };
 		5F60A9CC18B1883500515AAC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F60A9CB18B1883500515AAC /* CoreGraphics.framework */; };
 		5F60A9CE18B1883500515AAC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F60A9CD18B1883500515AAC /* UIKit.framework */; };
@@ -56,6 +57,9 @@
 /* Begin PBXFileReference section */
 		5F163FAB18BA86A80092724F /* Counter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counter.h; sourceTree = "<group>"; };
 		5F163FAC18BA86A80092724F /* Counter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Counter.m; sourceTree = "<group>"; };
+		5F272F26192FF7C10024DCC5 /* Correction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Correction.h; sourceTree = "<group>"; };
+		5F272F27192FF7C10024DCC5 /* Correction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Correction.m; sourceTree = "<group>"; };
+		5F272F29192FF9510024DCC5 /* AppConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
 		5F60A9C618B1883500515AAC /* airportsdb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = airportsdb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F60A9C918B1883500515AAC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5F60A9CB18B1883500515AAC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -179,6 +183,7 @@
 				5FA6974518C9128800502B4A /* Main.storyboard */,
 				5FA6974718C914FA00502B4A /* MainViewController.h */,
 				5FA6974818C914FA00502B4A /* MainViewController.m */,
+				5F272F29192FF9510024DCC5 /* AppConstants.h */,
 			);
 			path = airportsdb;
 			sourceTree = "<group>";
@@ -263,6 +268,8 @@
 				5FCAC86718B42160006F24BF /* RunwayParser.m */,
 				5F163FAB18BA86A80092724F /* Counter.h */,
 				5F163FAC18BA86A80092724F /* Counter.m */,
+				5F272F26192FF7C10024DCC5 /* Correction.h */,
+				5F272F27192FF7C10024DCC5 /* Correction.m */,
 			);
 			path = parsers;
 			sourceTree = "<group>";
@@ -383,6 +390,7 @@
 				5FA6974918C914FA00502B4A /* MainViewController.m in Sources */,
 				5F60AA3718B1E7E200515AAC /* Parser.m in Sources */,
 				5FF4325E18B2D9A300B4E701 /* AirportArray.m in Sources */,
+				5F272F28192FF7C10024DCC5 /* Correction.m in Sources */,
 				5FF4325D18B2D9A300B4E701 /* Airport.m in Sources */,
 				5FCAC86518B42079006F24BF /* Runway.m in Sources */,
 				5F60AA2318B1E7CB00515AAC /* CHCSVParser.m in Sources */,

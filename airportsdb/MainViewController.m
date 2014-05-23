@@ -17,8 +17,8 @@
 #import "Counter.h"
 #import "IADBModel.h"
 #import "IADBPersistence.h"
-
-#define PROJECT_PATH @"/Users/ckh/dev/iairportsdb"
+#import "AppConstants.h"
+#import "Correction.h"
 
 @interface MainViewController ()
 
@@ -57,6 +57,12 @@
     }
 }
 
+- (IBAction)downloadParseCorrect:(id)sender {
+    [self downloadData:sender];
+    [self parseAll:sender];
+    [self correctData:sender];
+}
+
 - (IBAction)downloadData:(id)sender {
     NSArray *names = @[[[[AirportParser alloc] init] fileName],[[[FrequencyParser alloc] init] fileName],[[[RunwayParser alloc] init] fileName]];
     for(NSString *name in names) {
@@ -66,7 +72,7 @@
 }
 
 - (IBAction)parseAll:(id)sender {
-    [IADBModel setPersistencePath:[NSString stringWithFormat:@"%@/db/airportsdb.sqlite",PROJECT_PATH]]; //writes to a local project file instead of the compiled documents path
+    [IADBModel setPersistencePath:[NSString stringWithFormat:LOCAL_DB_PATH,PROJECT_PATH]]; //writes to a local project file instead of the compiled documents path
     [[IADBModel persistence] persistentStoreClear];
     
     AirportParser *airportParser = [[AirportParser alloc] init];
@@ -81,6 +87,11 @@
     NSLog(@"Runways: %ld", (long) [Runway countAll]);
     //NSLog(@"Surfaces: %@", runwayParser.surfaces);
     NSLog(@"Airport Types: %@", airportParser.types);
+}
+
+- (IBAction)correctData:(id)sender {
+    Correction *correction = [[Correction alloc] init];
+    [correction correct];
 }
 
 - (IBAction)countAll:(id)sender {

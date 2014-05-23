@@ -43,9 +43,7 @@
 
 //returns airports near a location sorted by distance
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance {
-    return [Airport findNear:location withinNM:distance withTypes:@[AIRPORT_TYPE_LARGE,
-                                                                    AIRPORT_TYPE_MEDIUM,
-                                                                    AIRPORT_TYPE_SMALL]];
+    return [Airport findNear:location withinNM:distance withTypes:[Airport types]];
 }
 
 +(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types {
@@ -65,12 +63,7 @@
     CLLocationDistance degreesLongitude = LONGITUDE_DEGREES_FROM_NM(distance,latitude); //longitude degrees are smaller further from equator
     
     NSString *predicateString = @"(latitude < %lf) AND (latitude > %lf) AND (longitude < %lf) AND (longitude > %lf)";
-    
-    NSMutableArray *predicateTypes = [[NSMutableArray alloc] initWithCapacity:types.count];
-    [types enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [predicateTypes addObject:[NSString stringWithFormat:@"(type = '%@')",obj]];
-    }];
-    predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[predicateTypes componentsJoinedByString:@" OR "]];
+    predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[Airport predicateTypes:types]];
     
     //finds all airports within a box to take advantage of database indexes
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
@@ -84,7 +77,28 @@
     return airports;
 }
 
++(NSString *) predicateTypes:(NSArray *) types {
+    NSMutableArray *predicateTypes = [[NSMutableArray alloc] initWithCapacity:types.count];
+    [types enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [predicateTypes addObject:[NSString stringWithFormat:@"(type = '%@')",obj]];
+    }];
+    return [predicateTypes componentsJoinedByString:@" OR "];
+}
+
++(Airport *) findByIdentifier:(NSString *) identifier {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identifier = %@" ,identifier];
+    AirportArray *array = [Airport findAllByPredicate:predicate];
+    if (array.array.count != 1) {
+        NSLog(@"WARNING! findByIdentifier %@ returned %ld results",identifier,(unsigned long) array.array.count);
+    }
+    return array.array.count > 0 ? array.array[0] : nil;
+}
+
 +(AirportArray *) findAllByIdentifier:(NSString *) identifier {
+    return [Airport findAllByIdentifier:identifier withTypes:[Airport types]];
+}
+
++(AirportArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types {
     if(!identifier || identifier.length == 0) { return [[AirportArray alloc] init]; }
     if( identifier.length > 1 && [[identifier uppercaseString] hasPrefix:@"K"]) {
         //if identifier starts with K remove it because we will check with it later
@@ -92,8 +106,10 @@
         identifier = [identifier substringFromIndex:1];
     }
     NSString *kidentifier = [NSString stringWithFormat:@"K%@",identifier];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"((identifier BEGINSWITH[c] %@) OR (identifier BEGINSWITH[c] %@)) AND (type contains 'airport')",identifier,kidentifier];
+    
+    NSString *predicateString = @"((identifier BEGINSWITH[c] %@) OR (identifier BEGINSWITH[c] %@))";
+    predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[Airport predicateTypes:types]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString ,identifier,kidentifier];
     return [Airport findAllByPredicate:predicate];
 }
 
@@ -177,6 +193,16 @@
         }
     }
     return NO;
+}
+
+-(Frequency *) frequencyForName:(NSString *) name {
+    for (Frequency *f in [self frequencies]) {
+        NSString *n = f.name;
+        if ([name isEqual:n]) {
+            return f;
+        }
+    }
+    return nil;
 }
 
 //don't trust the altitude
