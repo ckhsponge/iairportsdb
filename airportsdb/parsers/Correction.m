@@ -18,6 +18,7 @@
 -(void) correct {
     [IADBModel setPersistencePath:[NSString stringWithFormat:LOCAL_DB_PATH,PROJECT_PATH]]; //writes to a local project file instead of the compiled documents path
     
+    [self airportIdentifier];
     [self airportType];
     [self modifyFrequency];
     [self deleteFrequency];
@@ -27,7 +28,22 @@
     NSAssert3(!error, @"Unhandled error saving in %s at line %d: %@", __FUNCTION__, __LINE__, [error localizedDescription]);
     if( error ) {
         NSLog( @"WARNING: Could not save %@", [error localizedDescription]);
+    } else {
+        NSLog(@"Correction complete.");
     }
+}
+
+-(void) airportIdentifier {
+    NSDictionary *dict = @{@"K4SD":@"KRTS"};
+    [dict enumerateKeysAndObjectsUsingBlock:^(id identifier, id newIdentifier, BOOL *stop) {
+        Airport *airport = [Airport findByIdentifier:identifier];
+        if (airport) {
+            NSLog(@"%@ %@ to %@",identifier,airport.identifier,newIdentifier);
+            airport.identifier = newIdentifier;
+        } else {
+            NSLog(@"Airport ident not found: %@",identifier);
+        }
+    }];
 }
 
 -(void) airportType {
@@ -38,7 +54,7 @@
             NSLog(@"%@ type %@ to %@",identifier,airport.type,type);
             airport.type = type;
         } else {
-            NSLog(@"Airport not found: %@",identifier);
+            NSLog(@"Airport type not found: %@",identifier);
         }
     }];
 }
@@ -75,7 +91,7 @@
                 [[[IADBModel persistence] managedObjectContext] insertObject:f];
             }
         } else {
-            NSLog(@"Airport not found: %@",identifier);
+            NSLog(@"Airport freq not found: %@",identifier);
         }
     }
 }
@@ -90,10 +106,10 @@
                 NSLog(@"Frequency delete: %@ %@",identifier,name);
                 [[IADBModel managedObjectContext] deleteObject:f];
             } else {
-                 NSLog(@"Frequency not found: %@ %@",identifier,name);
+                 NSLog(@"Frequency delete not found: %@ %@",identifier,name);
             }
         } else {
-            NSLog(@"Airport not found: %@",identifier);
+            NSLog(@"Airport freq delete not found: %@",identifier);
         }
     }];
 }

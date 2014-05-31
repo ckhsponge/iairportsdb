@@ -125,7 +125,7 @@
     //                                        initWithKey:@"name" ascending:YES];
     //    [request setSortDescriptors:@[sortDescriptor]];
     
-    NSLog(@"fetch: %@", request);
+    //NSLog(@"fetch: %@", request);
     
     NSError *error;
     AirportArray *airports = [[AirportArray alloc] initWithArray:[context executeFetchRequest:request error:&error]];
