@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "airportsdb/parsers/AirportParser.m"
-            timestampString = "421615618.683528"
+            timestampString = "423468620.454819"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "-parser:didReadField:atIndex:"
             landmarkType = "5">
          </BreakpointContent>

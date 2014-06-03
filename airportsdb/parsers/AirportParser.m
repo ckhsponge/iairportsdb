@@ -12,7 +12,8 @@
 #import <CoreData/CoreData.h>
 
 #define INDEX_ID 0
-#define INDEX_IDENTIFIER 12
+#define INDEX_IDENTIFIER 1
+#define INDEX_GPS_CODE 12
 #define INDEX_TYPE 2
 #define INDEX_NAME 3
 #define INDEX_LATITUDE 4
@@ -43,6 +44,9 @@
             break;
         case INDEX_IDENTIFIER:
             airport.identifier = field;
+            break;
+        case INDEX_GPS_CODE:
+            airport.identifier = field; //use gps code if it exists
             break;
         case INDEX_TYPE:
             airport.type = field;
