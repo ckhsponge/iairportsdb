@@ -10,12 +10,14 @@
 #import "Frequency.h"
 #import "Airport.h"
 
-#define INDEX_ID 0
-#define INDEX_AIRPORT_ID 1
-#define INDEX_IDENTIFIER 2
-#define INDEX_TYPE 3
-#define INDEX_NAME 4
-#define INDEX_MHZ 5
+//"id","airport_ref","airport_ident","type","description","frequency_mhz"
+
+//#define HEADER_ID @"id"
+#define HEADER_AIRPORT_ID @"airport_ref"
+//#define HEADER_IDENTIFIER @"airport_ident"
+#define HEADER_TYPE @"type"
+#define HEADER_NAME @"description"
+#define HEADER_MHZ @"frequency_mhz"
 
 @implementation FrequencyParser
 
@@ -27,33 +29,25 @@
     return @"Frequency";
 }
 
-- (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)index {
-    //NSLog(@"%@ %ld",field,(long) index);
+- (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field forColumn:(NSString *) column {
+    if (!field || field.length == 0) {
+        return;
+    }
     Frequency *frequency = (Frequency *) self.managedObject;
     if( !frequency) {return;}
-    field = [Parser unquote:field];
-    BOOL fieldEmpty = !field || field.length == 0;
-    if( fieldEmpty ) { return; }
+
     Airport *airport;
-    switch (index) {
-        case INDEX_AIRPORT_ID:
+    if ( [HEADER_AIRPORT_ID isEqualToString:column] ) {
             frequency.airportId = (int32_t) [field integerValue];
             airport = [Airport findByAirportId:frequency.airportId];
             if( !airport ) { NSLog(@"WARNING: No airport %d", frequency.airportId); }
-            //frequency.airport = airport;
-            break;
-        case INDEX_TYPE:
+        //frequency.airport = airport;
+    } else if ( [HEADER_TYPE isEqualToString:column] ) {
             frequency.type = field;
-            break;
-        case INDEX_NAME:
+    } else if ( [HEADER_NAME isEqualToString:column] ) {
             frequency.name = field;
-            break;
-        case INDEX_MHZ:
+    } else if ( [HEADER_MHZ isEqualToString:column] ) {
             frequency.mhz = [field doubleValue];
-            break;
-            
-        default:
-            break;
     }
 }
 @end

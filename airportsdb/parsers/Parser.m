@@ -11,7 +11,10 @@
 #import "IADBModel.h"
 #import "IADBPersistence.h"
 
-@interface Parser()
+@interface Parser() {
+    NSMutableArray *_columns;
+    NSUInteger _recordNumber;
+}
 
 @property (atomic, strong) CHCSVParser *parser;
 
@@ -34,8 +37,23 @@
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
 }
+
+
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)index {
-    
+    field = [Parser unquote:field];
+    if (_recordNumber == 1) {
+        [_columns addObject:field];
+    } else {
+        NSString *column = (index >=0 && index<_columns.count) ? [_columns objectAtIndex:index] : nil;
+        [self parser:parser didReadField:field forColumn:column];
+    }
+}
+
+
+- (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field forColumn:(NSString *) column {
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
 }
 
 //-(id) initWithPersistence:(AirportPersistence *) persistence {
@@ -84,6 +102,7 @@
 }
 
 - (void)parser:(CHCSVParser *)parser didBeginLine:(NSUInteger)recordNumber {
+    _recordNumber = recordNumber;
     if( recordNumber % 1000 == 0 ) { NSLog(@"line %ld",(long) recordNumber); }
     if( recordNumber > 1 ) {
         NSManagedObjectContext *context = [[self persistence] managedObjectContext];
@@ -91,6 +110,7 @@
         self.managedObject = [[NSClassFromString([self entityName]) alloc] initWithEntity:entity insertIntoManagedObjectContext:nil];
         
     } else {
+        _columns = [[NSMutableArray alloc] init];
         self.managedObject = nil;
     }
 }

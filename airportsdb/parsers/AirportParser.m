@@ -11,14 +11,17 @@
 #import "Airport.h"
 #import <CoreData/CoreData.h>
 
-#define INDEX_ID 0
-#define INDEX_IDENTIFIER 1
-#define INDEX_GPS_CODE 12
-#define INDEX_TYPE 2
-#define INDEX_NAME 3
-#define INDEX_LATITUDE 4
-#define INDEX_LONGITUDE 5
-#define INDEX_ELEVATION_FEET 6
+//"id","ident","type","name","latitude_deg","longitude_deg","elevation_ft","continent","iso_country","iso_region","municipality","scheduled_service","gps_code","iata_code","local_code","home_link","wikipedia_link","keywords"
+
+#define HEADER_ID @"id"
+#define HEADER_IDENTIFIER @"ident"
+#define HEADER_GPS_CODE @"gps_code"
+#define HEADER_TYPE @"type"
+#define HEADER_NAME @"name"
+#define HEADER_LATITUDE @"latitude_deg"
+#define HEADER_LONGITUDE @"longitude_deg"
+#define HEADER_ELEVATION_FEET @"elevation_ft"
+
 
 @implementation AirportParser
 
@@ -30,43 +33,31 @@
     return @"Airport";
 }
 
-- (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)index {
+- (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field forColumn:(NSString *) column {
+    if (!field || field.length == 0) {
+        return;
+    }
     if( !self.types) {self.types = [[NSMutableSet alloc] init];}
-    //NSLog(@"%@ %ld",field,(long) index);
     Airport *airport = (Airport *) self.managedObject;
     if( !airport) {return;}
-    field = [Parser unquote:field];
-    BOOL fieldEmpty = !field || field.length == 0;
-    if( fieldEmpty ) { return; }
-    switch (index) {
-        case INDEX_ID:
-            airport.airportId = (int32_t) [field integerValue];
-            break;
-        case INDEX_IDENTIFIER:
-            airport.identifier = field;
-            break;
-        case INDEX_GPS_CODE:
-            airport.identifier = field; //use gps code if it exists
-            break;
-        case INDEX_TYPE:
-            airport.type = field;
-            [self.types addObject:field];
-            break;
-        case INDEX_NAME:
-            airport.name = field;
-            break;
-        case INDEX_LATITUDE:
-            airport.latitude = [field doubleValue];
-            break;
-        case INDEX_LONGITUDE:
-            airport.longitude = [field doubleValue];
-            break;
-        case INDEX_ELEVATION_FEET:
-            airport.elevationFeet = [[NSNumber alloc] initWithInteger:[field integerValue]];
-            break;
-            
-        default:
-            break;
+
+    if ( [HEADER_ID isEqualToString:column] ) {
+        airport.airportId = (int32_t) [field integerValue];
+    } else if ( [HEADER_IDENTIFIER isEqualToString:column] ) {
+        airport.identifier = field;
+    } else if ( [HEADER_GPS_CODE isEqualToString:column] ) {
+        airport.identifier = field; //use gps code if it exists
+    } else if ( [HEADER_TYPE isEqualToString:column] ) {
+        airport.type = field;
+        [self.types addObject:field];
+    } else if ( [HEADER_NAME isEqualToString:column] ) {
+        airport.name = field;
+    } else if ( [HEADER_LATITUDE isEqualToString:column] ) {
+        airport.latitude = [field doubleValue];
+    } else if ( [HEADER_LONGITUDE isEqualToString:column] ) {
+        airport.longitude = [field doubleValue];
+    } else if ( [HEADER_ELEVATION_FEET isEqualToString:column] ) {
+        airport.elevationFeet = [[NSNumber alloc] initWithInteger:[field integerValue]];
     }
 }
 

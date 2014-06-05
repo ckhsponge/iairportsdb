@@ -22,5 +22,6 @@
 -(NSString *) fileName;
 -(NSString *) entityName;
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)index;
+- (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field forColumn:(NSString *) column;
 
 @end

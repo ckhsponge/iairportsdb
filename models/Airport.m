@@ -205,7 +205,7 @@
     return nil;
 }
 
-//don't trust the altitude
+//don't trust the altitude, self.elevationFeet may be null
 -(CLLocation *) location {
     if( !_location ) {
         CLLocationDistance altitude = self.elevationFeet ? [self.elevationFeet doubleValue] : 0.0;

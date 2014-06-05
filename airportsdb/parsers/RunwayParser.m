@@ -10,17 +10,19 @@
 #import "Runway.h"
 #import "Airport.h"
 
-#define INDEX_ID 0
-#define INDEX_AIRPORT_ID 1
-#define INDEX_IDENTIFIER 2
-#define INDEX_LENGTH 3
-#define INDEX_WIDTH 4
-#define INDEX_SURFACE 5
-#define INDEX_LIGHTED 6
-#define INDEX_CLOSED 7
-#define INDEX_LE_IDENTIFIER 8
-#define INDEX_HEADING 12
-#define INDEX_HE_IDENTIFIER 14
+//"id","airport_ref","airport_ident","length_ft","width_ft","surface","lighted","closed","le_ident","le_latitude_deg","le_longitude_deg","le_elevation_ft","le_heading_degT","le_displaced_threshold_ft","he_ident","he_latitude_deg","he_longitude_deg","he_elevation_ft","he_heading_degT","he_displaced_threshold_ft",
+
+//#define HEADER_ID 0
+#define HEADER_AIRPORT_ID @"airport_ref"
+#define HEADER_IDENTIFIER @"airport_ident"
+#define HEADER_LENGTH @"length_ft"
+#define HEADER_WIDTH @"width_ft"
+#define HEADER_SURFACE @"surface"
+//#define HEADER_LIGHTED 6
+//#define HEADER_CLOSED 7
+#define HEADER_LE_IDENTIFIER @"le_ident"
+#define HEADER_HEADING @"le_heading_degT"
+#define HEADER_HE_IDENTIFIER @"he_ident"
 
 @implementation RunwayParser
 
@@ -32,45 +34,35 @@
     return @"Runway";
 }
 
-- (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)index {
+- (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field forColumn:(NSString *) column {
+    if (!field || field.length == 0) {
+        return;
+    }
     if( !self.surfaces) {self.surfaces = [[NSMutableSet alloc] init];}
     //NSLog(@"%@ %ld",field,(long) index);
     Runway *runway = (Runway *) self.managedObject;
     if( !runway) {return;}
-    field = [Parser unquote:field];
-    BOOL fieldEmpty = !field || field.length == 0;
-    if( fieldEmpty ) { return; }
+    
     Airport *airport;
-    switch (index) {
-        case INDEX_AIRPORT_ID:
-            runway.airportId = (int32_t) [field integerValue];
-            airport = [Airport findByAirportId:runway.airportId];
-            if( !airport ) { NSLog(@"WARNING: No airport %d", runway.airportId); }
-            //runway.airport = airport;
-            break;
-        case INDEX_LE_IDENTIFIER:
-            runway.identifierA = field;
-            break;
-        case INDEX_HE_IDENTIFIER:
-            runway.identifierB = field;
-            break;
-        case INDEX_SURFACE:
-            runway.surface = field;
-            [self.surfaces addObject:field];
-            break;
-        case INDEX_LENGTH:
-            runway.lengthFeet = [field integerValue];
-            break;
-        case INDEX_WIDTH:
-            runway.widthFeet = [field integerValue];
-            break;
-        case INDEX_HEADING:
-            runway.headingTrue = [field floatValue];
-            if( runway.headingTrue < 0.0 ) { NSLog(@"WARNING: runway heading: %f %d", runway.headingTrue, runway.airportId); }
-            break;
-            
-        default:
-            break;
+    if ( [HEADER_AIRPORT_ID isEqualToString:column] ) {
+        runway.airportId = (int32_t) [field integerValue];
+        airport = [Airport findByAirportId:runway.airportId];
+        if( !airport ) { NSLog(@"WARNING: No airport %d", runway.airportId); }
+        //runway.airport = airport;
+    } else if ( [HEADER_LE_IDENTIFIER isEqualToString:column] ) {
+        runway.identifierA = field;
+    } else if ( [HEADER_HE_IDENTIFIER isEqualToString:column] ) {
+        runway.identifierB = field;
+    } else if ( [HEADER_SURFACE isEqualToString:column] ) {
+        runway.surface = field;
+        [self.surfaces addObject:field];
+    } else if ( [HEADER_LENGTH isEqualToString:column] ) {
+        runway.lengthFeet = [field integerValue];
+    } else if ( [HEADER_WIDTH isEqualToString:column] ) {
+        runway.widthFeet = [field integerValue];
+    } else if ( [HEADER_HEADING isEqualToString:column] ) {
+        runway.headingTrue = [field floatValue];
+        if( runway.headingTrue < 0.0 ) { NSLog(@"WARNING: runway heading: %f %d", runway.headingTrue, runway.airportId); }
     }
 }
 @end
