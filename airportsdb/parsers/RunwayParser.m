@@ -23,6 +23,7 @@
 #define HEADER_LE_IDENTIFIER @"le_ident"
 #define HEADER_HEADING @"le_heading_degT"
 #define HEADER_HE_IDENTIFIER @"he_ident"
+#define HEADER_CLOSED @"closed"
 
 @implementation RunwayParser
 
@@ -63,6 +64,8 @@
     } else if ( [HEADER_HEADING isEqualToString:column] ) {
         runway.headingTrue = [field floatValue];
         if( runway.headingTrue < 0.0 ) { NSLog(@"WARNING: runway heading: %f %d", runway.headingTrue, runway.airportId); }
+    } else if ( [HEADER_CLOSED isEqualToString:column] ) {
+        runway.closed = [@"1" isEqualToString:field];
     }
 }
 @end

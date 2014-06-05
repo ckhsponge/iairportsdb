@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSString * surface;
 @property (nonatomic) float_t headingTrue; //a negative value means invalid
 @property (nonatomic, retain) Airport *airport;
+@property (nonatomic) Boolean closed;
 
 -(CLLocationDirection) headingMagneticWithDeviation:(CLLocationDirection) deviation;
 -(CLLocationDirection) headingMagneticOrGuessWithDeviation:(CLLocationDirection) deviation;

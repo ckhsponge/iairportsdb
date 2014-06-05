@@ -17,6 +17,7 @@
 @dynamic identifierB;
 @dynamic surface;
 @dynamic headingTrue; //TRUE
+@dynamic closed;
 
 @synthesize airport;
 

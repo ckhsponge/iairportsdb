@@ -23,6 +23,7 @@
     </entity>
     <entity name="Runway" representedClassName="Runway" syncable="YES">
         <attribute name="airportId" attributeType="Integer 32" indexed="YES" syncable="YES"/>
+        <attribute name="closed" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="headingTrue" attributeType="Float" defaultValueString="-1" syncable="YES"/>
         <attribute name="identifierA" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifierB" optional="YES" attributeType="String" syncable="YES"/>
@@ -33,6 +34,6 @@
     <elements>
         <element name="Airport" positionX="0" positionY="0" width="128" height="150"/>
         <element name="Frequency" positionX="0" positionY="0" width="128" height="105"/>
-        <element name="Runway" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="Runway" positionX="0" positionY="0" width="128" height="163"/>
     </elements>
 </model>
