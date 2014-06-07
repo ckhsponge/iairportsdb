@@ -35,7 +35,17 @@
 
 #define FEET_PER_METER (3.28084)
 
-#define BOUND_360(x) ((x < 0.0 ? x + 360.0 : x) > 360.0 ? x - 360.0 : x)
+static inline double withinZeroTo360(double degrees) {
+    return (degrees - (360.0 * floor(degrees/360.0)));
+}
+
+static inline double within180To180(double degrees) {
+    degrees = withinZeroTo360(degrees);
+    if (degrees > 180.0) {
+        degrees -= 360.0;
+    }
+    return degrees;
+}
 
 @synthesize location = _location;
 @synthesize frequencies = _frequencies;
@@ -62,13 +72,21 @@
     CLLocationDistance degreesLatitude = LATITUDE_DEGREES_FROM_NM(distance); //approximate because earth is an ellipse
     CLLocationDistance degreesLongitude = LONGITUDE_DEGREES_FROM_NM(distance,latitude); //longitude degrees are smaller further from equator
     
-    NSString *predicateString = @"(latitude < %lf) AND (latitude > %lf) AND (longitude < %lf) AND (longitude > %lf)";
+    NSString *predicateString;
+    if (longitude-degreesLongitude < -180.0 || longitude+degreesLongitude > 180.0) {
+        //if the search spans the date line then use 'or' instead of 'and' because one parameter will have wrapped
+        predicateString = @"(%lf < latitude) AND (latitude < %lf) AND ((%lf < longitude) OR (longitude < %lf))";
+    } else {
+        predicateString = @"(%lf < latitude) AND (latitude < %lf) AND ((%lf < longitude) AND (longitude < %lf))";
+    }
+    
     predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[Airport predicateTypes:types]];
     
     //finds all airports within a box to take advantage of database indexes
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
                               predicateString,
-                              latitude+degreesLatitude, latitude-degreesLatitude, longitude+degreesLongitude, longitude-degreesLongitude];
+                              latitude-degreesLatitude, latitude+degreesLatitude,
+                              within180To180(longitude-degreesLongitude), within180To180(longitude+degreesLongitude)];
     AirportArray *airports = [Airport findAllByPredicate:predicate];
     airports.center = location;
     [airports excludeAirportsOutsideNM:distance fromCenter:airports.center]; //trims airports to be within circle i.e. distance
