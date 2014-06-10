@@ -16,7 +16,6 @@ To get started quickly:
 * You are done!
 
 Now you can find airports using:
-* [Airport findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance]
-* [Airport findAllByIdentifier:(NSString *) identifier]
-*
+* [IADBAirport findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance]
+* [IADBAirport findAllByIdentifier:(NSString *) identifier]
 
