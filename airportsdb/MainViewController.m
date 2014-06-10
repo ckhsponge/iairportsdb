@@ -10,10 +10,10 @@
 #import "AirportParser.h"
 #import "FrequencyParser.h"
 #import "RunwayParser.h"
-#import "Airport.h"
-#import "AirportArray.h"
-#import "Frequency.h"
-#import "Runway.h"
+#import "IADBAirport.h"
+#import "IADBCenteredArray.h"
+#import "IADBFrequency.h"
+#import "IADBRunway.h"
 #import "Counter.h"
 #import "IADBModel.h"
 #import "IADBPersistence.h"
@@ -77,14 +77,14 @@
     
     AirportParser *airportParser = [[AirportParser alloc] init];
     [airportParser parse];
-    NSLog(@"Airports: %ld", (long) [Airport countAll]);
+    NSLog(@"Airports: %ld", (long) [IADBAirport countAll]);
     
     [[[FrequencyParser alloc] init] parse];
-    NSLog(@"Frequencies: %ld", (long) [Frequency countAll]);
+    NSLog(@"Frequencies: %ld", (long) [IADBFrequency countAll]);
     
     RunwayParser *runwayParser = [[RunwayParser alloc] init];
     [runwayParser parse];
-    NSLog(@"Runways: %ld", (long) [Runway countAll]);
+    NSLog(@"Runways: %ld", (long) [IADBRunway countAll]);
     //NSLog(@"Surfaces: %@", runwayParser.surfaces);
     NSLog(@"Airport Types: %@", airportParser.types);
 }
@@ -100,7 +100,7 @@
 
 - (IBAction)findTest:(id)sender {
     CLLocation *location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(37.0+30.81/60.0, -122-30.07/60.0) altitude:100.0 horizontalAccuracy:100.0 verticalAccuracy:100.0 course:15.0 speed:10.0 timestamp:[NSDate date]];
-    AirportArray *airports = [Airport findNear:location withinNM:18.0];
+    IADBCenteredArray *airports = [IADBAirport findNear:location withinNM:18.0];
     //should find SFO but not OAK
     
 //    CLLocation *location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(-13.81, -172.0) altitude:100.0 horizontalAccuracy:100.0 verticalAccuracy:100.0 course:15.0 speed:10.0 timestamp:[NSDate date]];

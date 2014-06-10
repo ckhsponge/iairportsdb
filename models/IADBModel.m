@@ -7,7 +7,7 @@
 //
 
 #import "IADBModel.h"
-#import "Airport.h"
+#import "IADBAirport.h"
 #import "IADBPersistence.h"
 
 static IADBPersistence *_persistence = nil;
@@ -37,7 +37,7 @@ static IADBPersistence *_persistence = nil;
     return count;
 }
 
-+(Airport *) findByAirportId:(int32_t) airportId {
++(IADBAirport *) findByAirportId:(int32_t) airportId {
     
     NSManagedObjectContext *context = [IADBModel managedObjectContext];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:[self description] inManagedObjectContext:context];

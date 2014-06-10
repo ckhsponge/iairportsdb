@@ -7,8 +7,8 @@
 //
 
 #import "Correction.h"
-#import "Airport.h"
-#import "Frequency.h"
+#import "IADBAirport.h"
+#import "IADBFrequency.h"
 #import "IADBModel.h"
 #import "IADBPersistence.h"
 #import "AppConstants.h"
@@ -36,7 +36,7 @@
 -(void) airportIdentifier {
     NSDictionary *dict = @{@"K4SD":@"KRTS"};
     [dict enumerateKeysAndObjectsUsingBlock:^(id identifier, id newIdentifier, BOOL *stop) {
-        Airport *airport = [Airport findByIdentifier:identifier];
+        IADBAirport *airport = [IADBAirport findByIdentifier:identifier];
         if (airport) {
             NSLog(@"%@ %@ to %@",identifier,airport.identifier,newIdentifier);
             airport.identifier = newIdentifier;
@@ -49,7 +49,7 @@
 -(void) airportType {
     NSDictionary *dict = @{@"8XS3":AIRPORT_TYPE_CLOSED, @"77T":AIRPORT_TYPE_CLOSED};
     [dict enumerateKeysAndObjectsUsingBlock:^(id identifier, id type, BOOL *stop) {
-        Airport *airport = [Airport findByIdentifier:identifier];
+        IADBAirport *airport = [IADBAirport findByIdentifier:identifier];
         if (airport) {
             NSLog(@"%@ type %@ to %@",identifier,airport.type,type);
             airport.type = type;
@@ -69,12 +69,12 @@
                            ];
     for(NSArray *attributes in array) {
         NSString *identifier = attributes[0];
-        Airport *airport = [Airport findByIdentifier:identifier];
+        IADBAirport *airport = [IADBAirport findByIdentifier:identifier];
         if (airport) {
             NSString *name = attributes[1];
             NSString *type = attributes[2];
             float mhz = [((NSNumber *) attributes[3]) floatValue];
-            Frequency *f = [airport frequencyForName:name];
+            IADBFrequency *f = [airport frequencyForName:name];
             if (f) {
                 NSLog(@"Frequency modify: %@ %@,%@,%f to %f",identifier,name,f.type,f.mhz,mhz);
                 //type is not updated but could be
@@ -99,9 +99,9 @@
 -(void) deleteFrequency {
     NSDictionary *dict = @{@"KGRR":@"GRAND RAPIDS APP/DEP"};
     [dict enumerateKeysAndObjectsUsingBlock:^(id identifier, id name, BOOL *stop) {
-        Airport *airport = [Airport findByIdentifier:identifier];
+        IADBAirport *airport = [IADBAirport findByIdentifier:identifier];
         if (airport) {
-            Frequency *f = [airport frequencyForName:name];
+            IADBFrequency *f = [airport frequencyForName:name];
             if (f) {
                 NSLog(@"Frequency delete: %@ %@",identifier,name);
                 [[IADBModel managedObjectContext] deleteObject:f];

@@ -9,17 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface AirportArray : NSObject
+@interface IADBCenteredArray : NSObject
 
 @property (nonatomic, retain) CLLocation * center;
-@property (nonatomic, retain, readonly) NSMutableArray * array;
+@property (nonatomic, retain, readonly) NSArray * array;
 
 -(id) initWithArray:(NSArray *) a;
 
 -(void) sortByCenter:(CLLocation *) center;
--(void) excludeAirportsOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center;
--(void) excludeSoft;
--(void) excludeShorterThan:(NSInteger) feet;
--(void) setAirports:(NSArray *) a;
+-(void) excludeOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center;
+-(void) excludeSoftSurface;
+-(void) excludeRunwayShorterThan:(NSInteger) feet;
+-(void) setArray:(NSArray *) a;
 
 @end

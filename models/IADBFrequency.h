@@ -10,9 +10,9 @@
 #import <CoreData/CoreData.h>
 #import "IADBModel.h"
 
-@class Airport;
+@class IADBAirport;
 
-@interface Frequency : IADBModel
+@interface IADBFrequency : IADBModel
 
 @property (nonatomic) int32_t airportId;
 @property (nonatomic, retain) NSString * type;

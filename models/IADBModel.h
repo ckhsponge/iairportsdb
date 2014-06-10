@@ -8,7 +8,7 @@
 
 #import <CoreData/CoreData.h>
 
-@class Airport;
+@class IADBAirport;
 @class IADBPersistence;
 
 @interface IADBModel : NSManagedObject
@@ -17,6 +17,6 @@
 +(IADBPersistence *) persistence;
 +(NSManagedObjectContext *) managedObjectContext;
 +(NSInteger) countAll;
-+(Airport *) findByAirportId:(int32_t) airportId;
++(IADBAirport *) findByAirportId:(int32_t) airportId;
 +(NSArray *) findAllByAirportId:(int32_t) airportId;
 @end

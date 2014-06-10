@@ -8,13 +8,13 @@
 
 #import <CoreLocation/CoreLocation.h>
 
-#import "Airport.h"
+#import "IADBAirport.h"
 #import "IADBPersistence.h"
 #import "IADBModel.h"
-#import "Frequency.h"
-#import "Runway.h"
+#import "IADBFrequency.h"
+#import "IADBRunway.h"
 
-@implementation Airport
+@implementation IADBAirport
 
 @dynamic latitude;
 @dynamic longitude;
@@ -52,13 +52,13 @@ static inline double within180To180(double degrees) {
 @synthesize runways = _runways;
 
 //returns airports near a location sorted by distance
-+(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance {
-    return [Airport findNear:location withinNM:distance withTypes:[Airport types]];
++(IADBCenteredArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance {
+    return [IADBAirport findNear:location withinNM:distance withTypes:[IADBAirport types]];
 }
 
-+(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types {
++(IADBCenteredArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types {
     if( !types || types.count == 0) {
-        AirportArray *airports = [[AirportArray alloc] init];
+        IADBCenteredArray *airports = [[IADBCenteredArray alloc] init];
         airports.center = location;
         return airports;
     }
@@ -80,16 +80,16 @@ static inline double within180To180(double degrees) {
         predicateString = @"(%lf < latitude) AND (latitude < %lf) AND ((%lf < longitude) AND (longitude < %lf))";
     }
     
-    predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[Airport predicateTypes:types]];
+    predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[IADBAirport predicateTypes:types]];
     
     //finds all airports within a box to take advantage of database indexes
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
                               predicateString,
                               latitude-degreesLatitude, latitude+degreesLatitude,
                               within180To180(longitude-degreesLongitude), within180To180(longitude+degreesLongitude)];
-    AirportArray *airports = [Airport findAllByPredicate:predicate];
+    IADBCenteredArray *airports = [IADBAirport findAllByPredicate:predicate];
     airports.center = location;
-    [airports excludeAirportsOutsideNM:distance fromCenter:airports.center]; //trims airports to be within circle i.e. distance
+    [airports excludeOutsideNM:distance fromCenter:airports.center]; //trims airports to be within circle i.e. distance
     [airports sortByCenter:airports.center];
     
     return airports;
@@ -103,21 +103,21 @@ static inline double within180To180(double degrees) {
     return [predicateTypes componentsJoinedByString:@" OR "];
 }
 
-+(Airport *) findByIdentifier:(NSString *) identifier {
++(IADBAirport *) findByIdentifier:(NSString *) identifier {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identifier = %@" ,identifier];
-    AirportArray *array = [Airport findAllByPredicate:predicate];
+    IADBCenteredArray *array = [IADBAirport findAllByPredicate:predicate];
     if (array.array.count != 1) {
         NSLog(@"WARNING! findByIdentifier %@ returned %ld results",identifier,(unsigned long) array.array.count);
     }
     return array.array.count > 0 ? array.array[0] : nil;
 }
 
-+(AirportArray *) findAllByIdentifier:(NSString *) identifier {
-    return [Airport findAllByIdentifier:identifier withTypes:[Airport types]];
++(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier {
+    return [IADBAirport findAllByIdentifier:identifier withTypes:[IADBAirport types]];
 }
 
-+(AirportArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types {
-    if(!identifier || identifier.length == 0) { return [[AirportArray alloc] init]; }
++(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types {
+    if(!identifier || identifier.length == 0) { return [[IADBCenteredArray alloc] init]; }
     if( identifier.length > 1 && [[identifier uppercaseString] hasPrefix:@"K"]) {
         //if identifier starts with K remove it because we will check with it later
         //this allows "KCVH" to find CVH
@@ -126,14 +126,14 @@ static inline double within180To180(double degrees) {
     NSString *kidentifier = [NSString stringWithFormat:@"K%@",identifier];
     
     NSString *predicateString = @"((identifier BEGINSWITH[c] %@) OR (identifier BEGINSWITH[c] %@))";
-    predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[Airport predicateTypes:types]];
+    predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[IADBAirport predicateTypes:types]];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString ,identifier,kidentifier];
-    return [Airport findAllByPredicate:predicate];
+    return [IADBAirport findAllByPredicate:predicate];
 }
 
-+(AirportArray *) findAllByPredicate:(NSPredicate *) predicate {
++(IADBCenteredArray *) findAllByPredicate:(NSPredicate *) predicate {
     NSManagedObjectContext *context = [IADBModel managedObjectContext];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Airport" inManagedObjectContext:context];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"IADBAirport" inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
 
@@ -146,7 +146,7 @@ static inline double within180To180(double degrees) {
     //NSLog(@"fetch: %@", request);
     
     NSError *error;
-    AirportArray *airports = [[AirportArray alloc] initWithArray:[context executeFetchRequest:request error:&error]];
+    IADBCenteredArray *airports = [[IADBCenteredArray alloc] initWithArray:[context executeFetchRequest:request error:&error]];
     
     NSAssert3(airports, @"Unhandled error removing file in %s at line %d: %@", __FUNCTION__, __LINE__, [error localizedDescription]);
     
@@ -167,15 +167,15 @@ static inline double within180To180(double degrees) {
 
 -(NSArray *) frequencies {
     if( !_frequencies ) {
-        _frequencies = [Frequency findAllByAirportId:self.airportId];
+        _frequencies = [IADBFrequency findAllByAirportId:self.airportId];
     }
     return _frequencies;
 }
 
 -(NSArray *) runways {
     if( !_runways ) {
-        _runways = [Runway findAllByAirportId:self.airportId];
-        for (Runway *runway in _runways) {
+        _runways = [IADBRunway findAllByAirportId:self.airportId];
+        for (IADBRunway *runway in _runways) {
             runway.airport = self;
         }
     }
@@ -188,15 +188,15 @@ static inline double within180To180(double degrees) {
 
 -(NSInteger) longestRunwayFeet {
     NSInteger length = -1;
-    for( Runway *runway in self.runways ) {
+    for( IADBRunway *runway in self.runways ) {
         length = MAX(length, runway.lengthFeet);
     }
     return length;
 }
 
--(Runway *) longestRunway {
-    Runway *max = nil;
-    for( Runway *runway in self.runways ) {
+-(IADBRunway *) longestRunway {
+    IADBRunway *max = nil;
+    for( IADBRunway *runway in self.runways ) {
         if (!max || (max.lengthFeet < runway.lengthFeet) || (max.lengthFeet == runway.lengthFeet && max.widthFeet < runway.widthFeet)) {
             max = runway;
         }
@@ -205,7 +205,7 @@ static inline double within180To180(double degrees) {
 }
 
 -(BOOL) hasHardRunway {
-    for( Runway *runway in self.runways ) {
+    for( IADBRunway *runway in self.runways ) {
         if ([runway isHard]) {
             return YES;
         }
@@ -213,8 +213,8 @@ static inline double within180To180(double degrees) {
     return NO;
 }
 
--(Frequency *) frequencyForName:(NSString *) name {
-    for (Frequency *f in [self frequencies]) {
+-(IADBFrequency *) frequencyForName:(NSString *) name {
+    for (IADBFrequency *f in [self frequencies]) {
         NSString *n = f.name;
         if ([name isEqual:n]) {
             return f;

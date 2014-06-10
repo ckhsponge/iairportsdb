@@ -10,7 +10,7 @@
 #import "CHCSVParser.h"
 #import "Parser.h"
 
-@class Airport;
+@class IADBAirport;
 
 @interface AirportParser : Parser
 @property (atomic, strong) NSMutableSet *types;

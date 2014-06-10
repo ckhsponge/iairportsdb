@@ -7,8 +7,8 @@
 //
 
 #import "FrequencyParser.h"
-#import "Frequency.h"
-#import "Airport.h"
+#import "IADBFrequency.h"
+#import "IADBAirport.h"
 
 //"id","airport_ref","airport_ident","type","description","frequency_mhz"
 
@@ -26,20 +26,20 @@
 }
 
 -(NSString *) entityName {
-    return @"Frequency";
+    return @"IADBFrequency";
 }
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field forColumn:(NSString *) column {
     if (!field || field.length == 0) {
         return;
     }
-    Frequency *frequency = (Frequency *) self.managedObject;
+    IADBFrequency *frequency = (IADBFrequency *) self.managedObject;
     if( !frequency) {return;}
 
-    Airport *airport;
+    IADBAirport *airport;
     if ( [HEADER_AIRPORT_ID isEqualToString:column] ) {
             frequency.airportId = (int32_t) [field integerValue];
-            airport = [Airport findByAirportId:frequency.airportId];
+            airport = [IADBAirport findByAirportId:frequency.airportId];
             if( !airport ) { NSLog(@"WARNING: No airport %d", frequency.airportId); }
         //frequency.airport = airport;
     } else if ( [HEADER_TYPE isEqualToString:column] ) {

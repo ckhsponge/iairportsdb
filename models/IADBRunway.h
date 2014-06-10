@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "Airport.h"
+#import "IADBAirport.h"
 #import "IADBModel.h"
 
-@interface Runway : IADBModel
+@interface IADBRunway : IADBModel
 
 @property (nonatomic) int32_t airportId;
 @property (nonatomic) int16_t lengthFeet;
@@ -20,7 +20,7 @@
 @property (nonatomic, retain) NSString * identifierB;
 @property (nonatomic, retain) NSString * surface;
 @property (nonatomic) float_t headingTrue; //a negative value means invalid
-@property (nonatomic, retain) Airport *airport;
+@property (nonatomic, retain) IADBAirport *airport;
 @property (nonatomic) Boolean closed;
 
 -(CLLocationDirection) headingMagneticWithDeviation:(CLLocationDirection) deviation;

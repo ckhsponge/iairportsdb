@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Toonsy Net. All rights reserved.
 //
 
-#import "Frequency.h"
-#import "Airport.h"
+#import "IADBFrequency.h"
+#import "IADBAirport.h"
 
-@implementation Frequency
+@implementation IADBFrequency
 
 @dynamic airportId;
 @dynamic type;

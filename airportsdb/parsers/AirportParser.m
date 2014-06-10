@@ -8,7 +8,7 @@
 
 #import "AirportParser.h"
 #import "AppDelegate.h"
-#import "Airport.h"
+#import "IADBAirport.h"
 #import <CoreData/CoreData.h>
 
 //"id","ident","type","name","latitude_deg","longitude_deg","elevation_ft","continent","iso_country","iso_region","municipality","scheduled_service","gps_code","iata_code","local_code","home_link","wikipedia_link","keywords"
@@ -30,7 +30,7 @@
 }
 
 -(NSString *) entityName {
-    return @"Airport";
+    return @"IADBAirport";
 }
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field forColumn:(NSString *) column {
@@ -38,7 +38,7 @@
         return;
     }
     if( !self.types) {self.types = [[NSMutableSet alloc] init];}
-    Airport *airport = (Airport *) self.managedObject;
+    IADBAirport *airport = (IADBAirport *) self.managedObject;
     if( !airport) {return;}
 
     if ( [HEADER_ID isEqualToString:column] ) {

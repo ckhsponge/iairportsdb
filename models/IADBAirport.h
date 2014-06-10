@@ -11,7 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "IADBModel.h"
-#import "AirportArray.h"
+#import "IADBCenteredArray.h"
 
 #define AIRPORT_TYPE_LARGE @"large_airport"
 #define AIRPORT_TYPE_MEDIUM @"medium_airport"
@@ -21,10 +21,10 @@
 #define AIRPORT_TYPE_BALLOONPORT @"balloonport"
 #define AIRPORT_TYPE_CLOSED @"closed"
 
-@class Frequency;
-@class Runway;
+@class IADBFrequency;
+@class IADBRunway;
 
-@interface Airport : IADBModel
+@interface IADBAirport : IADBModel
 
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
@@ -37,25 +37,25 @@
 @property (nonatomic, retain, readonly) NSArray * frequencies;
 @property (nonatomic, retain, readonly) NSArray * runways;
 
-+(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance;
-+(AirportArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types;
-+(Airport *) findByIdentifier:(NSString *) identifier;
-+(AirportArray *) findAllByIdentifier:(NSString *) identifier;
-+(AirportArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types;
++(IADBCenteredArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance;
++(IADBCenteredArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types;
++(IADBAirport *) findByIdentifier:(NSString *) identifier;
++(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier;
++(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types;
 +(NSArray *) types;
 -(NSString *) title;
 -(NSString *) klessIdentifier;
 -(BOOL) hasRunways;
 -(NSInteger) longestRunwayFeet;
 -(BOOL) hasHardRunway;
--(Runway *) longestRunway;
--(Frequency *) frequencyForName:(NSString *) name;
+-(IADBRunway *) longestRunway;
+-(IADBFrequency *) frequencyForName:(NSString *) name;
 @end
 
-@interface Airport (CoreDataGeneratedAccessors)
+@interface IADBAirport (CoreDataGeneratedAccessors)
 
-- (void)addFrequenciesObject:(Frequency *)value;
-- (void)removeFrequenciesObject:(Frequency *)value;
+- (void)addFrequenciesObject:(IADBFrequency *)value;
+- (void)removeFrequenciesObject:(IADBFrequency *)value;
 - (void)addFrequencies:(NSSet *)values;
 - (void)removeFrequencies:(NSSet *)values;
 

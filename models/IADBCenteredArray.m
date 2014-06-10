@@ -6,12 +6,14 @@
 //  Copyright (c) 2014 Toonsy Net. All rights reserved.
 //
 
-#import "AirportArray.h"
-#import "Airport.h"
+#import "IADBCenteredArray.h"
+#import "IADBAirport.h"
 
 #define METERS_PER_NM (1852.0)
 
-@implementation AirportArray
+@implementation IADBCenteredArray {
+    NSMutableArray *_array;
+}
 
 -(id) init {
     if (self = [self initWithArray:[NSArray arrayWithObjects:nil]])
@@ -32,12 +34,12 @@
 }
 
 
--(void) setAirports:(NSArray *) a {
-    [self.array setArray:a];
+-(void) setArray:(NSArray *) a {
+    [_array setArray:a];
 }
 
 -(void) sortByCenter:(CLLocation *) center {
-    [self.array sortUsingComparator: ^(Airport *a, Airport *b) {
+    [_array sortUsingComparator: ^(IADBAirport *a, IADBAirport *b) {
         CLLocationDistance dist_a= [a.location distanceFromLocation: center];
         CLLocationDistance dist_b= [b.location distanceFromLocation: center];
         if ( dist_a < dist_b ) {
@@ -50,7 +52,7 @@
     }];
 }
 
-- (void)removeObjectsUsingBlock:(BOOL (^)(Airport *airport))block {
+- (void)removeObjectsUsingBlock:(BOOL (^)(IADBAirport *airport))block {
     for( NSInteger i = _array.count - 1; i >= 0; i--) {
         if (block(_array[i])) {
             [_array removeObjectAtIndex:i];
@@ -58,7 +60,7 @@
     }
 }
 
--(void) excludeAirportsOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center {
+-(void) excludeOutsideNM:(CLLocationDistance) nm fromCenter:(CLLocation *) center {
     if( !center || !_array) {return;}
     CLLocationDistance m = nm * METERS_PER_NM;
 //    for( NSInteger i = _array.count - 1; i >= 0; i--) {
@@ -67,20 +69,20 @@
 //            [_array removeObjectAtIndex:i];
 //        }
 //    }
-    [self removeObjectsUsingBlock:^BOOL(Airport *airport) {
+    [self removeObjectsUsingBlock:^BOOL(IADBAirport *airport) {
         CLLocationDistance distance = [center distanceFromLocation:airport.location];
         return distance > m;
     }];
 }
 
--(void) excludeSoft {
-    [self removeObjectsUsingBlock:^BOOL(Airport *airport) {
+-(void) excludeSoftSurface {
+    [self removeObjectsUsingBlock:^BOOL(IADBAirport *airport) {
         return ![airport hasHardRunway];
     }];
 }
 
--(void) excludeShorterThan:(NSInteger) feet {
-    [self removeObjectsUsingBlock:^BOOL(Airport *airport) {
+-(void) excludeRunwayShorterThan:(NSInteger) feet {
+    [self removeObjectsUsingBlock:^BOOL(IADBAirport *airport) {
         //NSLog(@"%@ %ld",airport,(long) [airport longestRunwayFeet]);
         return [airport longestRunwayFeet] < feet;
     }];

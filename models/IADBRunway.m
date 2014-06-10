@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Toonsy Net. All rights reserved.
 //
 
-#import "Runway.h"
+#import "IADBRunway.h"
 
-@implementation Runway
+@implementation IADBRunway
 
 @dynamic airportId;
 @dynamic lengthFeet;

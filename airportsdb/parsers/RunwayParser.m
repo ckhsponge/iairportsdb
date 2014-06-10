@@ -7,8 +7,8 @@
 //
 
 #import "RunwayParser.h"
-#import "Runway.h"
-#import "Airport.h"
+#import "IADBRunway.h"
+#import "IADBAirport.h"
 
 //"id","airport_ref","airport_ident","length_ft","width_ft","surface","lighted","closed","le_ident","le_latitude_deg","le_longitude_deg","le_elevation_ft","le_heading_degT","le_displaced_threshold_ft","he_ident","he_latitude_deg","he_longitude_deg","he_elevation_ft","he_heading_degT","he_displaced_threshold_ft",
 
@@ -32,7 +32,7 @@
 }
 
 -(NSString *) entityName {
-    return @"Runway";
+    return @"IADBRunway";
 }
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field forColumn:(NSString *) column {
@@ -41,13 +41,13 @@
     }
     if( !self.surfaces) {self.surfaces = [[NSMutableSet alloc] init];}
     //NSLog(@"%@ %ld",field,(long) index);
-    Runway *runway = (Runway *) self.managedObject;
+    IADBRunway *runway = (IADBRunway *) self.managedObject;
     if( !runway) {return;}
     
-    Airport *airport;
+    IADBAirport *airport;
     if ( [HEADER_AIRPORT_ID isEqualToString:column] ) {
         runway.airportId = (int32_t) [field integerValue];
-        airport = [Airport findByAirportId:runway.airportId];
+        airport = [IADBAirport findByAirportId:runway.airportId];
         if( !airport ) { NSLog(@"WARNING: No airport %d", runway.airportId); }
         //runway.airport = airport;
     } else if ( [HEADER_LE_IDENTIFIER isEqualToString:column] ) {
