@@ -36,7 +36,7 @@
 -(void) airportIdentifier {
     NSDictionary *dict = @{@"K4SD":@"KRTS"};
     [dict enumerateKeysAndObjectsUsingBlock:^(id identifier, id newIdentifier, BOOL *stop) {
-        IADBAirport *airport = [IADBAirport findByIdentifier:identifier];
+        IADBAirport *airport = (IADBAirport *) [IADBAirport findByIdentifier:identifier];
         if (airport) {
             NSLog(@"%@ %@ to %@",identifier,airport.identifier,newIdentifier);
             airport.identifier = newIdentifier;
@@ -49,7 +49,7 @@
 -(void) airportType {
     NSDictionary *dict = @{@"8XS3":AIRPORT_TYPE_CLOSED, @"77T":AIRPORT_TYPE_CLOSED};
     [dict enumerateKeysAndObjectsUsingBlock:^(id identifier, id type, BOOL *stop) {
-        IADBAirport *airport = [IADBAirport findByIdentifier:identifier];
+        IADBAirport *airport = (IADBAirport *) [IADBAirport findByIdentifier:identifier];
         if (airport) {
             NSLog(@"%@ type %@ to %@",identifier,airport.type,type);
             airport.type = type;
@@ -69,7 +69,7 @@
                            ];
     for(NSArray *attributes in array) {
         NSString *identifier = attributes[0];
-        IADBAirport *airport = [IADBAirport findByIdentifier:identifier];
+        IADBAirport *airport = (IADBAirport *) [IADBAirport findByIdentifier:identifier];
         if (airport) {
             NSString *name = attributes[1];
             NSString *type = attributes[2];
@@ -99,7 +99,7 @@
 -(void) deleteFrequency {
     NSDictionary *dict = @{@"KGRR":@"GRAND RAPIDS APP/DEP"};
     [dict enumerateKeysAndObjectsUsingBlock:^(id identifier, id name, BOOL *stop) {
-        IADBAirport *airport = [IADBAirport findByIdentifier:identifier];
+        IADBAirport *airport = (IADBAirport *) [IADBAirport findByIdentifier:identifier];
         if (airport) {
             IADBFrequency *f = [airport frequencyForName:name];
             if (f) {

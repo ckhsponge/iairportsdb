@@ -13,10 +13,11 @@
 
 @interface IADBModel : NSManagedObject
 
+@property (nonatomic,readonly) BOOL isBlank;
+
 +(void) setPersistencePath:(NSString *) path;
 +(IADBPersistence *) persistence;
 +(NSManagedObjectContext *) managedObjectContext;
 +(NSInteger) countAll;
-+(IADBAirport *) findByAirportId:(int32_t) airportId;
 +(NSArray *) findAllByAirportId:(int32_t) airportId;
 @end

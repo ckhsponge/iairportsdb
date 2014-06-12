@@ -8,9 +8,11 @@
 
 #import "MainViewController.h"
 #import "AirportParser.h"
+#import "NavigationAidParser.h"
 #import "FrequencyParser.h"
 #import "RunwayParser.h"
 #import "IADBAirport.h"
+#import "IADBNavigationAid.h"
 #import "IADBCenteredArray.h"
 #import "IADBFrequency.h"
 #import "IADBRunway.h"
@@ -64,7 +66,11 @@
 }
 
 - (IBAction)downloadData:(id)sender {
-    NSArray *names = @[[[[AirportParser alloc] init] fileName],[[[FrequencyParser alloc] init] fileName],[[[RunwayParser alloc] init] fileName]];
+    NSArray *names = @[[[[AirportParser alloc] init] fileName],
+                       [[[FrequencyParser alloc] init] fileName],
+                       [[[RunwayParser alloc] init] fileName],
+                       [[[NavigationAidParser alloc] init] fileName]
+                       ];
     for(NSString *name in names) {
         [self downloadFile:name];
     }
@@ -74,6 +80,7 @@
 - (IBAction)parseAll:(id)sender {
     [IADBModel setPersistencePath:[NSString stringWithFormat:LOCAL_DB_PATH,PROJECT_PATH]]; //writes to a local project file instead of the compiled documents path
     [[IADBModel persistence] persistentStoreClear];
+    
     
     AirportParser *airportParser = [[AirportParser alloc] init];
     [airportParser parse];
@@ -85,8 +92,14 @@
     RunwayParser *runwayParser = [[RunwayParser alloc] init];
     [runwayParser parse];
     NSLog(@"Runways: %ld", (long) [IADBRunway countAll]);
+    
+    NavigationAidParser *navParser = [[NavigationAidParser alloc] init];
+    [navParser parse];
+    NSLog(@"Nav Aids: %ld", (long) [IADBNavigationAid countAll]);
+    
     //NSLog(@"Surfaces: %@", runwayParser.surfaces);
     NSLog(@"Airport Types: %@", airportParser.types);
+    NSLog(@"Nav Types: %@", navParser.types);
 }
 
 - (IBAction)correctData:(id)sender {
@@ -112,6 +125,16 @@
     //should find some east and west longitudes
     
     NSLog(@"Airports: %@", [airports description]);
+    
+    IADBCenteredArray *navs = [IADBNavigationAid findNear:location withinNM:18.0];
+    NSLog(@"navs: %@", [navs description]);
+    
+    IADBCenteredArray *locs = [IADBLocation findNear:location withinNM:18.0];
+    NSLog(@"mixed: %@", [locs description]);
+    
+    IADBCenteredArray *named = [IADBLocation findAllByIdentifier:@"OS"];
+    [named sortByCenter:location];
+    NSLog(@"named: %@", [named description]);
 }
 
 - (void)viewDidLoad

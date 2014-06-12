@@ -3,11 +3,11 @@
     <entity name="IADBAirport" representedClassName="IADBAirport" syncable="YES">
         <attribute name="airportId" attributeType="Integer 32" indexed="YES" syncable="YES"/>
         <attribute name="elevationFeet" optional="YES" attributeType="Integer 32" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="String" minValueString="1" indexed="YES" syncable="YES"/>
+        <attribute name="identifier" attributeType="String" minValueString="1" indexed="YES" syncable="YES"/>
         <attribute name="latitude" attributeType="Double" syncable="YES"/>
         <attribute name="longitude" attributeType="Double" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="type" attributeType="String" minValueString="1" syncable="YES"/>
         <compoundIndexes>
             <compoundIndex>
                 <index value="latitude"/>
@@ -21,6 +21,22 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="IADBNavigationAid" representedClassName="IADBNavigationAid" syncable="YES">
+        <attribute name="dmeKhz" attributeType="Integer 32" defaultValueString="-1" syncable="YES"/>
+        <attribute name="elevationFeet" optional="YES" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="identifier" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="khz" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="latitude" attributeType="Double" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" syncable="YES"/>
+        <attribute name="name" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="type" attributeType="String" minValueString="1" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="latitude"/>
+                <index value="longitude"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
     <entity name="IADBRunway" representedClassName="IADBRunway" syncable="YES">
         <attribute name="airportId" attributeType="Integer 32" indexed="YES" syncable="YES"/>
         <attribute name="closed" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -32,8 +48,9 @@
         <attribute name="widthFeet" attributeType="Integer 16" defaultValueString="-1" syncable="YES"/>
     </entity>
     <elements>
-        <element name="IADBAirport" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="IADBFrequency" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="IADBRunway" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="IADBAirport" positionX="0" positionY="0" width="128" height="148"/>
+        <element name="IADBFrequency" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="IADBNavigationAid" positionX="0" positionY="63" width="128" height="163"/>
+        <element name="IADBRunway" positionX="0" positionY="0" width="128" height="165"/>
     </elements>
 </model>

@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "airportsdb/parsers/Parser.m"
-            timestampString = "423639729.131095"
+            timestampString = "424203624.267114"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "120"
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "airportsdb/MainViewController.m"
-            timestampString = "422580708.718153"
+            timestampString = "424205747.860724"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "-downloadData:"
             landmarkType = "5">
             <Locations>
@@ -216,11 +216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "models/IADBAirport.m"
-            timestampString = "423793117.421218"
+            timestampString = "424214595.970798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "-frequencyForName:"
             landmarkType = "5">
          </BreakpointContent>
@@ -232,11 +232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "models/IADBAirport.m"
-            timestampString = "423793117.421218"
+            timestampString = "424214595.970798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "-frequencyForName:"
             landmarkType = "5">
          </BreakpointContent>
@@ -248,11 +248,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "models/IADBAirport.m"
-            timestampString = "423793117.421218"
+            timestampString = "424214595.970798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "-frequencyForName:"
             landmarkType = "5">
          </BreakpointContent>
@@ -286,6 +286,22 @@
             startingLineNumber = "44"
             endingLineNumber = "44"
             landmarkName = "-parser:didReadField:forColumn:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "models/IADBLocation.m"
+            timestampString = "424217114.0779"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "+findNear:withinNM:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

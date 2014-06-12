@@ -18,4 +18,8 @@ To get started quickly:
 Now you can find airports using:
 * [IADBAirport findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance]
 * [IADBAirport findAllByIdentifier:(NSString *) identifier]
+* [IADBNavigationAid findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance]
+* [IADBNavigationAid findAllByIdentifier:(NSString *) identifier]
+* [IADBLocation findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance]
+* [IADBLocation findAllByIdentifier:(NSString *) identifier]
 

@@ -69,9 +69,9 @@
     self.parser.stripsLeadingAndTrailingWhitespace = YES;
     self.parser.delegate = self;
     
-    NSLog(@"Starting parse, lines: %lu", (unsigned long)[self countEntities]);
+    NSLog(@"Starting parse: %@, lines: %lu", [self fileName], (unsigned long)[self countEntities]);
     [self.parser parse];
-    NSLog(@"Finished parse, lines: %lu", (unsigned long)[self countEntities]);
+    NSLog(@"Finished parse: %@, lines: %lu", [self fileName], (unsigned long)[self countEntities]);
 }
 
 -(NSUInteger) countEntities {
@@ -118,9 +118,10 @@
 - (void)parser:(CHCSVParser *)parser didEndLine:(NSUInteger)recordNumber {
     if( !self.managedObject ) {return;}
     NSError *error;
-    if( [self.managedObject validateForInsert:&error]) {
-        [[[self persistence] managedObjectContext] insertObject:self.managedObject];
-    } else if( ![self.managedObject valueForKey:@"airportId"] ) {
+    IADBModel *model = (IADBModel *) self.managedObject;
+    if( [model validateForInsert:&error]) {
+        [[[self persistence] managedObjectContext] insertObject:model];
+    } else if( model.isBlank ) { //![self.managedObject valueForKey:@"airportId"] ) {
         NSLog(@"Skipping blank object");
     } else {
         //NSLog(@"Skipping object: %@", self.managedObject);

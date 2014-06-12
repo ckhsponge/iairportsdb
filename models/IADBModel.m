@@ -37,27 +37,8 @@ static IADBPersistence *_persistence = nil;
     return count;
 }
 
-+(IADBAirport *) findByAirportId:(int32_t) airportId {
-    
-    NSManagedObjectContext *context = [IADBModel managedObjectContext];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:[self description] inManagedObjectContext:context];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entityDescription];
-    
-    // Set example predicate and sort orderings...
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"(airportId = %d)",airportId];
-    [request setPredicate:predicate];
-    
-    NSError *error;
-    NSArray *airports = [context executeFetchRequest:request error:&error];
-    
-    NSAssert3(airports, @"Unhandled error removing file in %s at line %d: %@", __FUNCTION__, __LINE__, [error localizedDescription]);
-    
-    if (!airports || airports.count == 0) { return nil; }
-    if (airports.count > 1 ) { NSLog(@"WARNING: more than 1 %@ found with id %d",[self description],airportId); }
-    
-    return airports[0];
+-(BOOL) isBlank {
+    return ![self valueForKey:@"airportId"];
 }
 
 +(NSArray *) findAllByAirportId:(int32_t) airportId {

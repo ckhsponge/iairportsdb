@@ -33,9 +33,22 @@
     }
 }
 
+-(NSUInteger) count {
+    return _array.count;
+}
 
 -(void) setArray:(NSArray *) a {
     [_array setArray:a];
+}
+
+-(void) addCenteredArray:(IADBCenteredArray *) array {
+    [_array addObjectsFromArray:array.array];
+}
+
+-(void) sort {
+    if (self.center) {
+        [self sortByCenter:self.center];
+    }
 }
 
 -(void) sortByCenter:(CLLocation *) center {
