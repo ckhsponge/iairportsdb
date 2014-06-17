@@ -16,11 +16,8 @@
 @interface IADBLocation : IADBModel
 
 @property (nonatomic, retain) NSString * identifier;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * type;
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
-@property (nonatomic, retain) NSNumber * elevationFeet;
 @property (nonatomic, retain, readonly) CLLocation * location;
 
 +(IADBCenteredArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance;
@@ -28,6 +25,11 @@
 +(IADBLocation *) findByIdentifier:(NSString *) identifier;
 +(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier;
 +(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types;
++(IADBCenteredArray *) findAllByIdentifierK:(NSString *) identifier withTypes:(NSArray *) types;
++(NSString *) predicateTypes:(NSArray *) types;
++(IADBCenteredArray *) findAllByPredicate:(NSPredicate *) predicate;
 +(NSArray *) types;
+
+-(CLLocationDistance) elevationForLocation;
 
 @end

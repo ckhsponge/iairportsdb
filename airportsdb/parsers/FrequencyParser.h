@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Toonsy Net. All rights reserved.
 //
 
-#import "Parser.h"
+#import "CsvParser.h"
 
-@interface FrequencyParser : Parser
+@interface FrequencyParser : CsvParser
 
 @end

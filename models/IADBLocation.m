@@ -17,11 +17,8 @@
 }
 
 @dynamic identifier;
-@dynamic type;
-@dynamic name;
 @dynamic latitude;
 @dynamic longitude;
-@dynamic elevationFeet;
 
 
 //@synthesize location = _location;
@@ -29,10 +26,14 @@
 //don't trust the altitude, self.elevationFeet may be null
 -(CLLocation *) location {
     if( !_location ) {
-        CLLocationDistance altitude = self.elevationFeet ? [self.elevationFeet doubleValue] : 0.0;
-        _location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(self.latitude, self.longitude) altitude:altitude/FEET_PER_METER horizontalAccuracy:0.0 verticalAccuracy:0.0 timestamp:[NSDate date]];
+        _location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(self.latitude, self.longitude) altitude:[self elevationForLocation] horizontalAccuracy:0.0 verticalAccuracy:0.0 timestamp:[NSDate date]];
     }
     return _location;
+}
+
+//This scalar is used when constructing a CLLocation. Meters.
+-(CLLocationDistance) elevationForLocation {
+    return 0.0;
 }
 
 +(NSArray *) types {
@@ -45,7 +46,7 @@
 }
 
 +(NSArray *) subclassNames {
-    return @[@"IADBAirport", @"IADBNavigationAid"];
+    return @[@"IADBAirport", @"IADBNavigationAid",@"IADBFix"];
 }
 
 +(BOOL) isLocationSuperclass {
@@ -118,6 +119,7 @@
     return airports;
 }
 
+//creates predicate ORing types
 +(NSString *) predicateTypes:(NSArray *) types {
     NSMutableArray *predicateTypes = [[NSMutableArray alloc] initWithCapacity:types.count];
     [types enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -135,17 +137,32 @@
     return array.array.count > 0 ? array.array[0] : nil;
 }
 
+//[IADBLocation findAllByIdentifier:] unions finds across all subclasses
+//IADBAirport uses findAllByIdentifierK: to include K airports
 +(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier {
     if ([self isLocationSuperclass]) {
         return [self eachSubclass:^IADBCenteredArray *(id klass) {
-            return [klass findAllByIdentifier:identifier];
+            return [[klass entityName] isEqualToString:@"IADBAirport"] ? [klass findAllByIdentifierK:identifier withTypes:nil] : [klass findAllByIdentifier:identifier];
         }];
     } else {
         return [self findAllByIdentifier:identifier withTypes:nil];
     }
 }
 
+//returns locations that begin with identifier
 +(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types {
+    if(!identifier || identifier.length == 0) { return [[IADBCenteredArray alloc] init]; }
+    
+    NSString *predicateString = @"(identifier BEGINSWITH[c] %@)";
+    if (types) {
+        predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[self predicateTypes:types]];
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString ,identifier];
+    return [self findAllByPredicate:predicate];
+}
+
+//returns locations that begin with identifier with K prepended or the leading K removed
++(IADBCenteredArray *) findAllByIdentifierK:(NSString *) identifier withTypes:(NSArray *) types {
     if(!identifier || identifier.length == 0) { return [[IADBCenteredArray alloc] init]; }
     if( identifier.length > 1 && [[identifier uppercaseString] hasPrefix:@"K"]) {
         //if identifier starts with K remove it because we will check with it later

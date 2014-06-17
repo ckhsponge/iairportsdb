@@ -24,7 +24,7 @@
 		5F60A9F318B1883500515AAC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F60A9F118B1883500515AAC /* InfoPlist.strings */; };
 		5F60A9F518B1883500515AAC /* airportsdbTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F60A9F418B1883500515AAC /* airportsdbTests.m */; };
 		5F60AA2318B1E7CB00515AAC /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F60AA2218B1E7CB00515AAC /* CHCSVParser.m */; };
-		5F60AA3718B1E7E200515AAC /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F60AA3118B1E7E200515AAC /* Parser.m */; };
+		5F60AA3718B1E7E200515AAC /* CsvParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F60AA3118B1E7E200515AAC /* CsvParser.m */; };
 		5F60AA3A18B1E84000515AAC /* AirportParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F60AA3918B1E84000515AAC /* AirportParser.m */; };
 		5F60AA6418B1F61900515AAC /* airports.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5F60AA6118B1F61900515AAC /* airports.csv */; };
 		5F60AA6518B1F61900515AAC /* runways.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5F60AA6218B1F61900515AAC /* runways.csv */; };
@@ -39,10 +39,15 @@
 		5FABC4AF1948D009005806DF /* IADBNavigationAid.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FABC4AE1948D009005806DF /* IADBNavigationAid.m */; };
 		5FABC4B21948D086005806DF /* NavigationAidParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FABC4B11948D086005806DF /* NavigationAidParser.m */; };
 		5FAE8F2618DE72CE008CA1D7 /* airportsdb.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 5FAE8F2518DE72CE008CA1D7 /* airportsdb.sqlite */; };
+		5FB910A6194D3C5C00905C73 /* FixParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB910A5194D3C5C00905C73 /* FixParser.m */; };
+		5FB910A9194D3FA700905C73 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB910A8194D3FA700905C73 /* Parser.m */; };
+		5FB910AB194E7E0D00905C73 /* FIX.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5FB910AA194E7E0D00905C73 /* FIX.txt */; };
 		5FCAC85718B3F443006F24BF /* FrequencyParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAC85618B3F443006F24BF /* FrequencyParser.m */; };
 		5FCAC85A18B40326006F24BF /* IADBFrequency.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAC85918B40326006F24BF /* IADBFrequency.m */; };
 		5FCAC86518B42079006F24BF /* IADBRunway.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAC86418B42079006F24BF /* IADBRunway.m */; };
 		5FCAC86818B42160006F24BF /* RunwayParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAC86718B42160006F24BF /* RunwayParser.m */; };
+		5FDFCE3C194EA48000F5145E /* IADBFix.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFCE3B194EA48000F5145E /* IADBFix.m */; };
+		5FDFCE3F1950C5B700F5145E /* IADBLocationElevation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFCE3E1950C5B700F5145E /* IADBLocationElevation.m */; };
 		5FF4325D18B2D9A300B4E701 /* IADBAirport.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF4325818B2D9A300B4E701 /* IADBAirport.m */; };
 		5FF4325E18B2D9A300B4E701 /* IADBCenteredArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF4325A18B2D9A300B4E701 /* IADBCenteredArray.m */; };
 		5FF4327918B2DDAD00B4E701 /* airportsdb.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 5FF4327818B2DDAD00B4E701 /* airportsdb.xcdatamodel */; };
@@ -83,8 +88,8 @@
 		5F60A9F418B1883500515AAC /* airportsdbTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = airportsdbTests.m; sourceTree = "<group>"; };
 		5F60AA2118B1E7CB00515AAC /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHCSVParser.h; path = airportsdb/lib/CHCSVParser.h; sourceTree = "<group>"; };
 		5F60AA2218B1E7CB00515AAC /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHCSVParser.m; path = airportsdb/lib/CHCSVParser.m; sourceTree = "<group>"; };
-		5F60AA3018B1E7E200515AAC /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
-		5F60AA3118B1E7E200515AAC /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
+		5F60AA3018B1E7E200515AAC /* CsvParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CsvParser.h; sourceTree = "<group>"; };
+		5F60AA3118B1E7E200515AAC /* CsvParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CsvParser.m; sourceTree = "<group>"; };
 		5F60AA3818B1E84000515AAC /* AirportParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirportParser.h; sourceTree = "<group>"; };
 		5F60AA3918B1E84000515AAC /* AirportParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirportParser.m; sourceTree = "<group>"; };
 		5F60AA6118B1F61900515AAC /* airports.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = airports.csv; path = data/airports.csv; sourceTree = "<group>"; };
@@ -101,12 +106,17 @@
 		5FABC4A1194829B6005806DF /* navaids.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = navaids.csv; path = data/navaids.csv; sourceTree = "<group>"; };
 		5FABC4A61948CCF0005806DF /* IADBLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IADBLocation.h; path = models/IADBLocation.h; sourceTree = SOURCE_ROOT; };
 		5FABC4A71948CCF0005806DF /* IADBLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IADBLocation.m; path = models/IADBLocation.m; sourceTree = SOURCE_ROOT; };
-		5FABC4A91948CEF7005806DF /* IADBConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IADBConstants.h; sourceTree = SOURCE_ROOT; };
 		5FABC4AD1948D009005806DF /* IADBNavigationAid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IADBNavigationAid.h; path = models/IADBNavigationAid.h; sourceTree = SOURCE_ROOT; };
 		5FABC4AE1948D009005806DF /* IADBNavigationAid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IADBNavigationAid.m; path = models/IADBNavigationAid.m; sourceTree = SOURCE_ROOT; };
 		5FABC4B01948D086005806DF /* NavigationAidParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationAidParser.h; sourceTree = "<group>"; };
 		5FABC4B11948D086005806DF /* NavigationAidParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationAidParser.m; sourceTree = "<group>"; };
 		5FAE8F2518DE72CE008CA1D7 /* airportsdb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = airportsdb.sqlite; path = db/airportsdb.sqlite; sourceTree = "<group>"; };
+		5FB910A3194D3B6300905C73 /* IADBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IADBConstants.h; path = models/IADBConstants.h; sourceTree = SOURCE_ROOT; };
+		5FB910A4194D3C5C00905C73 /* FixParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixParser.h; sourceTree = "<group>"; };
+		5FB910A5194D3C5C00905C73 /* FixParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixParser.m; sourceTree = "<group>"; };
+		5FB910A7194D3FA700905C73 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
+		5FB910A8194D3FA700905C73 /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
+		5FB910AA194E7E0D00905C73 /* FIX.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = FIX.txt; path = data/FIX.txt; sourceTree = "<group>"; };
 		5FCAC85518B3F443006F24BF /* FrequencyParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrequencyParser.h; sourceTree = "<group>"; };
 		5FCAC85618B3F443006F24BF /* FrequencyParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrequencyParser.m; sourceTree = "<group>"; };
 		5FCAC85818B40326006F24BF /* IADBFrequency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IADBFrequency.h; path = models/IADBFrequency.h; sourceTree = SOURCE_ROOT; };
@@ -115,6 +125,10 @@
 		5FCAC86418B42079006F24BF /* IADBRunway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IADBRunway.m; path = models/IADBRunway.m; sourceTree = SOURCE_ROOT; };
 		5FCAC86618B42160006F24BF /* RunwayParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunwayParser.h; sourceTree = "<group>"; };
 		5FCAC86718B42160006F24BF /* RunwayParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunwayParser.m; sourceTree = "<group>"; };
+		5FDFCE3A194EA48000F5145E /* IADBFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IADBFix.h; path = models/IADBFix.h; sourceTree = SOURCE_ROOT; };
+		5FDFCE3B194EA48000F5145E /* IADBFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IADBFix.m; path = models/IADBFix.m; sourceTree = SOURCE_ROOT; };
+		5FDFCE3D1950C5B700F5145E /* IADBLocationElevation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IADBLocationElevation.h; path = models/IADBLocationElevation.h; sourceTree = SOURCE_ROOT; };
+		5FDFCE3E1950C5B700F5145E /* IADBLocationElevation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IADBLocationElevation.m; path = models/IADBLocationElevation.m; sourceTree = SOURCE_ROOT; };
 		5FF4325718B2D9A300B4E701 /* IADBAirport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IADBAirport.h; path = models/IADBAirport.h; sourceTree = SOURCE_ROOT; };
 		5FF4325818B2D9A300B4E701 /* IADBAirport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IADBAirport.m; path = models/IADBAirport.m; sourceTree = SOURCE_ROOT; };
 		5FF4325918B2D9A300B4E701 /* IADBCenteredArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IADBCenteredArray.h; path = models/IADBCenteredArray.h; sourceTree = SOURCE_ROOT; };
@@ -245,6 +259,7 @@
 				5FA6974A18C927E800502B4A /* airport-frequencies.csv */,
 				5F60AA6118B1F61900515AAC /* airports.csv */,
 				5F60AA6218B1F61900515AAC /* runways.csv */,
+				5FB910AA194E7E0D00905C73 /* FIX.txt */,
 			);
 			name = data;
 			sourceTree = "<group>";
@@ -252,7 +267,7 @@
 		5F60AA2418B1E7E200515AAC /* models */ = {
 			isa = PBXGroup;
 			children = (
-				5FABC4A91948CEF7005806DF /* IADBConstants.h */,
+				5FB910A3194D3B6300905C73 /* IADBConstants.h */,
 				5FA6974118C90FAD00502B4A /* IADBPersistence.h */,
 				5FA6974218C90FAD00502B4A /* IADBPersistence.m */,
 				5FF4325918B2D9A300B4E701 /* IADBCenteredArray.h */,
@@ -261,6 +276,8 @@
 				5FA6974018C90FAD00502B4A /* IADBModel.m */,
 				5FABC4A61948CCF0005806DF /* IADBLocation.h */,
 				5FABC4A71948CCF0005806DF /* IADBLocation.m */,
+				5FDFCE3D1950C5B700F5145E /* IADBLocationElevation.h */,
+				5FDFCE3E1950C5B700F5145E /* IADBLocationElevation.m */,
 				5FF4325718B2D9A300B4E701 /* IADBAirport.h */,
 				5FF4325818B2D9A300B4E701 /* IADBAirport.m */,
 				5FCAC85818B40326006F24BF /* IADBFrequency.h */,
@@ -269,6 +286,8 @@
 				5FCAC86418B42079006F24BF /* IADBRunway.m */,
 				5FABC4AD1948D009005806DF /* IADBNavigationAid.h */,
 				5FABC4AE1948D009005806DF /* IADBNavigationAid.m */,
+				5FDFCE3A194EA48000F5145E /* IADBFix.h */,
+				5FDFCE3B194EA48000F5145E /* IADBFix.m */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -276,8 +295,12 @@
 		5F60AA2F18B1E7E200515AAC /* parsers */ = {
 			isa = PBXGroup;
 			children = (
-				5F60AA3018B1E7E200515AAC /* Parser.h */,
-				5F60AA3118B1E7E200515AAC /* Parser.m */,
+				5FB910A7194D3FA700905C73 /* Parser.h */,
+				5FB910A8194D3FA700905C73 /* Parser.m */,
+				5F60AA3018B1E7E200515AAC /* CsvParser.h */,
+				5F60AA3118B1E7E200515AAC /* CsvParser.m */,
+				5FB910A4194D3C5C00905C73 /* FixParser.h */,
+				5FB910A5194D3C5C00905C73 /* FixParser.m */,
 				5F60AA3818B1E84000515AAC /* AirportParser.h */,
 				5F60AA3918B1E84000515AAC /* AirportParser.m */,
 				5FCAC85518B3F443006F24BF /* FrequencyParser.h */,
@@ -386,6 +409,7 @@
 				5FA6976A18C933CF00502B4A /* README.md in Resources */,
 				5F60A9E118B1883500515AAC /* Images.xcassets in Resources */,
 				5F60AA6518B1F61900515AAC /* runways.csv in Resources */,
+				5FB910AB194E7E0D00905C73 /* FIX.txt in Resources */,
 				5FA6974618C9128800502B4A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -405,11 +429,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FB910A9194D3FA700905C73 /* Parser.m in Sources */,
 				5F60A9DC18B1883500515AAC /* AppDelegate.m in Sources */,
 				5FA6974318C90FAD00502B4A /* IADBModel.m in Sources */,
 				5F60A9D818B1883500515AAC /* main.m in Sources */,
 				5FA6974918C914FA00502B4A /* MainViewController.m in Sources */,
-				5F60AA3718B1E7E200515AAC /* Parser.m in Sources */,
+				5FDFCE3C194EA48000F5145E /* IADBFix.m in Sources */,
+				5F60AA3718B1E7E200515AAC /* CsvParser.m in Sources */,
 				5FF4325E18B2D9A300B4E701 /* IADBCenteredArray.m in Sources */,
 				5F272F28192FF7C10024DCC5 /* Correction.m in Sources */,
 				5FF4325D18B2D9A300B4E701 /* IADBAirport.m in Sources */,
@@ -419,7 +445,9 @@
 				5FABC4B21948D086005806DF /* NavigationAidParser.m in Sources */,
 				5FCAC85718B3F443006F24BF /* FrequencyParser.m in Sources */,
 				5FABC4A81948CCF0005806DF /* IADBLocation.m in Sources */,
+				5FB910A6194D3C5C00905C73 /* FixParser.m in Sources */,
 				5FABC4AF1948D009005806DF /* IADBNavigationAid.m in Sources */,
+				5FDFCE3F1950C5B700F5145E /* IADBLocationElevation.m in Sources */,
 				5F60AA3A18B1E84000515AAC /* AirportParser.m in Sources */,
 				5FCAC86818B42160006F24BF /* RunwayParser.m in Sources */,
 				5FA6974418C90FAD00502B4A /* IADBPersistence.m in Sources */,

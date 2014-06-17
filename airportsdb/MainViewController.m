@@ -21,6 +21,7 @@
 #import "IADBPersistence.h"
 #import "AppConstants.h"
 #import "Correction.h"
+#import "FixParser.h"
 
 @interface MainViewController ()
 
@@ -62,7 +63,7 @@
 - (IBAction)downloadParseCorrect:(id)sender {
     [self downloadData:sender];
     [self parseAll:sender];
-    [self correctData:sender];
+    //[self correctData:sender];
 }
 
 - (IBAction)downloadData:(id)sender {
@@ -81,7 +82,6 @@
     [IADBModel setPersistencePath:[NSString stringWithFormat:LOCAL_DB_PATH,PROJECT_PATH]]; //writes to a local project file instead of the compiled documents path
     [[IADBModel persistence] persistentStoreClear];
     
-    
     AirportParser *airportParser = [[AirportParser alloc] init];
     [airportParser parse];
     NSLog(@"Airports: %ld", (long) [IADBAirport countAll]);
@@ -96,6 +96,9 @@
     NavigationAidParser *navParser = [[NavigationAidParser alloc] init];
     [navParser parse];
     NSLog(@"Nav Aids: %ld", (long) [IADBNavigationAid countAll]);
+    
+    FixParser *fixParser = [[FixParser alloc] init];
+    [fixParser parse];
     
     //NSLog(@"Surfaces: %@", runwayParser.surfaces);
     NSLog(@"Airport Types: %@", airportParser.types);

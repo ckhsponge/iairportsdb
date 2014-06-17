@@ -7,7 +7,7 @@
 //
 
 #import "Counter.h"
-#import "Parser.h"
+#import "CsvParser.h"
 
 @interface Counter()
 @property (atomic, strong) CHCSVParser *parser;
@@ -76,7 +76,7 @@
 }
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)index {
-    field = [Parser unquote:field];
+    field = [CsvParser unquote:field];
     BOOL fieldEmpty = !field || field.length == 0;
     if( fieldEmpty ) { return; }
     NSString *ss = [[field substringToIndex:1] uppercaseString];

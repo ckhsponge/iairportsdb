@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "IADBLocation.h"
+#import "IADBLocationElevation.h"
 
 #define NAVIGATION_AID_TYPE_VORTAC @"VORTAC"
 #define NAVIGATION_AID_TYPE_NDB_DME @"NDB-DME"
@@ -19,7 +20,7 @@
 #define NAVIGATION_AID_TYPE_TACAN @"TACAN"
 
 
-@interface IADBNavigationAid : IADBLocation
+@interface IADBNavigationAid : IADBLocationElevation
 
 @property (nonatomic) int32_t khz;
 @property (nonatomic,readonly) float mhz;

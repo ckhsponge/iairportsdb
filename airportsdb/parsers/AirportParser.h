@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "CHCSVParser.h"
-#import "Parser.h"
+#import "CsvParser.h"
 
 @class IADBAirport;
 
-@interface AirportParser : Parser
+@interface AirportParser : CsvParser
 @property (atomic, strong) NSMutableSet *types;
 
 @end

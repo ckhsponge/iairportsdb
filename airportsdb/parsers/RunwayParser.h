@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Toonsy Net. All rights reserved.
 //
 
-#import "Parser.h"
+#import "CsvParser.h"
 
-@interface RunwayParser : Parser
+@interface RunwayParser : CsvParser
 @property (atomic, strong) NSMutableSet *surfaces;
 
 @end

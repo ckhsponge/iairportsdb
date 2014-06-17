@@ -12,6 +12,7 @@
 
 #import "IADBModel.h"
 #import "IADBLocation.h"
+#import "IADBLocationElevation.h"
 #import "IADBCenteredArray.h"
 
 #define AIRPORT_TYPE_LARGE @"large_airport"
@@ -25,7 +26,7 @@
 @class IADBFrequency;
 @class IADBRunway;
 
-@interface IADBAirport : IADBLocation
+@interface IADBAirport : IADBLocationElevation
 
 @property (nonatomic) int32_t airportId;
 @property (nonatomic, retain, readonly) NSArray * frequencies;
