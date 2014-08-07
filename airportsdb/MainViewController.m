@@ -102,7 +102,7 @@
     
     //NSLog(@"Surfaces: %@", runwayParser.surfaces);
     NSLog(@"Airport Types: %@", airportParser.types);
-    NSLog(@"Nav Types: %@", navParser.types);
+//    NSLog(@"Nav Types: %@", navParser.types);
 }
 
 - (IBAction)correctData:(id)sender {
@@ -135,9 +135,19 @@
     IADBCenteredArray *locs = [IADBLocation findNear:location withinNM:18.0];
     NSLog(@"mixed: %@", [locs description]);
     
-    IADBCenteredArray *named = [IADBLocation findAllByIdentifier:@"OS"];
+    IADBCenteredArray *named = [IADBLocation findAllByIdentifier:@"KILM"];
     [named sortByCenter:location];
     NSLog(@"named: %@", [named description]);
+    for(IADBLocation *location in named.array) {
+        if (![location isKindOfClass:[IADBAirport class]]) {
+            continue;
+        }
+        IADBAirport *airport = (IADBAirport *) location;
+        NSArray *frequencies = airport.frequencies;
+        for (IADBFrequency *frequency in frequencies) {
+            NSLog(@"freq: %@",[NSString stringWithFormat:@"%f %@",frequency.mhz,frequency.name]);
+        }
+    }
 }
 
 - (void)viewDidLoad

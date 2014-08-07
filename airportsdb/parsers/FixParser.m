@@ -46,6 +46,7 @@
     
     
     NSLog(@"Finished parse: %@, lines: %lu", [self fileName], (unsigned long)[self countEntities]);
+    [self save];
 }
 
 -(void) readLines:(NSInputStream *)stream usingBlock:(void (^)(NSString *line))block {
@@ -138,6 +139,25 @@
     result += [ (NSString *)a[1] doubleValue]/60.0;
     result += [ (NSString *)a[2] doubleValue]/3600.0;
     return result*direction;
+}
+
+-(void) save {
+    NSLog(@"saving to %@", [IADBModel persistence].persistentStorePath);
+    NSError *error;
+    [[IADBModel managedObjectContext] save:&error];
+    NSAssert3(!error, @"Unhandled error saving in %s at line %d: %@", __FUNCTION__, __LINE__, [error localizedDescription]);
+    if( error ) {
+        NSLog( @"WARNING: Could not save %@", [error localizedDescription]);
+        //        NSArray* detailedErrors = [[error userInfo] objectForKey:NSDetailedErrorsKey];
+        //		if(detailedErrors != nil && [detailedErrors count] > 0) {
+        //			for(NSError* detailedError in detailedErrors) {
+        //				NSLog(@"  DetailedError: %@", [detailedError userInfo]);
+        //			}
+        //		}
+        //		else {
+        //			NSLog(@"  %@", [error userInfo]);
+        //		}
+    }
 }
 
 @end
