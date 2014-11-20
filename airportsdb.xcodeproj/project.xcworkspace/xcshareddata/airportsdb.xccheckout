@@ -10,29 +10,29 @@
 	<string>airportsdb</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>5F878201-B8A6-4847-93C8-4A86D1BCB5A7</key>
-		<string>ssh://github.com/ckhsponge/iairportsdb.git</string>
+		<key>41EDAB78306C3348F37788F7EF9D37AECE92B0FE</key>
+		<string>github.com:ckhsponge/iairportsdb.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>airportsdb.xcodeproj/project.xcworkspace</string>
+	<string>airportsdb.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>5F878201-B8A6-4847-93C8-4A86D1BCB5A7</key>
+		<key>41EDAB78306C3348F37788F7EF9D37AECE92B0FE</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/ckhsponge/iairportsdb.git</string>
+	<string>github.com:ckhsponge/iairportsdb.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>5F878201-B8A6-4847-93C8-4A86D1BCB5A7</string>
+	<string>41EDAB78306C3348F37788F7EF9D37AECE92B0FE</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>5F878201-B8A6-4847-93C8-4A86D1BCB5A7</string>
+			<string>41EDAB78306C3348F37788F7EF9D37AECE92B0FE</string>
 			<key>IDESourceControlWCCName</key>
 			<string>iairportsdb</string>
 		</dict>
