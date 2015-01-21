@@ -40,4 +40,5 @@
 -(BOOL) hasHardRunway;
 -(IADBRunway *) longestRunway;
 -(IADBFrequency *) frequencyForName:(NSString *) name;
+-(NSDictionary *) asDictionary;
 @end

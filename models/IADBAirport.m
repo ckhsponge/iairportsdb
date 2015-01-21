@@ -137,4 +137,15 @@
 -(NSString *) description {
     return [NSString stringWithFormat:@"%@ %@ %lf %lf %@ <%@>", self.identifier, self.name, self.latitude, self.longitude, self.elevationFeet, self.type];
 }
+
+-(NSDictionary *) asDictionary {
+    return @{@"identifier": self.identifier,
+             @"name": self.name,
+             @"type": self.type,
+             @"latitude": [NSNumber numberWithDouble:self.latitude],
+             @"longitude": [NSNumber numberWithDouble:self.latitude],
+             @"elevationFeet": self.elevationFeet
+             };
+}
+
 @end
