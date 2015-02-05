@@ -79,7 +79,7 @@
 }
 
 +(IADBCenteredArray *) findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance withTypes:(NSArray *) types {
-    if( types && types.count == 0) {
+    if( (types && types.count == 0) || !location) {
         IADBCenteredArray *airports = [[IADBCenteredArray alloc] init];
         airports.center = location;
         return airports;
