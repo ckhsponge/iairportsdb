@@ -16,7 +16,7 @@
 }
 
 -(id) init {
-    if (self = [self initWithArray:[NSArray arrayWithObjects:nil]])
+    if (self = [self initWithArray:[NSArray array]])
     {
     }
     return self;
