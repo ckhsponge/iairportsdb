@@ -155,7 +155,7 @@
     return [self findAllByIdentifiers:@[identifier] withTypes:types];
 }
 
-
+// similar to some code in IADBAirport finders
 +(IADBCenteredArray *) findAllByIdentifiers:(NSArray *) identifiers withTypes:(NSArray *) types {
     NSMutableArray *arguments = [[NSMutableArray alloc] initWithCapacity:3];
     NSMutableArray *predicates = [[NSMutableArray alloc] initWithCapacity:3];

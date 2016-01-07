@@ -86,6 +86,7 @@
     return [self findAllByIdentifiers:@[identifier, identifierB] orCode:identifier orMunicipality:municipality withTypes:types];
 }
 
+// similar to some code in IADBLocation finders
 +(IADBCenteredArray *) findAllByIdentifiers:(NSArray *) identifiers orCode:(NSString *) code orMunicipality:(NSString *) municipality withTypes:(NSArray *) types {
     NSMutableArray *arguments = [[NSMutableArray alloc] initWithCapacity:3];
     NSMutableArray *predicates = [[NSMutableArray alloc] initWithCapacity:3];
