@@ -29,10 +29,15 @@
 @interface IADBAirport : IADBLocationElevation
 
 @property (nonatomic) int32_t airportId;
+// the inherited property "identifier" is the GPS/ICAO code e.g. RKSI
 @property (nonatomic, retain, readonly) NSArray * frequencies;
 @property (nonatomic, retain, readonly) NSArray * runways;
+@property (nonatomic, retain) NSString * code; // IATA code e.g. ICN
+@property (nonatomic, retain) NSString * municipality; // e.g. Seoul
 
 +(IADBAirport *) findByAirportId:(int32_t) airportId;
++(IADBCenteredArray *) findAllByIdentifierOrCode:(NSString *) identifier withTypes:(NSArray *) types;
++(IADBCenteredArray *) findAllByIdentifierOrCodeOrMunicipality:(NSString *) identifier withTypes:(NSArray *) types;
 -(NSString *) title;
 -(NSString *) klessIdentifier;
 -(BOOL) hasRunways;

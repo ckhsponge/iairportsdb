@@ -25,7 +25,6 @@
 +(IADBLocation *) findByIdentifier:(NSString *) identifier;
 +(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier;
 +(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types;
-+(IADBCenteredArray *) findAllByIdentifierK:(NSString *) identifier withTypes:(NSArray *) types;
 +(NSString *) predicateTypes:(NSArray *) types;
 +(IADBCenteredArray *) findAllByPredicate:(NSPredicate *) predicate;
 +(NSArray *) types;

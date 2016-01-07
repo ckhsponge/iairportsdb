@@ -138,11 +138,11 @@
 }
 
 //[IADBLocation findAllByIdentifier:] unions finds across all subclasses
-//IADBAirport uses findAllByIdentifierK: to include K airports
+//IADBAirport uses findAllByIdentifierOrCode: to include K airports
 +(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier {
     if ([self isLocationSuperclass]) {
         return [self eachSubclass:^IADBCenteredArray *(id klass) {
-            return [[klass entityName] isEqualToString:@"IADBAirport"] ? [klass findAllByIdentifierK:identifier withTypes:nil] : [klass findAllByIdentifier:identifier];
+            return [[klass entityName] isEqualToString:@"IADBAirport"] ? [klass findAllByIdentifierOrCode:identifier withTypes:nil] : [klass findAllByIdentifier:identifier];
         }];
     } else {
         return [self findAllByIdentifier:identifier withTypes:nil];
@@ -152,31 +152,35 @@
 //returns locations that begin with identifier
 +(IADBCenteredArray *) findAllByIdentifier:(NSString *) identifier withTypes:(NSArray *) types {
     if(!identifier || identifier.length == 0) { return [[IADBCenteredArray alloc] init]; }
-    
-    NSString *predicateString = @"(identifier BEGINSWITH[c] %@)";
-    if (types) {
-        predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[self predicateTypes:types]];
-    }
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString ,identifier];
-    return [self findAllByPredicate:predicate];
+    return [self findAllByIdentifiers:@[identifier] withTypes:types];
 }
 
-//returns locations that begin with identifier with K prepended or the leading K removed
-+(IADBCenteredArray *) findAllByIdentifierK:(NSString *) identifier withTypes:(NSArray *) types {
-    if(!identifier || identifier.length == 0) { return [[IADBCenteredArray alloc] init]; }
-    if( identifier.length > 1 && [[identifier uppercaseString] hasPrefix:@"K"]) {
-        //if identifier starts with K remove it because we will check with it later
-        //this allows "KCVH" to find CVH
-        identifier = [identifier substringFromIndex:1];
-    }
-    NSString *kidentifier = [NSString stringWithFormat:@"K%@",identifier];
+
++(IADBCenteredArray *) findAllByIdentifiers:(NSArray *) identifiers withTypes:(NSArray *) types {
+    NSMutableArray *arguments = [[NSMutableArray alloc] initWithCapacity:3];
+    NSMutableArray *predicates = [[NSMutableArray alloc] initWithCapacity:3];
     
-    NSString *predicateString = @"((identifier BEGINSWITH[c] %@) OR (identifier BEGINSWITH[c] %@))";
-    if (types) {
-        predicateString = [NSString stringWithFormat:@"%@ AND (%@)",predicateString,[self predicateTypes:types]];
+    if( !identifiers ) { identifiers = @[]; }
+    for ( NSString *identifier in identifiers ) {
+        if ( identifier.length > 0) {
+            [predicates addObject: @"(identifier BEGINSWITH[c] %@)"];
+            [arguments addObject: identifier];
+        }
     }
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString ,identifier,kidentifier];
+    
+    if( predicates.count == 0) {
+        // no inputs results in no outputs
+        return [[IADBCenteredArray alloc] init];
+    }
+    
+    NSString *predicateString = [predicates componentsJoinedByString:@" or "];
+    
+    if (types) {
+        predicateString = [NSString stringWithFormat:@"(%@) AND (%@)",predicateString,[self predicateTypes:types]];
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString argumentArray:arguments];
     return [self findAllByPredicate:predicate];
+    
 }
 
 +(IADBCenteredArray *) findAllByPredicate:(NSPredicate *) predicate {

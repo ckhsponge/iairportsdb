@@ -16,8 +16,10 @@
 #define HEADER_ID @"id"
 #define HEADER_IDENTIFIER @"ident"
 #define HEADER_GPS_CODE @"gps_code"
+#define HEADER_IATA_CODE @"iata_code"
 #define HEADER_TYPE @"type"
 #define HEADER_NAME @"name"
+#define HEADER_MUNICIPALITY @"municipality"
 #define HEADER_LATITUDE @"latitude_deg"
 #define HEADER_LONGITUDE @"longitude_deg"
 #define HEADER_ELEVATION_FEET @"elevation_ft"
@@ -47,11 +49,15 @@
         airport.identifier = field;
     } else if ( [HEADER_GPS_CODE isEqualToString:column] ) {
         airport.identifier = field; //use gps code if it exists
+    } else if ( [HEADER_IATA_CODE isEqualToString:column] ) {
+        airport.code = field;
     } else if ( [HEADER_TYPE isEqualToString:column] ) {
         airport.type = field;
         [self.types addObject:field];
     } else if ( [HEADER_NAME isEqualToString:column] ) {
         airport.name = field;
+    } else if ( [HEADER_MUNICIPALITY isEqualToString:column] ) {
+        airport.municipality = field;
     } else if ( [HEADER_LATITUDE isEqualToString:column] ) {
         airport.latitude = [field doubleValue];
     } else if ( [HEADER_LONGITUDE isEqualToString:column] ) {

@@ -148,6 +148,13 @@
             NSLog(@"freq: %@",[NSString stringWithFormat:@"%f %@",frequency.mhz,frequency.name]);
         }
     }
+    
+    airports = [IADBAirport findAllByIdentifierOrCode:@"ICN" withTypes:nil];
+    NSLog(@"find ICN -- %@", airports);
+    
+    airports = [IADBAirport findAllByIdentifierOrCodeOrMunicipality:@"Seoul" withTypes:nil];
+    NSLog(@"find Seoul -- %@", airports);
+
 }
 
 - (void)viewDidLoad

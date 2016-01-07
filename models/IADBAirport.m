@@ -18,7 +18,8 @@
 @implementation IADBAirport
 
 @dynamic airportId;
-//@dynamic frequencies;
+@dynamic code;
+@dynamic municipality;
 
 
 @synthesize frequencies = _frequencies;
@@ -57,6 +58,69 @@
     if (airports.count > 1 ) { NSLog(@"WARNING: more than 1 %@ found with id %d",[self description],airportId); }
     
     return airports[0];
+}
+
+
+// returns locations that begin with identifier with K prepended or the leading K removed
+// or that begin with code
++(IADBCenteredArray *) findAllByIdentifierOrCode:(NSString *) identifier withTypes:(NSArray *) types {
+    return [self findAllByIdentifierOrCode:identifier orMunicipality:nil withTypes:types];
+}
+
+
++(IADBCenteredArray *) findAllByIdentifierOrCodeOrMunicipality:(NSString *) identifier withTypes:(NSArray *) types {
+    return [self findAllByIdentifierOrCode:identifier orMunicipality:identifier withTypes:types];
+}
+
++(IADBCenteredArray *) findAllByIdentifierOrCode:(NSString *) identifier orMunicipality:(NSString *) municipality withTypes:(NSArray *) types {
+    if(!identifier || identifier.length == 0) { return [[IADBCenteredArray alloc] init]; }
+    
+    NSString *identifierB;
+    if( identifier.length >= 2 && [[identifier uppercaseString] hasPrefix:@"K"] ) {
+        //allow "KCVH" to find CVH
+        identifierB = [identifier substringFromIndex:1]; // strip off K at beginning
+    } else {
+        identifierB = [NSString stringWithFormat:@"K%@",identifier]; // add K to beginning
+    }
+    
+    return [self findAllByIdentifiers:@[identifier, identifierB] orCode:identifier orMunicipality:municipality withTypes:types];
+}
+
++(IADBCenteredArray *) findAllByIdentifiers:(NSArray *) identifiers orCode:(NSString *) code orMunicipality:(NSString *) municipality withTypes:(NSArray *) types {
+    NSMutableArray *arguments = [[NSMutableArray alloc] initWithCapacity:3];
+    NSMutableArray *predicates = [[NSMutableArray alloc] initWithCapacity:3];
+    
+    if( !identifiers ) { identifiers = @[]; }
+    for ( NSString *identifier in identifiers ) {
+        if ( identifier.length > 0) {
+            [predicates addObject: @"(identifier BEGINSWITH[c] %@)"];
+            [arguments addObject: identifier];
+        }
+    }
+    
+    if ( code && code.length > 0) {
+        [predicates addObject: @"(code BEGINSWITH[c] %@)"];
+        [arguments addObject: code];
+    }
+    
+    if ( municipality && municipality.length > 0) {
+        [predicates addObject: @"(municipality BEGINSWITH[c] %@)"];
+        [arguments addObject: municipality];
+    }
+    
+    if( predicates.count == 0) {
+        // no inputs results in no outputs
+        return [[IADBCenteredArray alloc] init];
+    }
+    
+    NSString *predicateString = [predicates componentsJoinedByString:@" or "];
+    
+    if (types) {
+        predicateString = [NSString stringWithFormat:@"(%@) AND (%@)",predicateString,[self predicateTypes:types]];
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString argumentArray:arguments];
+    return [self findAllByPredicate:predicate];
+    
 }
 
 -(NSArray *) frequencies {
