@@ -21,7 +21,7 @@
 
 @synthesize airport;
 
-#define HARD_SURFACES @[@"ASP",@"CON"]
+#define HARD_SURFACES @[@"ASP",@"CON",@"PEM"]
 
 static inline double withinZeroTo360(double degrees) {
     return (degrees - (360.0 * floor(degrees/360.0)));
