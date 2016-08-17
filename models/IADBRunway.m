@@ -38,12 +38,16 @@ static inline double withinZeroTo360(double degrees) {
     return self.headingTrue >= 0.0 ? [self headingMagneticWithDeviation:deviation] : [self identifierDegrees];
 }
 
-//guess the runway heading from the identifier e.g. 01R heads ~10°
+//guess the runway heading from the identifier e.g. 01R heads 10° and 04 or 4 heads 40°
 //returns -1 if guessing fails
 -(CLLocationDirection) identifierDegrees {
     NSCharacterSet *digits = [NSCharacterSet decimalDigitCharacterSet];
-    if (self.identifierA && [digits characterIsMember:[self.identifierA characterAtIndex:0]] && [digits characterIsMember:[self.identifierA characterAtIndex:1]]) {
-        return [[self.identifierA substringToIndex:2] doubleValue]*10.0;
+    if (self.identifierA && self.identifierA.length >= 1 && [digits characterIsMember:[self.identifierA characterAtIndex:0]] ) {
+        if (self.identifierA.length >= 2 && [digits characterIsMember:[self.identifierA characterAtIndex:1]]) {
+            return [[self.identifierA substringToIndex:2] doubleValue]*10.0;
+        } else {
+            return [[self.identifierA substringToIndex:1] doubleValue]*10.0;
+        }
     }
     return -1.0;
 }
