@@ -18,28 +18,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OWp-vF-3Hl">
-                                <rect key="frame" x="228" y="59" width="145" height="30"/>
+                                <rect key="frame" x="20" y="62" width="145" height="30"/>
                                 <state key="normal" title="Download and Parse!"/>
                                 <connections>
                                     <action selector="downloadAndParse:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fSQ-fJ-Gtu"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EgN-YC-Hef">
-                                <rect key="frame" x="266" y="122" width="69" height="30"/>
+                                <rect key="frame" x="20" y="112" width="69" height="30"/>
                                 <state key="normal" title="Download"/>
                                 <connections>
                                     <action selector="download:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fxu-HR-I1f"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYG-RD-Zzx">
-                                <rect key="frame" x="281" y="177" width="39" height="30"/>
+                                <rect key="frame" x="20" y="158" width="39" height="30"/>
                                 <state key="normal" title="Parse"/>
                                 <connections>
                                     <action selector="parse:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gyl-hC-cYv"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xbh-U6-wJe">
-                                <rect key="frame" x="285" y="236" width="30" height="30"/>
+                                <rect key="frame" x="20" y="203" width="30" height="30"/>
                                 <state key="normal" title="Test"/>
                                 <connections>
                                     <action selector="test:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XFq-n6-RMv"/>
