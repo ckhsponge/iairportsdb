@@ -1,0 +1,6 @@
+framework module iAirportsDB {
+  umbrella header "iAirportsDB-umbrella.h"
+
+  export *
+  module * { export * }
+}

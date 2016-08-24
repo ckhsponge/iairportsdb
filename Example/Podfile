@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'iAirportsDB_Example' do
+  pod 'iAirportsDB', :path => '../'
+
+  target 'iAirportsDB_Tests' do
+    inherit! :search_paths
+
+    pod 'Quick', '~> 0.8'
+  pod 'Nimble', '~> 3.0'
+  end
+end

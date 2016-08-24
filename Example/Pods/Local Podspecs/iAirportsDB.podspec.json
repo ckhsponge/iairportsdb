@@ -1,0 +1,27 @@
+{
+  "name": "iAirportsDB",
+  "version": "0.1.0",
+  "summary": "A short description of iAirportsDB.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/iAirportsDB",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Chris Hobbs": "purposemc@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/iAirportsDB.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "iAirportsDB/Classes/**/*",
+  "resource_bundles": {
+    "resourcebundle": [
+      "iAirportsDB/Assets/*"
+    ]
+  }
+}
