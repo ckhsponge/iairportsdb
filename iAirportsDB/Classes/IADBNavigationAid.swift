@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import CoreLocation
 
 @objc(IADBNavigationAid)
 public class IADBNavigationAid: IADBLocation {
@@ -36,4 +37,32 @@ public class IADBNavigationAid: IADBLocation {
         self.type = values["type"] ?? ""
     }
 
+    //begin convenience functions for type casting
+    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArray<IADBNavigationAid> {
+        return super.findNear(location, withinNM: distance)
+    }
+    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArray<IADBNavigationAid> {
+        return super.findNear(location, withinNM: distance, withTypes: types)
+    }
+    public override class func findByIdentifier(identifier: String) -> IADBNavigationAid? {
+        let model = super.findByIdentifier(identifier)
+        guard let typed = model as? IADBNavigationAid else {
+            print("Invalid type found \(model)")
+            return nil
+        }
+        return typed
+    }
+    public class func findAllByIdentifier(identifier: String) -> IADBCenteredArray<IADBNavigationAid> {
+        return super.findAllByIdentifier(identifier)
+    }
+    public class func findAllByIdentifier(identifier: String, withTypes types: [String]?) -> IADBCenteredArray<IADBNavigationAid> {
+        return super.findAllByIdentifier(identifier, withTypes: types)
+    }
+    public class func findAllByIdentifiers(identifiers: [String], withTypes types: [String]?) -> IADBCenteredArray<IADBNavigationAid> {
+        return super.findAllByIdentifiers(identifiers, withTypes: types)
+    }
+    public class func findAllByPredicate(predicate: NSPredicate) -> IADBCenteredArray<IADBNavigationAid> {
+        return super.findAllByPredicate(predicate)
+    }
+    //end convenience functions
 }

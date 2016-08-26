@@ -37,12 +37,13 @@ public class IADBLocation: IADBModel {
         return [IADBAirport.self, IADBNavigationAid.self] //, IADBFix.self]
     }
     
+    // returns true if this is exactly an IADBLocation and not a subclass
     class func isLocationSuperclass() -> Bool {
         return (self.entityName() == "IADBLocation" || self.entityName() == "iAirportsDB.IADBLocation")
     }
     
-    class func eachSubclass(block: (klass: IADBLocation.Type) -> IADBCenteredArray) -> IADBCenteredArray {
-        var result: IADBCenteredArray?
+    class func eachSubclass(block: (klass: IADBLocation.Type) -> IADBCenteredArray<IADBLocation>) -> IADBCenteredArray<IADBLocation> {
+        var result: IADBCenteredArray<IADBLocation>?
         for klass: IADBLocation.Type in self.subclasses() {
             let array = block(klass: klass)
             if let r = result {
@@ -57,18 +58,18 @@ public class IADBLocation: IADBModel {
     }
     //returns airports near a location sorted by distance
     
-    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArray {
+    public class func findNear<IADBLocationType:IADBLocation>(location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArray<IADBLocationType> {
         if self.isLocationSuperclass() {
-            return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray in
+            return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray<IADBLocation> in
                 return klass.findNear(location, withinNM: distance)
-            })
+            }).cast() // upcast needed here for compilation
         }
         else {
             return self.findNear(location, withinNM: distance, withTypes: nil)
         }
     }
     
-    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArray {
+    public class func findNear<IADBLocationType:IADBLocation>(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArray<IADBLocationType> {
         // Set example predicate and sort orderings...
         var latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
@@ -89,7 +90,7 @@ public class IADBLocation: IADBModel {
         predicateString = "\(predicateString) AND \(self.predicateTypes(types))"
         //finds all airports within a box to take advantage of database indexes
         let predicate = NSPredicate(format: predicateString, latitude - degreesLatitude, latitude + degreesLatitude, IADBConstants.within180To180(longitude - degreesLongitude), IADBConstants.within180To180(longitude + degreesLongitude))
-        let airports = self.findAllByPredicate(predicate)
+        let airports:IADBCenteredArray<IADBLocationType> = self.findAllByPredicate(predicate)
         airports.center = location
         airports.excludeOutsideNM(distance, fromCenter: location)
         //trims airports to be within circle i.e. distance
@@ -124,11 +125,16 @@ public class IADBLocation: IADBModel {
     //[IADBLocation findAllByIdentifier:] unions finds across all subclasses
     //IADBAirport uses findAllByIdentifierOrCode: to include K airports
     
-    public class func findAllByIdentifier(identifier: String) -> IADBCenteredArray {
+    public class func findAllByIdentifier<IADBLocationType:IADBLocation>(identifier: String) -> IADBCenteredArray<IADBLocationType> {
         if self.isLocationSuperclass() {
-            return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray in
-                return (klass.entityName() == "IADBAirport") ? IADBAirport.findAllByIdentifierOrCode(identifier, withTypes: nil) : klass.findAllByIdentifier(identifier)
-            })
+            return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray<IADBLocation> in
+                if klass.entityName() == "IADBAirport" {
+                    //downcast for collation with other types
+                    return IADBAirport.findAllByIdentifierOrCode(identifier, withTypes: nil).cast()
+                } else {
+                    return klass.findAllByIdentifier(identifier)
+                }
+            }).cast() // upcast needed here for compilation
         }
         else {
             return self.findAllByIdentifier(identifier, withTypes: nil)
@@ -136,7 +142,7 @@ public class IADBLocation: IADBModel {
     }
     //returns locations that begin with identifier
     
-    public class func findAllByIdentifier(identifier: String, withTypes types: [String]?) -> IADBCenteredArray {
+    public class func findAllByIdentifier<IADBLocationType:IADBLocation>(identifier: String, withTypes types: [String]?) -> IADBCenteredArray<IADBLocationType> {
         if identifier.isEmpty {
             return IADBCenteredArray()
         }
@@ -144,7 +150,7 @@ public class IADBLocation: IADBModel {
     }
     // similar to some code in IADBAirport finders
     
-    public class func findAllByIdentifiers(identifiers: [String], withTypes types: [String]?) -> IADBCenteredArray {
+    public class func findAllByIdentifiers<IADBLocationType:IADBLocation>(identifiers: [String], withTypes types: [String]?) -> IADBCenteredArray<IADBLocationType> {
         var arguments = [String]()
         var predicates = [String]()
         for identifier: String in identifiers {
@@ -163,7 +169,7 @@ public class IADBLocation: IADBModel {
         return self.findAllByPredicate(predicate)
     }
     
-    public class func findAllByPredicate(predicate: NSPredicate) -> IADBCenteredArray {
+    public class func findAllByPredicate<IADBLocationType:IADBLocation>(predicate: NSPredicate) -> IADBCenteredArray<IADBLocationType> {
         let context = IADBModel.managedObjectContext()
         //test
         //let object = context.objectWithID(NSManagedObjectID(38694))
@@ -181,8 +187,8 @@ public class IADBLocation: IADBModel {
         
         do {
             let array = try context.executeFetchRequest(request)
-            if let models = array as? [IADBLocation] {
-                return IADBCenteredArray.init(array: models)
+            if let models = array as? [IADBLocationType] {
+                return IADBCenteredArray<IADBLocationType>.init(array: models)
             } else {
                 print("Fetch contained an invalid type \(array)")
             }

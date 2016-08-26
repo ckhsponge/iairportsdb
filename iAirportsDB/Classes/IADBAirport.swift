@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import CoreLocation
 
 @objc(IADBAirport)
 public class IADBAirport: IADBLocationElevation {
@@ -54,16 +55,15 @@ public class IADBAirport: IADBLocationElevation {
     
     // returns locations that begin with identifier with K prepended or the leading K removed
     // or that begin with code
-    
-    public class func findAllByIdentifierOrCode(identifier: String, withTypes types: [String]?) -> IADBCenteredArray {
+    public class func findAllByIdentifierOrCode(identifier: String, withTypes types: [String]?) -> IADBCenteredArray<IADBAirport> {
         return self.findAllByIdentifierOrCode(identifier, orMunicipality: nil, withTypes: types)
     }
     
-    public class func findAllByIdentifierOrCodeOrMunicipality(identifier: String, withTypes types: [String]?) -> IADBCenteredArray {
+    public class func findAllByIdentifierOrCodeOrMunicipality(identifier: String, withTypes types: [String]?) -> IADBCenteredArray<IADBAirport>  {
         return self.findAllByIdentifierOrCode(identifier, orMunicipality: identifier, withTypes: types)
     }
     
-    public class func findAllByIdentifierOrCode(identifier: String, orMunicipality municipality: String?, withTypes types: [String]?) -> IADBCenteredArray {
+    public class func findAllByIdentifierOrCode(identifier: String, orMunicipality municipality: String?, withTypes types: [String]?) -> IADBCenteredArray<IADBAirport>  {
         if identifier.isEmpty {
             return IADBCenteredArray()
         }
@@ -81,7 +81,7 @@ public class IADBAirport: IADBLocationElevation {
     }
     // similar to some code in IADBLocation finders
     
-    public class func findAllByIdentifiers(identifiers: [String], orCode code: String?, orMunicipality municipality: String?, withTypes types: [String]?) -> IADBCenteredArray {
+    public class func findAllByIdentifiers(identifiers: [String], orCode code: String?, orMunicipality municipality: String?, withTypes types: [String]?) -> IADBCenteredArray<IADBAirport>  {
         var arguments = [String]()
         var predicates = [String]()
         for identifier: String in identifiers {
@@ -105,7 +105,7 @@ public class IADBAirport: IADBLocationElevation {
         var predicateString = predicates.joinWithSeparator(" or ")
         predicateString = "(\(predicateString)) AND \(self.predicateTypes(types))"
         let predicate = NSPredicate(format: predicateString, argumentArray: arguments)
-        return self.findAllByPredicate(predicate)
+        return self.findAllByPredicate(predicate).cast()
     }
     
     public lazy var frequencies:[IADBFrequency] = {
@@ -209,5 +209,34 @@ public class IADBAirport: IADBLocationElevation {
         self.type = values["type"] ?? ""
         self.elevationFeet = elevationString.isEmpty ? nil : Int( elevationString )
     }
-
+    
+    //begin convenience functions for type casting
+    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArray<IADBAirport> {
+        return super.findNear(location, withinNM: distance)
+    }
+    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArray<IADBAirport> {
+        return super.findNear(location, withinNM: distance, withTypes: types)
+    }
+    public override class func findByIdentifier(identifier: String) -> IADBAirport? {
+        let model = super.findByIdentifier(identifier)
+        guard let typed = model as? IADBAirport else {
+            print("Invalid type found \(model)")
+            return nil
+        }
+        return typed
+    }
+    public class func findAllByIdentifier(identifier: String) -> IADBCenteredArray<IADBAirport> {
+        return super.findAllByIdentifier(identifier)
+    }
+    public class func findAllByIdentifier(identifier: String, withTypes types: [String]?) -> IADBCenteredArray<IADBAirport> {
+        return super.findAllByIdentifier(identifier, withTypes: types)
+    }
+    public class func findAllByIdentifiers(identifiers: [String], withTypes types: [String]?) -> IADBCenteredArray<IADBAirport> {
+        return super.findAllByIdentifiers(identifiers, withTypes: types)
+    }
+    public class func findAllByPredicate(predicate: NSPredicate) -> IADBCenteredArray<IADBAirport> {
+        return super.findAllByPredicate(predicate)
+    }
+    //end convenience functions
+    
 }

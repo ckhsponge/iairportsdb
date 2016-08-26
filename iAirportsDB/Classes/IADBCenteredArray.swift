@@ -8,15 +8,15 @@
 
 import CoreLocation
 
-public class IADBCenteredArray: NSObject {
-    public var array = [IADBLocation]()
+public class IADBCenteredArray<IADBLocationType: IADBLocation>: NSObject {
+    public var array = [IADBLocationType]()
     public var center: CLLocation?
     
     override public init() {
         
     }
     
-    public init(array a: [IADBLocation]) {
+    public init(array a: [IADBLocationType]) {
         do {
             super.init()
             
@@ -33,6 +33,19 @@ public class IADBCenteredArray: NSObject {
         self.array.appendContentsOf(array.array)
     }
     
+    // magically converts to the desired type with no arguments!
+    public func cast<T:IADBLocation>() -> IADBCenteredArray<T> {
+        var newArray = [T]()
+        for value in self.array {
+            if let typedValue = value as? T {
+                newArray.append(typedValue)
+            } else {
+                print("WARNING!!! IADB cast failure, likely missing data \(value)")
+            }
+        }
+        return IADBCenteredArray<T>(array: newArray)
+    }
+    
     public func sort() {
         if let center = self.center {
             self.sortByCenter(center)
@@ -40,14 +53,14 @@ public class IADBCenteredArray: NSObject {
     }
     
     public func sortByCenter(center: CLLocation) {
-        array.sortInPlace { (a: IADBLocation, b: IADBLocation) -> Bool in
+        array.sortInPlace { (a: IADBLocationType, b: IADBLocationType) -> Bool in
             let distanceA = a.location.distanceFromLocation(center)
             let distanceB = b.location.distanceFromLocation(center)
             return distanceA < distanceB
         }
     }
     
-    public func removeObjectsUsingBlock(block: (airport: IADBLocation) -> Bool) {
+    public func removeObjectsUsingBlock(block: (airport: IADBLocationType) -> Bool) {
         var i = array.count - 1
         while i >= 0 {
             if block(airport: array[i]) {
@@ -65,14 +78,14 @@ public class IADBCenteredArray: NSObject {
         //            [_array removeObjectAtIndex:i];
         //        }
         //    }
-        self.removeObjectsUsingBlock({(airport: IADBLocation) -> Bool in
+        self.removeObjectsUsingBlock({(airport: IADBLocationType) -> Bool in
             let distance = center.distanceFromLocation(airport.location)
             return distance > m
         })
     }
     
     public func excludeSoftSurface() {
-        self.removeObjectsUsingBlock({(model: IADBLocation) -> Bool in
+        self.removeObjectsUsingBlock({(model: IADBLocationType) -> Bool in
             if let airport = model as? IADBAirport {
                 return !airport.hasHardRunway()
             }
@@ -81,7 +94,7 @@ public class IADBCenteredArray: NSObject {
     }
     
     public func excludeRunwayShorterThan(feet: Int16) {
-        self.removeObjectsUsingBlock({(model: IADBLocation) -> Bool in
+        self.removeObjectsUsingBlock({(model: IADBLocationType) -> Bool in
             if let airport = model as? IADBAirport {
                 return airport.longestRunwayFeet() < feet
             }
