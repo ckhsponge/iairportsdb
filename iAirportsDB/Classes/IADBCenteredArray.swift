@@ -8,7 +8,7 @@
 
 import CoreLocation
 
-public class IADBCenteredArray<IADBLocationType: IADBLocation>: NSObject {
+public class IADBCenteredArray<IADBLocationType: IADBLocation>: NSObject, CollectionType {
     public var array = [IADBLocationType]()
     public var center: CLLocation?
     
@@ -25,8 +25,16 @@ public class IADBCenteredArray<IADBLocationType: IADBLocation>: NSObject {
         }
     }
     
-    public func count() -> Int {
-        return array.count
+    public var startIndex: Int {
+        return 0;
+    }
+    
+    public var endIndex: Int {
+        return array.count;
+    }
+    
+    public subscript(i: Int) -> IADBLocationType {
+        return array[i]
     }
     
     public func addCenteredArray(array: IADBCenteredArray) {
