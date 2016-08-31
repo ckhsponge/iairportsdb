@@ -120,6 +120,9 @@ public class IADBAirport: IADBLocationElevation {
     
     public lazy var runways:[IADBRunway] = {
         if let models = IADBRunway.findAllByAirportId(self.airportId) as? [IADBRunway] {
+            for model in models {
+                model.airport = self
+            }
             return models
         } else {
             print("!!! Invalid runway type for airport")

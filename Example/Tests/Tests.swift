@@ -39,8 +39,25 @@ class TableOfContentsSpec: QuickSpec {
                 let runway:IADBRunway! = sql?.runways[0]
                 expect([runway.identifierA, runway.identifierB]).to(contain("12"))
                 expect([runway.identifierA, runway.identifierB]).to(contain("30"))
-                
-                //TODO test runway direction guesing
+            }
+            
+            it("can guess runway heading") {
+                expect(IADBRunway.identifierDegrees("")).to(equal(-1))
+                expect(IADBRunway.identifierDegrees("L")).to(equal(-1))
+                expect(IADBRunway.identifierDegrees("0")).to(equal(0.0))
+                expect(IADBRunway.identifierDegrees("00")).to(equal(0.0))
+                expect(IADBRunway.identifierDegrees("00X")).to(equal(0.0))
+                expect(IADBRunway.identifierDegrees("4")).to(equal(40.0))
+                expect(IADBRunway.identifierDegrees("04")).to(equal(40.0))
+                expect(IADBRunway.identifierDegrees("04R")).to(equal(40.0))
+                expect(IADBRunway.identifierDegrees("1L")).to(equal(10.0))
+                expect(IADBRunway.identifierDegrees("01L")).to(equal(10.0))
+                expect(IADBRunway.identifierDegrees("10")).to(equal(100.0))
+                expect(IADBRunway.identifierDegrees("10L")).to(equal(100.0))
+                expect(IADBRunway.identifierDegrees("15")).to(equal(150.0))
+                expect(IADBRunway.identifierDegrees("15L")).to(equal(150.0))
+                expect(IADBRunway.identifierDegrees("36")).to(equal(360.0))
+                expect(IADBRunway.identifierDegrees("36L")).to(equal(360.0))
             }
             
             it("has navaids") {

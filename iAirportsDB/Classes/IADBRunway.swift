@@ -23,31 +23,32 @@ public class IADBRunway: IADBModel {
     @NSManaged public var surface: String
     @NSManaged public var widthFeet: Int16
     
+    public var airport:IADBAirport?
+    
     static let HARD_SURFACES = ["ASP", "CON", "PEM"]
-
-    //if headingDegrees is valid add the deviation, otherwise return -1
-    //CoreLocation doesn't provide deviation :(
     
-    public func headingMagneticWithDeviation(deviation: CLLocationDirection) -> CLLocationDirection {
-        return self.headingTrue >= 0.0 ? IADBConstants.withinZeroTo360(Double(self.headingTrue) - deviation) : -1.0
+    // if headingDegrees is valid add the deviation, otherwise return -1
+    // CoreLocation doesn't provide deviation :(
+    // use identifier to guess heading if there is no true heading
+    public func headingMagnetic(deviation: CLLocationDirection) -> CLLocationDirection {
+        return self.headingTrue >= 0.0 ? IADBConstants.withinZeroTo360(Double(self.headingTrue) - deviation) : self.headingMagneticFromIdentifier()
     }
-    //if the runway headingDegrees is positive return that, otherwise use the identifier to guess degrees
     
-    public func headingMagneticOrGuessWithDeviation(deviation: CLLocationDirection) -> CLLocationDirection {
-        return self.headingTrue >= 0.0 ? self.headingMagneticWithDeviation(deviation) : self.identifierDegrees()
+    public func headingMagneticFromIdentifier() -> CLLocationDirection {
+        return IADBRunway.identifierDegrees(self.identifierA)
     }
+    
     //guess the runway heading from the identifier e.g. 01R heads 10° and 04 or 4 heads 40°
     //returns -1 if guessing fails
-    
-    public func identifierDegrees() -> CLLocationDirection {
+    static func identifierDegrees(identifier:String) -> CLLocationDirection {
         let digits = NSCharacterSet.decimalDigitCharacterSet()
-        let unicodes = self.identifierA.unicodeScalars
+        let unicodes = identifier.unicodeScalars
         if !unicodes.isEmpty && digits.longCharacterIsMember(unicodes[unicodes.startIndex].value) {
             if unicodes.count >= 2 && digits.longCharacterIsMember(unicodes[unicodes.startIndex.advancedBy(1)].value) {
-                return CDouble(self.identifierA.substringToIndex(self.identifierA.startIndex.advancedBy(2)))! * 10.0
+                return CDouble(identifier.substringToIndex(identifier.startIndex.advancedBy(2)))! * 10.0
             }
             else {
-                return CDouble(self.identifierA.substringToIndex(self.identifierA.startIndex.advancedBy(1)))! * 10.0
+                return CDouble(identifier.substringToIndex(identifier.startIndex.advancedBy(1)))! * 10.0
             }
         }
         return -1.0
