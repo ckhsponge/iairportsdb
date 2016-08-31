@@ -56,8 +56,8 @@ public class IADBLocation: IADBModel {
         result!.sort()
         return result!
     }
-    //returns airports near a location sorted by distance
     
+    //returns airports near a location sorted by distance
     public class func findNear<IADBLocationType:IADBLocation>(location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArray<IADBLocationType> {
         if self.isLocationSuperclass() {
             return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray<IADBLocation> in
@@ -69,6 +69,10 @@ public class IADBLocation: IADBModel {
         }
     }
     
+    // finds locations within distance of location with a type in types
+    // if types is nil then ignore types i.e. return all types
+    // if types is [] then return nothing
+    // results are sorted by distance from location
     public class func findNear<IADBLocationType:IADBLocation>(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArray<IADBLocationType> {
         // Set example predicate and sort orderings...
         var latitude = location.coordinate.latitude
@@ -122,9 +126,9 @@ public class IADBLocation: IADBModel {
         }
         return array.array.count > 0 ? array.array[0] : nil
     }
+    
     //[IADBLocation findAllByIdentifier:] unions finds across all subclasses
     //IADBAirport uses findAllByIdentifierOrCode: to include K airports
-    
     public class func findAllByIdentifier<IADBLocationType:IADBLocation>(identifier: String) -> IADBCenteredArray<IADBLocationType> {
         if self.isLocationSuperclass() {
             return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray<IADBLocation> in

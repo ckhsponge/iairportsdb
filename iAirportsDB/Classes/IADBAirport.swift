@@ -217,8 +217,12 @@ public class IADBAirport: IADBLocationElevation {
     public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArray<IADBAirport> {
         return super.findNear(location, withinNM: distance)
     }
-    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArray<IADBAirport> {
-        return super.findNear(location, withinNM: distance, withTypes: types)
+    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [IADBAirport.AirportType]?) -> IADBCenteredArray<IADBAirport> {
+        var values:[String]?
+        if let typesArray = types {
+            values = typesArray.map { type in type.rawValue }
+        }
+        return super.findNear(location, withinNM: distance, withTypes: values)
     }
     public override class func findByIdentifier(identifier: String) -> IADBAirport? {
         let model = super.findByIdentifier(identifier)

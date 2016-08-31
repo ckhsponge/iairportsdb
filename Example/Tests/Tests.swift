@@ -26,6 +26,41 @@ class TableOfContentsSpec: QuickSpec {
                 
             }
             
+            it("can find by type") {
+                //half moon bay
+                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: NSDate())
+
+                var types:[IADBAirport.AirportType]? = nil
+                var airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: types)
+                let sql:IADBAirport! = IADBAirport.findByIdentifier("KSQL")
+                let sfo:IADBAirport! = IADBAirport.findByIdentifier("KSFO")
+                let commodore:IADBAirport! = IADBAirport.findByIdentifier("22CA")
+                expect(airports).to(contain(sql))
+                expect(airports).to(contain(sfo))
+                expect(airports).to(contain(commodore))
+                
+                types = []
+                airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: types)
+                expect(airports).toNot(contain(sql))
+                expect(airports).toNot(contain(sfo))
+                expect(airports).toNot(contain(commodore))
+                
+                airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: [IADBAirport.AirportType.Large])
+                expect(airports).toNot(contain(sql))
+                expect(airports).to(contain(sfo))
+                expect(airports).toNot(contain(commodore))
+                
+                airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: [IADBAirport.AirportType.Large, IADBAirport.AirportType.Medium, IADBAirport.AirportType.Small])
+                expect(airports).to(contain(sql))
+                expect(airports).to(contain(sfo))
+                expect(airports).toNot(contain(commodore))
+                
+                airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: [IADBAirport.AirportType.Seaplane])
+                expect(airports).toNot(contain(sql))
+                expect(airports).toNot(contain(sfo))
+                expect(airports).to(contain(commodore))
+            }
+            
             it("has frequencies") {
                 let sql = IADBAirport.findByIdentifier("KSQL")
                 expect(sql?.identifier).to(equal("KSQL"))
