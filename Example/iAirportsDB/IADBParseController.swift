@@ -103,5 +103,6 @@ class IADBParseController {
         airports = IADBAirport.findAllByIdentifierOrCodeOrMunicipality("Seoul", withTypes: nil)
         print("find Seoul -- \(airports)")
 
+        ObjectiveCTest().test()
     }
 }

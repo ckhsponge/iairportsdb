@@ -7,7 +7,7 @@ import CoreLocation
 
 class TableOfContentsSpec: QuickSpec {
     override func spec() {
-        describe("these will fail") {
+        describe("these will pass") {
             
             it("can find") {
                 let sfo = IADBAirport.findByIdentifier("KSFO")

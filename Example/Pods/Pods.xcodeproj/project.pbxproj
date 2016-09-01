@@ -46,6 +46,8 @@
 		5833D5B30EB517A5D359D7E40748F123 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17FBDF6FF6B666A3D102EDD81DFE416 /* Filter.swift */; };
 		5BC7489A01E388A0CBA22927C1965116 /* HooksPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C369DE47B8FBDDF56994EF084D14F12 /* HooksPhase.swift */; };
 		5EF5C00C6AECE1FCFFF118577817F5CE /* Equal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D3661DD977D936FA0FEA7FDE08D852 /* Equal.swift */; };
+		5F6F0BC21D789BD7009DA838 /* IADBCenteredArrayAirports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F0BC11D789BD7009DA838 /* IADBCenteredArrayAirports.swift */; };
+		5F6F0BC61D78A2C4009DA838 /* IADBCenteredArrayNavigationAids.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F0BC51D78A2C4009DA838 /* IADBCenteredArrayNavigationAids.swift */; };
 		638E75D3478611A65BEE396DEED69A45 /* String+FileName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CBE690E9186E686698A8A8A71C5355 /* String+FileName.swift */; };
 		63BBD83995BA60FA7D2E6AD4138C0D71 /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354B5315AD30C24D1172D4F1524B068D /* Functional.swift */; };
 		64539BE196D1741570018FFF86F14133 /* MatcherFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971FBD63640E42D5B13E199D80A38E44 /* MatcherFunc.swift */; };
@@ -196,6 +198,8 @@
 		5A2F35071DC4819E16E4AF3D0AD35220 /* Pods-iAirportsDB_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-iAirportsDB_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		5C8C873CB5F43A0FA130C9B9FF74B6B0 /* SatisfyAnyOf.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SatisfyAnyOf.swift; path = Sources/Nimble/Matchers/SatisfyAnyOf.swift; sourceTree = "<group>"; };
 		5CE93FA4667205AEE386C8648ABDC57E /* BeCloseTo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeCloseTo.swift; path = Sources/Nimble/Matchers/BeCloseTo.swift; sourceTree = "<group>"; };
+		5F6F0BC11D789BD7009DA838 /* IADBCenteredArrayAirports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IADBCenteredArrayAirports.swift; sourceTree = "<group>"; };
+		5F6F0BC51D78A2C4009DA838 /* IADBCenteredArrayNavigationAids.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IADBCenteredArrayNavigationAids.swift; sourceTree = "<group>"; };
 		627E4E84747227302312F1E22D114789 /* DSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DSL.swift; path = Sources/Nimble/DSL.swift; sourceTree = "<group>"; };
 		62ADCB0AE00199FEACED77BDE119552F /* AdapterProtocols.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdapterProtocols.swift; path = Sources/Nimble/Adapters/AdapterProtocols.swift; sourceTree = "<group>"; };
 		62C9EA115D167F4132613835B0AA5585 /* BeLessThan.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeLessThan.swift; path = Sources/Nimble/Matchers/BeLessThan.swift; sourceTree = "<group>"; };
@@ -525,6 +529,8 @@
 			children = (
 				8187E7D250EE6972A8360230889C6B3E /* IADBAirport.swift */,
 				4071D53774B8E751EF928B889A26FE3C /* IADBCenteredArray.swift */,
+				5F6F0BC11D789BD7009DA838 /* IADBCenteredArrayAirports.swift */,
+				5F6F0BC51D78A2C4009DA838 /* IADBCenteredArrayNavigationAids.swift */,
 				EE206C3F42B8A264105083705A0F7032 /* IADBConstants.swift */,
 				3593DCF570C9ABB5F6CE4A682C3F8212 /* IADBFrequency.swift */,
 				39F9E362ADFC6503369F865334A09D43 /* IADBLocation.swift */,
@@ -973,6 +979,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				816FE7D7A59D49E85E5E683BB9E49A10 /* IADBAirport.swift in Sources */,
+				5F6F0BC61D78A2C4009DA838 /* IADBCenteredArrayNavigationAids.swift in Sources */,
+				5F6F0BC21D789BD7009DA838 /* IADBCenteredArrayAirports.swift in Sources */,
 				1C5DF2E1C4F64702F97789D0B4864038 /* IADBCenteredArray.swift in Sources */,
 				BC56269DB7B82EDF74200320711573D5 /* IADBConstants.swift in Sources */,
 				3EDBF62DFA5309E42A948C77FD6A602B /* IADBFrequency.swift in Sources */,
@@ -1056,6 +1064,7 @@
 				PRODUCT_NAME = iAirportsDB;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos tvos watchsimulator tvsimulator";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1093,7 +1102,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 				VALIDATE_PRODUCT = YES;
@@ -1224,6 +1233,7 @@
 				PRODUCT_NAME = iAirportsDB;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos tvos watchsimulator tvsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1328,7 +1338,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
