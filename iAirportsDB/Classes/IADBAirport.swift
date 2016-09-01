@@ -217,12 +217,16 @@ public class IADBAirport: IADBLocationElevation {
     public override class func findNear(location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArrayAirports {
         return IADBCenteredArrayAirports(centeredArray: super.findNear(location, withinNM: distance))
     }
+    // this is for objc compatibility, use Strings instead of enum
+    override public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArrayAirports {
+        return IADBCenteredArrayAirports(centeredArray: super.findNear(location, withinNM: distance, withTypes: types))
+    }
     public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [IADBAirport.AirportType]?) -> IADBCenteredArrayAirports {
         var values:[String]?
         if let typesArray = types {
             values = typesArray.map { type in type.rawValue }
         }
-        return IADBCenteredArrayAirports(centeredArray: super.findNear(location, withinNM: distance, withTypes: values))
+        return self.findNear(location, withinNM: distance, withTypes: values)
     }
     public override class func findByIdentifier(identifier: String) -> IADBAirport? {
         let model = super.findByIdentifier(identifier)
