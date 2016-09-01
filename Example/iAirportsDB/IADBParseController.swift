@@ -12,7 +12,7 @@ import iAirportsDB
 
 class IADBParseController {
     static let projectPath = "/Users/ckh/dev/iAirportsDB"
-    static let dbPath = "\(projectPath)/db/iAirportsDB.sqlite"
+    static let dbPath = "\(projectPath)/iAirportsDB/Assets/iAirportsDB.sqlite"
     
     static let modelTypes:[IADBModel.Type] = [IADBAirport.self, IADBFrequency.self, IADBNavigationAid.self, IADBRunway.self]
     

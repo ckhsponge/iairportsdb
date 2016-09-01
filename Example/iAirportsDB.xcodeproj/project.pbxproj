@@ -14,8 +14,12 @@
 		5F4AE1C91D6E455E0001CA1F /* ModelParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4AE1C51D6E455E0001CA1F /* ModelParser.swift */; };
 		5F4AE1CA1D6E455E0001CA1F /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4AE1C61D6E455E0001CA1F /* Parser.swift */; };
 		5F6F0BC01D788F01009DA838 /* ObjectiveCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F0BBF1D788F01009DA838 /* ObjectiveCTest.m */; };
+		5FD7E7F61D78E92100B4B24D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7E7F51D78E92100B4B24D /* ViewController.swift */; };
+		5FD7E7FC1D78EB5600B4B24D /* airport-frequencies.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5FD7E7F81D78EB5600B4B24D /* airport-frequencies.csv */; };
+		5FD7E7FD1D78EB5600B4B24D /* airports.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5FD7E7F91D78EB5600B4B24D /* airports.csv */; };
+		5FD7E7FE1D78EB5600B4B24D /* navaids.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5FD7E7FA1D78EB5600B4B24D /* navaids.csv */; };
+		5FD7E7FF1D78EB5600B4B24D /* runways.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5FD7E7FB1D78EB5600B4B24D /* runways.csv */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
@@ -46,10 +50,14 @@
 		5F4AE1C61D6E455E0001CA1F /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = iAirportsDB/Parser.swift; sourceTree = SOURCE_ROOT; };
 		5F6F0BBE1D788F01009DA838 /* ObjectiveCTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectiveCTest.h; path = iAirportsDB/ObjectiveCTest.h; sourceTree = SOURCE_ROOT; };
 		5F6F0BBF1D788F01009DA838 /* ObjectiveCTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectiveCTest.m; path = iAirportsDB/ObjectiveCTest.m; sourceTree = SOURCE_ROOT; };
+		5FD7E7F51D78E92100B4B24D /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5FD7E7F81D78EB5600B4B24D /* airport-frequencies.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "airport-frequencies.csv"; path = "../../data/airport-frequencies.csv"; sourceTree = "<group>"; };
+		5FD7E7F91D78EB5600B4B24D /* airports.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = airports.csv; path = ../../data/airports.csv; sourceTree = "<group>"; };
+		5FD7E7FA1D78EB5600B4B24D /* navaids.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = navaids.csv; path = ../../data/navaids.csv; sourceTree = "<group>"; };
+		5FD7E7FB1D78EB5600B4B24D /* runways.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = runways.csv; path = ../../data/runways.csv; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* iAirportsDB_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iAirportsDB_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -126,6 +134,17 @@
 			name = lib;
 			sourceTree = "<group>";
 		};
+		5FD7E7F71D78EB4500B4B24D /* data */ = {
+			isa = PBXGroup;
+			children = (
+				5FD7E7F81D78EB5600B4B24D /* airport-frequencies.csv */,
+				5FD7E7F91D78EB5600B4B24D /* airports.csv */,
+				5FD7E7FA1D78EB5600B4B24D /* navaids.csv */,
+				5FD7E7FB1D78EB5600B4B24D /* runways.csv */,
+			);
+			name = data;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -150,9 +169,10 @@
 		607FACD21AFB9204008FA782 /* Example for iAirportsDB */ = {
 			isa = PBXGroup;
 			children = (
+				5FD7E7F71D78EB4500B4B24D /* data */,
 				5F4AE1B61D6E341F0001CA1F /* lib */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				5FD7E7F51D78E92100B4B24D /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				5F6F0BBE1D788F01009DA838 /* ObjectiveCTest.h */,
 				5F6F0BBF1D788F01009DA838 /* ObjectiveCTest.m */,
@@ -287,7 +307,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FD7E7FF1D78EB5600B4B24D /* runways.csv in Resources */,
+				5FD7E7FD1D78EB5600B4B24D /* airports.csv in Resources */,
+				5FD7E7FE1D78EB5600B4B24D /* navaids.csv in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
+				5FD7E7FC1D78EB5600B4B24D /* airport-frequencies.csv in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
@@ -402,11 +426,11 @@
 			files = (
 				5F4AE1C91D6E455E0001CA1F /* ModelParser.swift in Sources */,
 				5F6F0BC01D788F01009DA838 /* ObjectiveCTest.m in Sources */,
-				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5F4AE1BA1D6E34630001CA1F /* CHCSVParser.m in Sources */,
 				5F4AE1C81D6E455E0001CA1F /* IADBParseController.swift in Sources */,
 				5F4AE1C71D6E455E0001CA1F /* CsvParser.swift in Sources */,
+				5FD7E7F61D78E92100B4B24D /* ViewController.swift in Sources */,
 				5F4AE1CA1D6E455E0001CA1F /* Parser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

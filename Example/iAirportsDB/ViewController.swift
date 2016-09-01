@@ -13,9 +13,12 @@ class ViewController: UIViewController {
     //        controller.downloadAndParse()
     //controller.parseAll()
     
+    @IBOutlet var pathLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        pathLabel.text = IADBParseController.dbPath
     }
     
     @IBAction func downloadAndParse(sender: UIButton) {
