@@ -63,6 +63,9 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
     NSUInteger _currentRecord;
     BOOL _cancelled;
 }
+-(id) init {
+    return [self initWithCSVString: @""];
+}
 
 - (id)initWithCSVString:(NSString *)csv {
     return [self initWithDelimitedString:csv delimiter:COMMA];
@@ -574,6 +577,10 @@ NSString *const CHCSVErrorDomain = @"com.davedelong.csv";
     NSUInteger _currentLine;
     NSUInteger _currentField;
     NSMutableArray *_firstLineKeys;
+}
+
+-(instancetype) init {
+    return [self initForWritingToCSVFile:@""];
 }
 
 - (instancetype)initForWritingToCSVFile:(NSString *)path {
