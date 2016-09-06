@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'iAirportsDB'
   s.version          = '2.0.0'
-  s.summary          = 'A short description of iAirportsDB.'
+  s.summary          = 'Quickly find airports near a location'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,14 +18,14 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Airports, heliports, seaplane bases, and balloonports can quickly be found near a location or by identifier. Supporting information such as runways and frequencies are provided. Information is global. The library is Swift but Objective C is supported. Behind the scenes Core Data using sqlite provides the framework for fast lookups.
                        DESC
 
-  s.homepage         = 'https://github.com/<GITHUB_USERNAME>/iAirportsDB'
+  s.homepage         = 'https://github.com/ckhsponge/iAirportsDB'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Chris Hobbs' => 'purposemc@gmail.com' }
-  s.source           = { :git => 'https://github.com/<GITHUB_USERNAME>/iAirportsDB.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/ckhsponge/iAirportsDB.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '9.0'

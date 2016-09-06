@@ -4,8 +4,12 @@ This project is a mac and iOS database for airports worldwide. A Cocoa framework
 
 This databse is used in the wildly popular [NRST: Descent Rate & Airport Finder](https://itunes.apple.com/us/app/nrst-descent-rate-airport/id828514590?ls=1&mt=8) for iOS.
 
-
 Now you can find airports using:
+* IADBAirport.findNear(CLLocation, withinNM:CLLocationDistance)
+* IADBAirport.findNear(CLLocation, withinNM:CLLocationDistance, types:[IADBAirport.AirportType]?)
+* IADBAirport.findAllByIdentifier(String)
+
+Or in Objective C:
 * [IADBAirport findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance]
 * [IADBAirport findAllByIdentifier:(NSString *) identifier]
 * [IADBNavigationAid findNear:(CLLocation *) location withinNM:(CLLocationDistance) distance]

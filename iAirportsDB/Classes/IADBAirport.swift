@@ -10,13 +10,18 @@ import Foundation
 import CoreData
 import CoreLocation
 
-@objc(IADBAirport)
-public class IADBAirport: IADBLocationElevation {
+/// Represents an airport, seaplane base, balloonport, or heliport
+@objc public class IADBAirport: IADBLocationElevation {
     //identifier: String (defined in IADBLocation) // identifier or gps code e.g. RKSI, use this for pilot navigation
     @NSManaged var airportId: Int32
-    @NSManaged public var code: String // iata code e.g. ICN, this is what is printed on boarding passes
-    @NSManaged public var municipality: String // e.g. Seoul
     
+    /// iata code e.g. ICN, this is what is printed on boarding passes
+    @NSManaged public var code: String
+    
+    /// Normally the nearby city e.g. Seoul
+    @NSManaged public var municipality: String
+    
+    /// Use in type finders
     public enum AirportType: String {
         case Large = "large_airport", Medium = "medium_airport", Small = "small_airport",
         Seaplane = "seaplane_base", Heliport = "heliport", Balloonport = "balloonport", Closed = "closed"
@@ -24,6 +29,9 @@ public class IADBAirport: IADBLocationElevation {
         static let allValues = [Large, Medium, Small, Seaplane, Heliport, Balloonport, Closed]
     }
     
+    /**
+     Finds using the internal airportId
+    */
     public class func findByAirportId(airportId: Int32) -> IADBAirport? {
         let context = IADBModel.managedObjectContext()
         let entityDescription = NSEntityDescription.entityForName("IADBAirport", inManagedObjectContext: context)
@@ -53,8 +61,10 @@ public class IADBAirport: IADBLocationElevation {
         return nil
     }
     
-    // returns locations that begin with identifier with K prepended or the leading K removed
-    // or that begin with code
+    /** 
+     returns locations that begin with identifier with K prepended or the leading K removed
+     or that begin with code
+    */
     public class func findAllByIdentifierOrCode(identifier: String, withTypes types: [String]?) -> IADBCenteredArrayAirports {
         return self.findAllByIdentifierOrCode(identifier, orMunicipality: nil, withTypes: types)
     }
@@ -79,8 +89,8 @@ public class IADBAirport: IADBLocationElevation {
         }
         return self.findAllByIdentifiers([identifier, identifierB], orCode: identifier, orMunicipality: municipality, withTypes: types)
     }
-    // similar to some code in IADBLocation finders
     
+    // similar to some code in IADBLocation finders
     public class func findAllByIdentifiers(identifiers: [String], orCode code: String?, orMunicipality municipality: String?, withTypes types: [String]?) -> IADBCenteredArrayAirports  {
         var arguments = [String]()
         var predicates = [String]()
@@ -197,6 +207,7 @@ public class IADBAirport: IADBLocationElevation {
         return ["identifier": self.identifier, "name": self.name, "type": self.type, "latitude": Int(self.latitude), "longitude": Int(self.latitude), "elevationFeet": self.elevationForLocation()]
     }
     
+    /// sets data based on a hash that probably came from a CSV row
     override public func setCsvValues( values: [String: String] ) {
         //"id","ident","type","name","latitude_deg","longitude_deg","elevation_ft","continent","iso_country","iso_region","municipality","scheduled_service","gps_code","iata_code","local_code","home_link","wikipedia_link","keywords"
         //print(values)
@@ -217,7 +228,7 @@ public class IADBAirport: IADBLocationElevation {
     public override class func findNear(location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArrayAirports {
         return IADBCenteredArrayAirports(centeredArray: super.findNear(location, withinNM: distance))
     }
-    // this is for objc compatibility, use Strings instead of enum
+    /// this is for objc compatibility, use Strings instead of enum
     override public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArrayAirports {
         return IADBCenteredArrayAirports(centeredArray: super.findNear(location, withinNM: distance, withTypes: types))
     }
