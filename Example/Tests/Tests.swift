@@ -127,11 +127,14 @@ class TableOfContentsSpec: QuickSpec {
             it("can sort") {
                 //half moon bay
                 let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: NSDate())
-                let named = IADBLocation.findAllByIdentifier("KILM")
-                named.sortByCenter(location)
                 
-                expect(named.count).to(equal(1)) //poor sorting test!
-                expect(named[0].identifier).to(equal("KILM"))
+                let airports = IADBAirport.findNear(location, withinNM: 30.0)
+                let sfo:IADBAirport! = IADBAirport.findByIdentifier("KSFO")
+                let oak:IADBAirport! = IADBAirport.findByIdentifier("KOAK")
+                
+                expect(airports.indexOf(sfo)) < airports.indexOf(oak)!
+                airports.sortInPlace(oak.location)
+                expect(airports.indexOf(oak)) < airports.indexOf(sfo)!
             }
             
             it("can find korea") {

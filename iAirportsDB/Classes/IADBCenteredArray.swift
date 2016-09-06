@@ -62,13 +62,13 @@ import CoreLocation
         }
     }
     
-    public func sort() {
+    public func sortInPlace() {
         if let center = self.center {
-            self.sortByCenter(center)
+            self.sortInPlace(center)
         }
     }
     
-    public func sortByCenter(center: CLLocation) {
+    public func sortInPlace(center: CLLocation) {
         array.sortInPlace { (a: IADBLocation, b: IADBLocation) -> Bool in
             let distanceA = a.location.distanceFromLocation(center)
             let distanceB = b.location.distanceFromLocation(center)

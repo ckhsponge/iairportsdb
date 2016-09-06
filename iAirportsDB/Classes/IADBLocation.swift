@@ -48,7 +48,7 @@ public class IADBLocation: IADBModel {
             let array = block(klass: klass)
             result.addCenteredArray(array)
         }
-        result.sort()
+        result.sortInPlace()
         return result
     }
     
@@ -93,7 +93,7 @@ public class IADBLocation: IADBModel {
         airports.center = location
         airports.excludeOutsideNM(distance, fromCenter: location)
         //trims airports to be within circle i.e. distance
-        airports.sortByCenter(location)
+        airports.sortInPlace(location)
         return airports
     }
     

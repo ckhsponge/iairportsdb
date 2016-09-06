@@ -86,7 +86,7 @@ class IADBParseController {
         let locs = IADBLocation.findNear(location, withinNM: 18.0)
         print("mixed: \(locs.description)")
         let named = IADBLocation.findAllByIdentifier("KILM")
-        named.sortByCenter(location)
+        named.sortInPlace(location)
         print("named: \(named.description)")
         for location: IADBLocation in named.array {
             if (location is IADBAirport) {
