@@ -22,9 +22,8 @@ class ModelParser {
     func go() {
         let parser = CsvParser(fileName: fileName)
         parser.parseLines { (line:[String : String]) in
-            let context = self.persistence().managedObjectContext
-            let entity = NSEntityDescription.entityForName(self.modelType.description(), inManagedObjectContext: context)
-            let model:IADBModel = self.modelType.init(entity: entity!, insertIntoManagedObjectContext: nil)
+            let (entityDescription, context) = self.modelType.entityDescriptionContext()
+            let model:IADBModel = self.modelType.init(entity: entityDescription, insertIntoManagedObjectContext: nil)
             model.setCsvValues( line )
             context.insertObject(model)
         }

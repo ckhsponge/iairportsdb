@@ -11,7 +11,8 @@ import CoreData
 import CoreLocation
 
 /// Represents an airport, seaplane base, balloonport, or heliport
-@objc public class IADBAirport: IADBLocationElevation {
+@objc(IADBAirport)
+public class IADBAirport: IADBLocationElevation {
     //identifier: String (defined in IADBLocation) // identifier or gps code e.g. RKSI, use this for pilot navigation
     @NSManaged var airportId: Int32
     
@@ -33,10 +34,7 @@ import CoreLocation
      Finds using the internal airportId
     */
     public class func findByAirportId(airportId: Int32) -> IADBAirport? {
-        let context = IADBModel.managedObjectContext()
-        let entityDescription = NSEntityDescription.entityForName("IADBAirport", inManagedObjectContext: context)
-        let request = NSFetchRequest()
-        request.entity = entityDescription!
+        let (request, context) = fetchRequestContext()
         // Set example predicate and sort orderings...
         let predicate = NSPredicate(format: "(airportId = %d)", airportId)
         request.predicate = predicate

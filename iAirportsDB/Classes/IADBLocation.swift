@@ -25,10 +25,6 @@ public class IADBLocation: IADBModel {
         return 0.0
     }
     
-    class func entityName() -> String {
-        return self.description()
-    }
-    
     class func subclassNames() -> [String] {
         return ["IADBAirport", "IADBNavigationAid", "IADBFix"]
     }
@@ -39,7 +35,7 @@ public class IADBLocation: IADBModel {
     
     // returns true if this is exactly an IADBLocation and not a subclass
     class func isLocationSuperclass() -> Bool {
-        return (self.entityName() == "IADBLocation" || self.entityName() == "iAirportsDB.IADBLocation")
+        return self.descriptionShort() == "IADBLocation"
     }
     
     class func eachSubclass(block: (klass: IADBLocation.Type) -> IADBCenteredArray) -> IADBCenteredArray {
@@ -127,7 +123,7 @@ public class IADBLocation: IADBModel {
     public class func findAllByIdentifier(identifier: String) -> IADBCenteredArray {
         if self.isLocationSuperclass() {
             return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray in
-                if klass.entityName() == "IADBAirport" {
+                if klass.descriptionShort() == "IADBAirport" {
                     //downcast for collation with other types
                     return IADBAirport.findAllByIdentifierOrCode(identifier, withTypes: nil)
                 } else {
@@ -169,20 +165,12 @@ public class IADBLocation: IADBModel {
     }
     
     public class func findAllByPredicate(predicate: NSPredicate) -> IADBCenteredArray {
-        let context = IADBModel.managedObjectContext()
-        //test
-        //let object = context.objectWithID(NSManagedObjectID(38694))
-        //print(object)
-        //let _predicate = NSPredicate(format: "code = null")
-        //end test
-        let entityDescription = NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: context)
-        let request = NSFetchRequest()
-        request.entity = entityDescription!
+        let (request, context) = fetchRequestContext()
         request.predicate = predicate
         //    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
         //                                        initWithKey:@"name" ascending:YES];
         //    [request setSortDescriptors:@[sortDescriptor]];
-        print("fetch \(self.entityName()): \(request)")
+        print("fetch \(self.descriptionShort()): \(request)")
         
         do {
             let array = try context.executeFetchRequest(request)

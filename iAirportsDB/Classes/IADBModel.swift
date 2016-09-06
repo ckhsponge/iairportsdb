@@ -43,13 +43,31 @@ public class IADBModel: NSManagedObject {
         return count
     }
     
-    public class func findAllByAirportId(airportId: Int32) -> [IADBModel] {
+    public class func descriptionShort() -> String {
+        return self.description().stringByReplacingOccurrencesOfString("iAirportsDB.", withString: "")
+    }
+    
+    public class func entityDescriptionContext() -> (NSEntityDescription, NSManagedObjectContext) {
         let context: NSManagedObjectContext = IADBModel.managedObjectContext()
-        let entityDescription: NSEntityDescription = NSEntityDescription.entityForName(self.description(), inManagedObjectContext: context)!
+        let name = self.descriptionShort()
+        let entityDescription: NSEntityDescription? = NSEntityDescription.entityForName(name, inManagedObjectContext: context)
+        if entityDescription == nil {
+            print("ERROR !!!! entity not found for \(name)")
+        }
+        return (entityDescription!, context)
+    }
+    
+    public class func fetchRequestContext() -> (NSFetchRequest, NSManagedObjectContext) {
+        let (entityDescription, context) = self.entityDescriptionContext()
         let request: NSFetchRequest = NSFetchRequest()
         request.entity = entityDescription
+        return (request, context)
+    }
+    
+    public class func findAllByAirportId(airportId: Int32) -> [IADBModel] {
         // Set example predicate and sort orderings...
         let predicate: NSPredicate = NSPredicate(format: "(airportId = %d)", airportId)
+        let (request, context) = fetchRequestContext()
         request.predicate = predicate
         do {
             let objects = try context.executeFetchRequest(request)

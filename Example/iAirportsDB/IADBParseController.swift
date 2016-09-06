@@ -39,7 +39,7 @@ class IADBParseController {
     }
     
     func fileNameForModel(type: IADBModel.Type) -> String? {
-        switch type.description() {
+        switch type.descriptionShort() {
         case "IADBAirport": return "airports"
         case "IADBFrequency": return "airport-frequencies"
         case "IADBRunway": return "runways"
