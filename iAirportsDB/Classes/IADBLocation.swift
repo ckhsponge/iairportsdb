@@ -43,7 +43,7 @@ public class IADBLocation: IADBModel {
     }
     
     class func eachSubclass(block: (klass: IADBLocation.Type) -> IADBCenteredArray) -> IADBCenteredArray {
-        var result = IADBCenteredArray()
+        let result = IADBCenteredArray()
         for klass: IADBLocation.Type in self.subclasses() {
             let array = block(klass: klass)
             result.addCenteredArray(array)
