@@ -26,7 +26,7 @@ class IADBParseController {
     
     func downloadAll() {
         for type in IADBParseController.modelTypes {
-            downloadFile(fileNameForModel(type)!)
+            downloadFile(fileName: fileNameForModel(type: type)!)
         }
     }
     
@@ -34,7 +34,7 @@ class IADBParseController {
         IADBModel.setPersistantStorePath(IADBParseController.dbPath)
         IADBModel.clearPersistence()
         for type in IADBParseController.modelTypes {
-            ModelParser(fileName: fileNameForModel(type)!, modelType: type).go()
+            ModelParser(fileName: fileNameForModel(type: type)!, modelType: type).go()
         }
     }
     
@@ -51,14 +51,14 @@ class IADBParseController {
     
     func downloadFile(fileName: String) {
         let stringURL = "http://www.ourairports.com/data/\(fileName).csv"
-        let url = NSURL(string: stringURL)!
+        let url = URL(string: stringURL)!
         print("Downloading \(stringURL)")
-        guard let urlData = NSData(contentsOfURL: url) else {
+        guard let urlData = NSData(contentsOf: url) else {
             fatalError("No data found!")
         }
         if urlData.length > 0 {
             let filePath = "\(IADBParseController.projectPath)/data/\(fileName).csv"
-            if urlData.writeToFile(filePath, atomically: true) {
+            if urlData.write(toFile: filePath, atomically: true) {
                 print("Wrote to \(filePath)")
             }
             else {
@@ -71,7 +71,7 @@ class IADBParseController {
     }
     
     func test() {
-        let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: NSDate())
+        let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: NSDate() as Date)
         var airports = IADBAirport.findNear(location, withinNM: 18.0)
         //should find SFO but not OAK
         //    CLLocation *location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(-13.81, -172.0) altitude:100.0 horizontalAccuracy:100.0 verticalAccuracy:100.0 course:15.0 speed:10.0 timestamp:[NSDate date]];

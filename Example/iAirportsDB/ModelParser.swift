@@ -23,9 +23,9 @@ class ModelParser {
         let parser = CsvParser(fileName: fileName)
         parser.parseLines { (line:[String : String]) in
             let (entityDescription, context) = self.modelType.entityDescriptionContext()
-            let model:IADBModel = self.modelType.init(entity: entityDescription, insertIntoManagedObjectContext: nil)
+            let model:IADBModel = self.modelType.init(entity: entityDescription, insertInto: nil)
             model.setCsvValues( line )
-            context.insertObject(model)
+            context.insert(model)
         }
         do {
             try self.persistence().managedObjectContext.save()

@@ -9,10 +9,10 @@
 import Foundation
 import CoreLocation
 
-public class IADBLocationElevation: IADBLocation {
-    @NSManaged public var name: String
-    @NSManaged public var type: String
-    @NSManaged public var elevationFeet: NSNumber?
+open class IADBLocationElevation: IADBLocation {
+    @NSManaged open var name: String
+    @NSManaged open var type: String
+    @NSManaged open var elevationFeet: NSNumber?
     
     //meters
     override func elevationForLocation() -> CLLocationDistance {

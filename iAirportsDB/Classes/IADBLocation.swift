@@ -10,14 +10,14 @@ import Foundation
 import CoreLocation
 import CoreData
 
-public class IADBLocation: IADBModel {
-    @NSManaged public var identifier: String
-    @NSManaged public var latitude: Double
-    @NSManaged public var longitude: Double
+open class IADBLocation: IADBModel {
+    @NSManaged open var identifier: String
+    @NSManaged open var latitude: Double
+    @NSManaged open var longitude: Double
     
     //don't trust the altitude, self.elevationFeet may be null
-    public lazy var location: CLLocation = {
-        return CLLocation(coordinate: CLLocationCoordinate2DMake(self.latitude, self.longitude), altitude: self.elevationForLocation(), horizontalAccuracy: 0.0, verticalAccuracy: 0.0, timestamp: NSDate())
+    open lazy var location: CLLocation = {
+        return CLLocation(coordinate: CLLocationCoordinate2DMake(self.latitude, self.longitude), altitude: self.elevationForLocation(), horizontalAccuracy: 0.0, verticalAccuracy: 0.0, timestamp: Date())
     }()
     
     //This scalar is used when constructing a CLLocation. Meters.
@@ -38,10 +38,10 @@ public class IADBLocation: IADBModel {
         return self.descriptionShort() == "IADBLocation"
     }
     
-    class func eachSubclass(block: (klass: IADBLocation.Type) -> IADBCenteredArray) -> IADBCenteredArray {
+    class func eachSubclass(_ block: (_ klass: IADBLocation.Type) -> IADBCenteredArray) -> IADBCenteredArray {
         let result = IADBCenteredArray()
         for klass: IADBLocation.Type in self.subclasses() {
-            let array = block(klass: klass)
+            let array = block(klass)
             result.addCenteredArray(array)
         }
         result.sortInPlace()
@@ -49,7 +49,7 @@ public class IADBLocation: IADBModel {
     }
     
     //returns airports near a location sorted by distance
-    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArray {
+    open class func findNear(_ location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArray {
         if self.isLocationSuperclass() {
             return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray in
                 return klass.findNear(location, withinNM: distance)
@@ -64,7 +64,7 @@ public class IADBLocation: IADBModel {
     // if types is nil then ignore types i.e. return all types
     // if types is [] then return nothing
     // results are sorted by distance from location
-    public class func findNear(location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArray {
+    open class func findNear(_ location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArray {
         // Set example predicate and sort orderings...
         var latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
@@ -94,7 +94,7 @@ public class IADBLocation: IADBModel {
     }
     
     //creates predicate ORing types
-    class func predicateTypes(types: [String]?) -> String {
+    class func predicateTypes(_ types: [String]?) -> String {
         guard let _types = types else {
             return "(1==1)"
         }
@@ -105,11 +105,11 @@ public class IADBLocation: IADBModel {
         for type in _types {
             predicateTypes.append("(type = '\(type)')")
         }
-        return "(\(predicateTypes.joinWithSeparator(" OR ")))"
+        return "(\(predicateTypes.joined(separator: " OR ")))"
     }
     
     
-    public class func findByIdentifier(identifier: String) -> IADBLocation? {
+    open class func findByIdentifier(_ identifier: String) -> IADBLocation? {
         let predicate = NSPredicate(format: "identifier = %@", identifier)
         let array = self.findAllByPredicate(predicate)
         if array.array.count != 1 {
@@ -120,7 +120,7 @@ public class IADBLocation: IADBModel {
     
     //[IADBLocation findAllByIdentifier:] unions finds across all subclasses
     //IADBAirport uses findAllByIdentifierOrCode: to include K airports
-    public class func findAllByIdentifier(identifier: String) -> IADBCenteredArray {
+    open class func findAllByIdentifier(_ identifier: String) -> IADBCenteredArray {
         if self.isLocationSuperclass() {
             return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray in
                 if klass.descriptionShort() == "IADBAirport" {
@@ -137,7 +137,7 @@ public class IADBLocation: IADBModel {
     }
     //returns locations that begin with identifier
     
-    public class func findAllByIdentifier(identifier: String, withTypes types: [String]?) -> IADBCenteredArray {
+    open class func findAllByIdentifier(_ identifier: String, withTypes types: [String]?) -> IADBCenteredArray {
         if identifier.isEmpty {
             return IADBCenteredArray()
         }
@@ -145,7 +145,7 @@ public class IADBLocation: IADBModel {
     }
     // similar to some code in IADBAirport finders
     
-    public class func findAllByIdentifiers(identifiers: [String], withTypes types: [String]?) -> IADBCenteredArray {
+    open class func findAllByIdentifiers(_ identifiers: [String], withTypes types: [String]?) -> IADBCenteredArray {
         var arguments = [String]()
         var predicates = [String]()
         for identifier: String in identifiers {
@@ -158,13 +158,13 @@ public class IADBLocation: IADBModel {
             // no inputs results in no outputs
             return IADBCenteredArray()
         }
-        var predicateString = predicates.joinWithSeparator(" or ")
+        var predicateString = predicates.joined(separator: " or ")
         predicateString = "(\(predicateString)) AND \(self.predicateTypes(types))"
         let predicate = NSPredicate(format: predicateString, argumentArray: arguments)
         return self.findAllByPredicate(predicate)
     }
     
-    public class func findAllByPredicate(predicate: NSPredicate) -> IADBCenteredArray {
+    open class func findAllByPredicate(_ predicate: NSPredicate) -> IADBCenteredArray {
         let (request, context) = fetchRequestContext()
         request.predicate = predicate
         //    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
@@ -173,7 +173,7 @@ public class IADBLocation: IADBModel {
         print("fetch \(self.descriptionShort()): \(request)")
         
         do {
-            let array = try context.executeFetchRequest(request)
+            let array = try context.fetch(request)
             if let models = array as? [IADBLocation] {
                 return IADBCenteredArray.init(array: models)
             } else {

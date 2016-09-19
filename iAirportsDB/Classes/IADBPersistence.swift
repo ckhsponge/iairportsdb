@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public class IADBPersistence: NSObject {
+open class IADBPersistence: NSObject {
     
     let persistentStorePath: String
     
@@ -19,16 +19,16 @@ public class IADBPersistence: NSObject {
         
     }
     
-    lazy var applicationDocumentsDirectory: NSURL = {
+    lazy var applicationDocumentsDirectory: URL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "net.toonsy.iAirportsDB" in the application's documents Application Support directory.
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1]
     }()
     
-    public lazy var managedObjectModel: NSManagedObjectModel = {
+    open lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = IADBModel.bundle.URLForResource("iAirportsDB", withExtension: "mom")!
-        return NSManagedObjectModel(contentsOfURL: modelURL)!
+        let modelURL = IADBModel.bundle.url(forResource: "iAirportsDB", withExtension: "mom")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
@@ -36,17 +36,17 @@ public class IADBPersistence: NSObject {
         // Create the coordinator and store
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         //let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
-        let url = NSURL.fileURLWithPath(self.persistentStorePath)
-        let options: [NSObject : AnyObject] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: Int(true)]
+        let url = URL(fileURLWithPath: self.persistentStorePath)
+        let options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: Int(true)]
 
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options)
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
         } catch {
             // Report any error we got.
             var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason
+            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
+            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
             
             dict[NSUnderlyingErrorKey] = error as NSError
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
@@ -59,17 +59,17 @@ public class IADBPersistence: NSObject {
         return coordinator
     }()
     
-    public lazy var managedObjectContext: NSManagedObjectContext = {
+    open lazy var managedObjectContext: NSManagedObjectContext = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
         let coordinator = self.persistentStoreCoordinator
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
     
     // MARK: - Core Data Saving support
     
-    public func saveContext () {
+    open func saveContext () {
         if managedObjectContext.hasChanges {
             do {
                 try managedObjectContext.save()
@@ -83,11 +83,11 @@ public class IADBPersistence: NSObject {
         }
     }
     
-    public func persistentStoreClear() {
+    open func persistentStoreClear() {
         let storeCoordinator = self.persistentStoreCoordinator
         let store: NSPersistentStore = storeCoordinator.persistentStores[0]
         do {
-            try storeCoordinator.removePersistentStore(store)
+            try storeCoordinator.remove(store)
         }
         catch {
             let nserror = error as NSError
@@ -95,7 +95,7 @@ public class IADBPersistence: NSObject {
         }
 
         do {
-            try NSFileManager.defaultManager().removeItemAtPath(self.persistentStorePath)
+            try FileManager.default.removeItem(atPath: self.persistentStorePath)
         }
         catch {
             let nserror = error as NSError

@@ -10,13 +10,13 @@ import Foundation
 import CoreData
 
 @objc(IADBFrequency)
-public class IADBFrequency: IADBModel {
+open class IADBFrequency: IADBModel {
     @NSManaged var airportId: Int32
-    @NSManaged public var mhz: Float
-    @NSManaged public var name: String
-    @NSManaged public var type: String
+    @NSManaged open var mhz: Float
+    @NSManaged open var name: String
+    @NSManaged open var type: String
     
-    override public func setCsvValues( values: [String: String] ) {
+    override open func setCsvValues( _ values: [String: String] ) {
         //"id","airport_ref","airport_ident","type","description","frequency_mhz"
         //print(values)
         self.name = values["description"] ?? ""

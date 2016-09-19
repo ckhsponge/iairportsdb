@@ -10,17 +10,17 @@ class TableOfContentsSpec: QuickSpec {
         describe("these will pass") {
             
             it("can find") {
-                let sfo = IADBAirport.findByIdentifier("KSFO")
-                expect(sfo?.identifier).to(equal("KSFO"))
-                expect(sfo?.name).to(contain("San Francisco"))
+                let sfo = IADBAirport.findByIdentifier("KSFO")!
+                expect(sfo.identifier).to(equal("KSFO"))
+                expect(sfo.name).to(contain("San Francisco"))
                 
-                let oak = IADBAirport.findByIdentifier("KOAK")
-                expect(oak?.identifier).to(equal("KOAK"))
+                let oak = IADBAirport.findByIdentifier("KOAK")!
+                expect(oak.identifier).to(equal("KOAK"))
                 
                 //half moon bay
-                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: NSDate())
+                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: Date())
                 let airports = IADBAirport.findNear(location, withinNM: 18.0)
-                expect(airports).to(contain(sfo!))
+                expect(airports).to(contain(sfo))
                 expect(airports.array).toNot(contain(oak))
                 
                 
@@ -28,7 +28,7 @@ class TableOfContentsSpec: QuickSpec {
             
             it("can find by type") {
                 //half moon bay
-                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: NSDate())
+                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: Date())
 
                 var types:[IADBAirport.AirportType]? = nil
                 var airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: types)
@@ -102,7 +102,7 @@ class TableOfContentsSpec: QuickSpec {
                 expect(oak?.identifier).to(equal("OAK"))
                 
                 //half moon bay
-                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: NSDate())
+                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: Date())
                 let navs = IADBNavigationAid.findNear(location, withinNM: 18.0)
                 expect(navs).to(contain(osi!))
                 expect(navs).toNot(contain(oak!))
@@ -110,7 +110,7 @@ class TableOfContentsSpec: QuickSpec {
             
             it("can find mixed") {
                 //half moon bay
-                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: NSDate())
+                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: Date())
                 let locations = IADBLocation.findNear(location, withinNM: 18.0)
                 
                 let sfo:IADBAirport! = IADBAirport.findByIdentifier("KSFO")
@@ -126,15 +126,15 @@ class TableOfContentsSpec: QuickSpec {
             
             it("can sort") {
                 //half moon bay
-                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: NSDate())
+                let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: Date())
                 
                 let airports = IADBAirport.findNear(location, withinNM: 30.0)
                 let sfo:IADBAirport! = IADBAirport.findByIdentifier("KSFO")
                 let oak:IADBAirport! = IADBAirport.findByIdentifier("KOAK")
                 
-                expect(airports.indexOf(sfo)) < airports.indexOf(oak)!
+                expect(airports.index(of: sfo)) < airports.index(of: oak)!
                 airports.sortInPlace(oak.location)
-                expect(airports.indexOf(oak)) < airports.indexOf(sfo)!
+                expect(airports.index(of: oak)) < airports.index(of: sfo)!
             }
             
             it("can find korea") {

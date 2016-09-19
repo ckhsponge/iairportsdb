@@ -9,68 +9,79 @@
 import Foundation
 import CoreData
 
-public class IADBModel: NSManagedObject {
-    public static var bundle:NSBundle = {
-        let mainBundle = NSBundle(forClass: IADBModel.self)
-        let bundleURL = mainBundle.URLForResource("resourcebundle", withExtension: "bundle")
-        return NSBundle(URL: bundleURL!)!
+open class IADBModel: NSManagedObject {
+    open static var bundle:Bundle = {
+        let mainBundle = Bundle(for: IADBModel.self)
+        let bundleURL = mainBundle.url(forResource: "resourcebundle", withExtension: "bundle")
+        return Bundle(url: bundleURL!)!
     }()
     
-    public static var persistence: IADBPersistence = {
-        return IADBPersistence(path: bundle.pathForResource("iAirportsDB", ofType: "sqlite")!)
+    open static var persistence: IADBPersistence = {
+        return IADBPersistence(path: bundle.path(forResource: "iAirportsDB", ofType: "sqlite")!)
     }()
     
-    public class func setPersistantStorePath(path: String) {
+    open class func setPersistantStorePath(_ path: String) {
         self.persistence = IADBPersistence(path: path)
         print("Persistant store path: \(path)")
     }
     
-    public class func clearPersistence() {
+    open class func clearPersistence() {
         self.persistence.persistentStoreClear()
         self.persistence = IADBPersistence(path: self.persistence.persistentStorePath)
         print("Cleared local db")
     }
     
-    public class func managedObjectContext() -> NSManagedObjectContext {
+    open class func managedObjectContext() -> NSManagedObjectContext {
         return self.persistence.managedObjectContext
     }
     
-    public class func countAll() -> Int {
-        let fetch = NSFetchRequest(entityName: self.description())
+    open class func countAll() -> Int {
+        let fetch = NSFetchRequest<IADBModel>(entityName: self.description())
         var error: NSError? = nil
-        let count = IADBModel.managedObjectContext().countForFetchRequest(fetch, error: &error)
-        assert(error == nil, "Unhandled error counting in \(#function) at line \(#line): \(error!.localizedDescription)")
-        return count
+        do {
+            let count = try IADBModel.managedObjectContext().count(for: fetch)
+            return count
+        } catch let error as NSError {
+            print("Error: \(error.localizedDescription)")
+            return 0
+        }
     }
     
-    public class func descriptionShort() -> String {
-        return self.description().stringByReplacingOccurrencesOfString("iAirportsDB.", withString: "")
+    open class func descriptionShort() -> String {
+        return self.description().replacingOccurrences(of: "iAirportsDB.", with: "")
     }
     
-    public class func entityDescriptionContext() -> (NSEntityDescription, NSManagedObjectContext) {
+    class func parseIntNumber(text:String?) -> NSNumber? {
+        if let t = text, !t.isEmpty, let i:Int = Int(t) {
+            return NSNumber( value: i )
+        }
+        return nil
+    }
+    
+    open class func entityDescriptionContext() -> (NSEntityDescription, NSManagedObjectContext) {
         let context: NSManagedObjectContext = IADBModel.managedObjectContext()
         let name = self.descriptionShort()
-        let entityDescription: NSEntityDescription? = NSEntityDescription.entityForName(name, inManagedObjectContext: context)
+        let entityDescription: NSEntityDescription? = NSEntityDescription.entity(forEntityName: name, in: context)
         if entityDescription == nil {
             print("ERROR !!!! entity not found for \(name)")
         }
         return (entityDescription!, context)
     }
     
-    public class func fetchRequestContext() -> (NSFetchRequest, NSManagedObjectContext) {
+    open class func fetchRequestContext() -> (NSFetchRequest<IADBModel>, NSManagedObjectContext) {
         let (entityDescription, context) = self.entityDescriptionContext()
-        let request: NSFetchRequest = NSFetchRequest()
+        let request: NSFetchRequest = NSFetchRequest<IADBModel>()
         request.entity = entityDescription
         return (request, context)
     }
     
-    public class func findAllByAirportId(airportId: Int32) -> [IADBModel] {
+    open class func findAllByAirportId(_ airportId: Int32) -> [IADBModel] {
         // Set example predicate and sort orderings...
         let predicate: NSPredicate = NSPredicate(format: "(airportId = %d)", airportId)
         let (request, context) = fetchRequestContext()
         request.predicate = predicate
         do {
-            let objects = try context.executeFetchRequest(request)
+            let objects = try context.fetch(request)
             if let models = objects as? [IADBModel] {
                 return models
             } else {
@@ -83,11 +94,11 @@ public class IADBModel: NSManagedObject {
         return []
     }
     
-    required override public init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    required override public init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
     
-    public func setCsvValues( values: [String: String] ) {
+    open func setCsvValues( _ values: [String: String] ) {
         // override me please
     }
 }
