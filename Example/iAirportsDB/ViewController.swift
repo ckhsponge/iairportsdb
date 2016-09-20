@@ -21,20 +21,20 @@ class ViewController: UIViewController {
         pathLabel.text = IADBParseController.dbPath
     }
     
-    @IBAction func downloadAndParse(sender: UIButton) {
+    @IBAction func downloadAndParse(_ sender: UIButton) {
         controller.downloadAll()
         controller.parseAll()
     }
     
-    @IBAction func download(sender: UIButton) {
+    @IBAction func download(_ sender: UIButton) {
         controller.downloadAll()
     }
     
-    @IBAction func parse(sender: UIButton) {
+    @IBAction func parse(_ sender: UIButton) {
         controller.parseAll()
     }
     
-    @IBAction func test(sender: UIButton) {
+    @IBAction func test(_ sender: UIButton) {
         controller.test()
     }
     
