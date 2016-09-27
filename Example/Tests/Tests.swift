@@ -10,11 +10,11 @@ class TableOfContentsSpec: QuickSpec {
         describe("these will pass") {
             
             it("can find") {
-                let sfo = IADBAirport.findByIdentifier("KSFO")!
+                let sfo = IADBAirport.find(identifier:"KSFO")!
                 expect(sfo.identifier).to(equal("KSFO"))
                 expect(sfo.name).to(contain("San Francisco"))
                 
-                let oak = IADBAirport.findByIdentifier("KOAK")!
+                let oak = IADBAirport.find(identifier:"KOAK")!
                 expect(oak.identifier).to(equal("KOAK"))
                 
                 //half moon bay
@@ -31,44 +31,44 @@ class TableOfContentsSpec: QuickSpec {
                 let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: Date())
 
                 var types:[IADBAirport.AirportType]? = nil
-                var airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: types)
-                let sql:IADBAirport! = IADBAirport.findByIdentifier("KSQL")
-                let sfo:IADBAirport! = IADBAirport.findByIdentifier("KSFO")
-                let commodore:IADBAirport! = IADBAirport.findByIdentifier("22CA")
+                var airports = IADBAirport.findNear(location, withinNM: 30.0, types: types)
+                let sql:IADBAirport! = IADBAirport.find(identifier:"KSQL")
+                let sfo:IADBAirport! = IADBAirport.find(identifier:"KSFO")
+                let commodore:IADBAirport! = IADBAirport.find(identifier:"22CA")
                 expect(airports).to(contain(sql))
                 expect(airports).to(contain(sfo))
                 expect(airports).to(contain(commodore))
                 
                 types = []
-                airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: types)
+                airports = IADBAirport.findNear(location, withinNM: 30.0, types: types)
                 expect(airports).toNot(contain(sql))
                 expect(airports).toNot(contain(sfo))
                 expect(airports).toNot(contain(commodore))
                 
-                airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: [IADBAirport.AirportType.Large])
+                airports = IADBAirport.findNear(location, withinNM: 30.0, types: [IADBAirport.AirportType.Large])
                 expect(airports).toNot(contain(sql))
                 expect(airports).to(contain(sfo))
                 expect(airports).toNot(contain(commodore))
                 
-                airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: [IADBAirport.AirportType.Large, IADBAirport.AirportType.Medium, IADBAirport.AirportType.Small])
+                airports = IADBAirport.findNear(location, withinNM: 30.0, types: [IADBAirport.AirportType.Large, IADBAirport.AirportType.Medium, IADBAirport.AirportType.Small])
                 expect(airports).to(contain(sql))
                 expect(airports).to(contain(sfo))
                 expect(airports).toNot(contain(commodore))
                 
-                airports = IADBAirport.findNear(location, withinNM: 30.0, withTypes: [IADBAirport.AirportType.Seaplane])
+                airports = IADBAirport.findNear(location, withinNM: 30.0, types: [IADBAirport.AirportType.Seaplane])
                 expect(airports).toNot(contain(sql))
                 expect(airports).toNot(contain(sfo))
                 expect(airports).to(contain(commodore))
             }
             
             it("has frequencies") {
-                let sql = IADBAirport.findByIdentifier("KSQL")
+                let sql = IADBAirport.find(identifier:"KSQL")
                 expect(sql?.identifier).to(equal("KSQL"))
                 expect(sql?.frequencies.map{$0.mhz}).to(contain(Float(125.9))) //SQL ATIS
             }
             
             it("has runways") {
-                let sql = IADBAirport.findByIdentifier("KSQL")
+                let sql = IADBAirport.find(identifier:"KSQL")
                 expect(sql?.identifier).to(equal("KSQL"))
                 expect(sql?.runways.count).to(equal(1))
                 let runway:IADBRunway! = sql?.runways[0]
@@ -96,9 +96,9 @@ class TableOfContentsSpec: QuickSpec {
             }
             
             it("has navaids") {
-                let osi = IADBNavigationAid.findByIdentifier("OSI")
+                let osi = IADBNavigationAid.find(identifier:"OSI")
                 expect(osi?.identifier).to(equal("OSI"))
-                let oak = IADBNavigationAid.findByIdentifier("OAK")
+                let oak = IADBNavigationAid.find(identifier:"OAK")
                 expect(oak?.identifier).to(equal("OAK"))
                 
                 //half moon bay
@@ -113,10 +113,10 @@ class TableOfContentsSpec: QuickSpec {
                 let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: Date())
                 let locations = IADBLocation.findNear(location, withinNM: 18.0)
                 
-                let sfo:IADBAirport! = IADBAirport.findByIdentifier("KSFO")
-                let oak:IADBAirport! = IADBAirport.findByIdentifier("KOAK")
-                let osi:IADBNavigationAid! = IADBNavigationAid.findByIdentifier("OSI")
-                let oakVor:IADBNavigationAid! = IADBNavigationAid.findByIdentifier("OAK")
+                let sfo:IADBAirport! = IADBAirport.find(identifier:"KSFO")
+                let oak:IADBAirport! = IADBAirport.find(identifier:"KOAK")
+                let osi:IADBNavigationAid! = IADBNavigationAid.find(identifier:"OSI")
+                let oakVor:IADBNavigationAid! = IADBNavigationAid.find(identifier:"OAK")
                 
                 expect(locations).to(contain(sfo))
                 expect(locations).toNot(contain(oak))
@@ -129,8 +129,8 @@ class TableOfContentsSpec: QuickSpec {
                 let location = CLLocation(coordinate: CLLocationCoordinate2DMake(37.0 + 30.81 / 60.0, -122 - 30.07 / 60.0), altitude: 100.0, horizontalAccuracy: 100.0, verticalAccuracy: 100.0, course: 15.0, speed: 10.0, timestamp: Date())
                 
                 let airports = IADBAirport.findNear(location, withinNM: 30.0)
-                let sfo:IADBAirport! = IADBAirport.findByIdentifier("KSFO")
-                let oak:IADBAirport! = IADBAirport.findByIdentifier("KOAK")
+                let sfo:IADBAirport! = IADBAirport.find(identifier:"KSFO")
+                let oak:IADBAirport! = IADBAirport.find(identifier:"KOAK")
                 
                 expect(airports.index(of: sfo)) < airports.index(of: oak)!
                 airports.sortInPlace(oak.location)
@@ -138,11 +138,11 @@ class TableOfContentsSpec: QuickSpec {
             }
             
             it("can find korea") {
-                var airports = IADBAirport.findAllByIdentifierOrCode("ICN", withTypes: nil)
-                let icn = IADBAirport.findByIdentifier("RKSI")
+                var airports = IADBAirport.findAll(identifierOrCode:"ICN")
+                let icn = IADBAirport.find(identifier:"RKSI")
                 expect(airports).to(contain(icn!))
                 
-                airports = IADBAirport.findAllByIdentifierOrCodeOrMunicipality("Seoul", withTypes: nil)
+                airports = IADBAirport.findAll(identifierOrCodeOrMunicipality:"Seoul")
                 expect(airports).to(contain(icn!))
             }
             

@@ -30,9 +30,9 @@ import Foundation
         })
     }
     
-    open func excludeRunwayShorterThan(_ feet: Int16) {
+    open func excludeRunwayShorterThan(feet: Int) {
         self.removeObjectsUsingBlock({(airport: IADBAirport) -> Bool in
-            return airport.longestRunwayFeet() < feet
+            return Int(airport.longestRunwayFeet()) < feet
         })
     }
 }

@@ -85,7 +85,7 @@ class IADBParseController {
         print("navs: \(navs.description)")
         let locs = IADBLocation.findNear(location, withinNM: 18.0)
         print("mixed: \(locs.description)")
-        let named = IADBLocation.findAllByIdentifier("KILM")
+        let named = IADBLocation.findAll(identifier:"KILM")
         named.sortInPlace(location)
         print("named: \(named.description)")
         for location: IADBLocation in named.array {
@@ -98,9 +98,9 @@ class IADBParseController {
                 print("freq: \("\(frequency.mhz) \(frequency.name)")")
             }
         }
-        airports = IADBAirport.findAllByIdentifierOrCode("ICN", withTypes: nil)
+        airports = IADBAirport.findAll(identifierOrCode:"ICN")
         print("find ICN -- \(airports)")
-        airports = IADBAirport.findAllByIdentifierOrCodeOrMunicipality("Seoul", withTypes: nil)
+        airports = IADBAirport.findAll(identifierOrCodeOrMunicipality:"Seoul")
         print("find Seoul -- \(airports)")
 
         ObjectiveCTest().test()

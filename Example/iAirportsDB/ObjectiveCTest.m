@@ -18,9 +18,9 @@
 
     -(void) test {
         //IADBCenteredArray *array = IADBAirport.findAllByIdentifier(@"KSFO")
-        IADBCenteredArray *array = [IADBAirport findAllByIdentifier:@"KSFO"];
+        IADBCenteredArray *array = [IADBAirport findAllWithIdentifier:@"KSFO"];
         NSLog(@"ObjectiveCTest %@",array);
-        array = [IADBAirport findAllByIdentifierOrCodeOrMunicipality:@"Santa Barbara" withTypes:nil];
+        array = [IADBAirport findAllWithIdentifierOrCodeOrMunicipality:@"Santa Barbara" types:nil];
         NSLog(@"ObjectiveCTest Santa Barbara %@",array);
     }
 @end

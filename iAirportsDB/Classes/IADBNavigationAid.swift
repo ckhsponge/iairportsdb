@@ -40,25 +40,27 @@ open class IADBNavigationAid: IADBLocation {
     open override class func findNear(_ location: CLLocation, withinNM distance: CLLocationDistance) -> IADBCenteredArrayNavigationAids {
         return IADBCenteredArrayNavigationAids(centeredArray: super.findNear(location, withinNM: distance))
     }
-    open override class func findByIdentifier(_ identifier: String) -> IADBNavigationAid? {
-        let model = super.findByIdentifier(identifier)
+    
+    
+    open override class func find(identifier: String) -> IADBNavigationAid? {
+        let model = super.find(identifier:identifier)
         guard let typed = model as? IADBNavigationAid else {
             print("Invalid type found \(model)")
             return nil
         }
         return typed
     }
-    open override class func findAllByIdentifier(_ identifier: String) -> IADBCenteredArrayNavigationAids {
-        return IADBCenteredArrayNavigationAids(centeredArray: super.findAllByIdentifier(identifier))
+    open override class func findAll(identifier: String) -> IADBCenteredArrayNavigationAids {
+        return IADBCenteredArrayNavigationAids(centeredArray: super.findAll(identifier:identifier))
     }
-    open override class func findAllByIdentifier(_ identifier: String, withTypes types: [String]?) -> IADBCenteredArrayNavigationAids {
-        return IADBCenteredArrayNavigationAids(centeredArray: super.findAllByIdentifier(identifier, withTypes: types))
+    open override class func findAll(identifier: String, types: [String]?) -> IADBCenteredArrayNavigationAids {
+        return IADBCenteredArrayNavigationAids(centeredArray: super.findAll(identifier:identifier, types: types))
     }
-    open override class func findAllByIdentifiers(_ identifiers: [String], withTypes types: [String]?) -> IADBCenteredArrayNavigationAids {
-        return IADBCenteredArrayNavigationAids(centeredArray: super.findAllByIdentifiers(identifiers, withTypes: types))
+    open override class func findAll(identifiers: [String], types: [String]?) -> IADBCenteredArrayNavigationAids {
+        return IADBCenteredArrayNavigationAids(centeredArray: super.findAll(identifiers:identifiers, types: types))
     }
-    open override class func findAllByPredicate(_ predicate: NSPredicate) -> IADBCenteredArrayNavigationAids {
-        return IADBCenteredArrayNavigationAids(centeredArray: super.findAllByPredicate(predicate))
+    open override class func findAll(predicate: NSPredicate) -> IADBCenteredArrayNavigationAids {
+        return IADBCenteredArrayNavigationAids(centeredArray: super.findAll(predicate:predicate))
     }
     //end convenience functions
 }

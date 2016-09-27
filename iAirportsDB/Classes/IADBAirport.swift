@@ -28,12 +28,24 @@ open class IADBAirport: IADBLocationElevation {
         Seaplane = "seaplane_base", Heliport = "heliport", Balloonport = "balloonport", Closed = "closed"
         
         static let allValues = [Large, Medium, Small, Seaplane, Heliport, Balloonport, Closed]
+        
+        public static func parse(strings:[String]) -> [AirportType] {
+            var result:[AirportType] = [AirportType]()
+            for string in strings {
+                for value in allValues {
+                    if value.rawValue == string {
+                        result.append(value)
+                    }
+                }
+            }
+            return result
+        }
     }
     
     /**
      Finds using the internal airportId
     */
-    open class func findByAirportId(_ airportId: Int32) -> IADBAirport? {
+    open class func find(airportId: Int32) -> IADBAirport? {
         let (request, context) = fetchRequestContext()
         // Set example predicate and sort orderings...
         let predicate = NSPredicate(format: "(airportId = %d)", airportId)
@@ -62,16 +74,30 @@ open class IADBAirport: IADBLocationElevation {
     /** 
      returns locations that begin with identifier with K prepended or the leading K removed
      or that begin with code
-    */
-    open class func findAllByIdentifierOrCode(_ identifier: String, withTypes types: [String]?) -> IADBCenteredArrayAirports {
-        return self.findAllByIdentifierOrCode(identifier, orMunicipality: nil, withTypes: types)
+     */
+    open class func findAll(identifierOrCode identifier: String)-> IADBCenteredArrayAirports {
+        let types:[String]? = nil
+        return self.findAll(identifierOrCode: identifier, types: types)
+    }
+    open class func findAll(identifierOrCode identifier: String, types: [IADBAirport.AirportType]?) -> IADBCenteredArrayAirports {
+        return self.findAll(identifierOrCode: identifier, types: typesStrings(types))
+    }
+    open class func findAll(identifierOrCode identifier: String, types: [String]?) -> IADBCenteredArrayAirports {
+        return self.findAll(identifierOrCode:identifier, orMunicipality: nil, types: types)
     }
     
-    open class func findAllByIdentifierOrCodeOrMunicipality(_ identifier: String, withTypes types: [String]?) -> IADBCenteredArrayAirports  {
-        return self.findAllByIdentifierOrCode(identifier, orMunicipality: identifier, withTypes: types)
+    open class func findAll(identifierOrCodeOrMunicipality identifier: String) -> IADBCenteredArrayAirports  {
+        let types:[String]? = nil
+        return self.findAll(identifierOrCodeOrMunicipality:identifier, types: types)
+    }
+    open class func findAll(identifierOrCodeOrMunicipality identifier: String, types: [IADBAirport.AirportType]?) -> IADBCenteredArrayAirports  {
+        return self.findAll(identifierOrCodeOrMunicipality:identifier, types: typesStrings(types))
+    }
+    open class func findAll(identifierOrCodeOrMunicipality identifier: String, types: [String]?) -> IADBCenteredArrayAirports  {
+        return self.findAll(identifierOrCode:identifier, orMunicipality: identifier, types: types)
     }
     
-    open class func findAllByIdentifierOrCode(_ identifier: String, orMunicipality municipality: String?, withTypes types: [String]?) -> IADBCenteredArrayAirports  {
+    open class func findAll(identifierOrCode identifier: String, orMunicipality municipality: String?, types: [String]?) -> IADBCenteredArrayAirports  {
         if identifier.isEmpty {
             return IADBCenteredArrayAirports()
         }
@@ -85,11 +111,11 @@ open class IADBAirport: IADBLocationElevation {
             identifierB = "K\(identifier)"
             // add K to beginning
         }
-        return self.findAllByIdentifiers([identifier, identifierB], orCode: identifier, orMunicipality: municipality, withTypes: types)
+        return self.findAll(identifiers:[identifier, identifierB], orCode: identifier, orMunicipality: municipality, types: types)
     }
     
     // similar to some code in IADBLocation finders
-    open class func findAllByIdentifiers(_ identifiers: [String], orCode code: String?, orMunicipality municipality: String?, withTypes types: [String]?) -> IADBCenteredArrayAirports  {
+    open class func findAll(identifiers: [String], orCode code: String?, orMunicipality municipality: String?, types: [String]?) -> IADBCenteredArrayAirports  {
         var arguments = [String]()
         var predicates = [String]()
         for identifier: String in identifiers {
@@ -113,7 +139,7 @@ open class IADBAirport: IADBLocationElevation {
         var predicateString = predicates.joined(separator: " or ")
         predicateString = "(\(predicateString)) AND \(self.predicateTypes(types))"
         let predicate = NSPredicate(format: predicateString, argumentArray: arguments)
-        return self.findAllByPredicate(predicate)
+        return self.findAll(predicate:predicate)
     }
     
     open lazy var frequencies:[IADBFrequency] = {
@@ -226,35 +252,44 @@ open class IADBAirport: IADBLocationElevation {
         return IADBCenteredArrayAirports(centeredArray: super.findNear(location, withinNM: distance))
     }
     /// this is for objc compatibility, use Strings instead of enum
-    override open class func findNear(_ location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [String]?) -> IADBCenteredArrayAirports {
-        return IADBCenteredArrayAirports(centeredArray: super.findNear(location, withinNM: distance, withTypes: types))
+    override open class func findNear(_ location: CLLocation, withinNM distance: CLLocationDistance, types: [String]?) -> IADBCenteredArrayAirports {
+        return IADBCenteredArrayAirports(centeredArray: super.findNear(location, withinNM: distance, types: types))
     }
-    open class func findNear(_ location: CLLocation, withinNM distance: CLLocationDistance, withTypes types: [IADBAirport.AirportType]?) -> IADBCenteredArrayAirports {
-        var values:[String]?
-        if let typesArray = types {
-            values = typesArray.map { type in type.rawValue }
-        }
-        return self.findNear(location, withinNM: distance, withTypes: values)
+    open class func findNear(_ location: CLLocation, withinNM distance: CLLocationDistance, types: [IADBAirport.AirportType]?) -> IADBCenteredArrayAirports {
+        return self.findNear(location, withinNM: distance, types: typesStrings(types))
     }
-    open override class func findByIdentifier(_ identifier: String) -> IADBAirport? {
-        let model = super.findByIdentifier(identifier)
+    open override class func find(identifier: String) -> IADBAirport? {
+        let model = super.find(identifier:identifier)
         guard let typed = model as? IADBAirport else {
             print("Invalid type found \(model)")
             return nil
         }
         return typed
     }
-    open override class func findAllByIdentifier(_ identifier: String) -> IADBCenteredArrayAirports {
-        return IADBCenteredArrayAirports(centeredArray: super.findAllByIdentifier(identifier))
+    //TODO move into type enum
+    open class func typesStrings(_ types: [IADBAirport.AirportType]?) -> [String]? {
+        guard let types = types else {
+            return nil
+        }
+        return types.map { type in type.rawValue }
     }
-    open override class func findAllByIdentifier(_ identifier: String, withTypes types: [String]?) -> IADBCenteredArrayAirports {
-        return IADBCenteredArrayAirports(centeredArray: super.findAllByIdentifier(identifier, withTypes: types))
+    open override class func findAll(identifier: String) -> IADBCenteredArrayAirports {
+        return IADBCenteredArrayAirports(centeredArray: super.findAll(identifier:identifier))
     }
-    open override class func findAllByIdentifiers(_ identifiers: [String], withTypes types: [String]?) -> IADBCenteredArrayAirports {
-        return IADBCenteredArrayAirports(centeredArray: super.findAllByIdentifiers(identifiers, withTypes: types))
+    open class func findAll(identifier: String, types: [IADBAirport.AirportType]?) -> IADBCenteredArrayAirports {
+        return self.findAll(identifier:identifier, types: typesStrings(types))
     }
-    open override class func findAllByPredicate(_ predicate: NSPredicate) -> IADBCenteredArrayAirports {
-        return IADBCenteredArrayAirports(centeredArray: super.findAllByPredicate(predicate))
+    open override class func findAll(identifier: String, types: [String]?) -> IADBCenteredArrayAirports {
+        return IADBCenteredArrayAirports(centeredArray: super.findAll(identifier:identifier, types: types))
+    }
+    open class func findAll(identifiers: [String], types: [IADBAirport.AirportType]?) -> IADBCenteredArrayAirports {
+        return self.findAll(identifiers:identifiers, types: typesStrings(types))
+    }
+    open override class func findAll(identifiers: [String], types: [String]?) -> IADBCenteredArrayAirports {
+        return IADBCenteredArrayAirports(centeredArray: super.findAll(identifiers:identifiers, types: types))
+    }
+    open override class func findAll(predicate: NSPredicate) -> IADBCenteredArrayAirports {
+        return IADBCenteredArrayAirports(centeredArray: super.findAll(predicate:predicate))
     }
     //end convenience functions
     
