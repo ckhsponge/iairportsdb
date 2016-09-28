@@ -15,10 +15,10 @@ import Foundation
         return self.array[i] as! IADBAirport
     }
     
-    open override func removeObjectsUsingBlock(_ block: (_ airport: IADBAirport) -> Bool) {
-        super.removeObjectsUsingBlock { (model:IADBLocation) -> Bool in
-            if let airport = model as? IADBAirport {
-                return block(airport)
+    open override func removeObjectsUsingBlock(_ block:(_ airport: IADBAirport) -> Bool) {
+        array = array.filter {
+            if let airport = $0 as? IADBAirport {
+                return !block(airport)
             }
             return false
         }

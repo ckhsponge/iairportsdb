@@ -87,13 +87,7 @@ import CoreLocation
     }
     
     open func removeObjectsUsingBlock(_ block: (_ model: IADBLocation) -> Bool) {
-        var i = array.count - 1
-        while i >= 0 {
-            if block(self[i]) {
-                array.remove(at: i)
-            }
-            i -= 1
-        }
+        array = array.filter { !block($0) }
     }
     
     open func excludeOutsideNM(_ nm: CLLocationDistance, fromCenter center: CLLocation) {

@@ -27,18 +27,18 @@ open class IADBAirport: IADBLocationElevation {
         case Large = "large_airport", Medium = "medium_airport", Small = "small_airport",
         Seaplane = "seaplane_base", Heliport = "heliport", Balloonport = "balloonport", Closed = "closed"
         
-        static let allValues = [Large, Medium, Small, Seaplane, Heliport, Balloonport, Closed]
+        static let all = [Large, Medium, Small, Seaplane, Heliport, Balloonport, Closed]
         
         public static func parse(strings:[String]) -> [AirportType] {
-            var result:[AirportType] = [AirportType]()
-            for string in strings {
-                for value in allValues {
-                    if value.rawValue == string {
-                        result.append(value)
-                    }
-                }
-            }
-            return result
+            return strings.flatMap { parse(string:$0) }
+        }
+        
+        public static func parse(string:String) -> AirportType? {
+            return all.filter { $0.rawValue == string }.first
+        }
+        
+        public static func strings(types:[AirportType]) -> [String] {
+            return types.map { $0.rawValue }
         }
     }
     
@@ -266,12 +266,13 @@ open class IADBAirport: IADBLocationElevation {
         }
         return typed
     }
-    //TODO move into type enum
+    
     open class func typesStrings(_ types: [IADBAirport.AirportType]?) -> [String]? {
-        guard let types = types else {
+        if let types = types {
+            return AirportType.strings(types: types)
+        } else {
             return nil
         }
-        return types.map { type in type.rawValue }
     }
     open override class func findAll(identifier: String) -> IADBCenteredArrayAirports {
         return IADBCenteredArrayAirports(centeredArray: super.findAll(identifier:identifier))
