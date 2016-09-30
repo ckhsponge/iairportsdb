@@ -9,27 +9,27 @@ public class NMBObjCMatcher : NSObject, NMBMatcher {
     let _match: MatcherBlock
     let _doesNotMatch: MatcherBlock
     let canMatchNil: Bool
-        
+
     public init(canMatchNil: Bool, matcher: @escaping MatcherBlock, notMatcher: @escaping MatcherBlock) {
         self.canMatchNil = canMatchNil
         self._match = matcher
         self._doesNotMatch = notMatcher
     }
-        
+
     public convenience init(matcher: @escaping MatcherBlock) {
         self.init(canMatchNil: true, matcher: matcher)
     }
-        
+
     public convenience init(canMatchNil: Bool, matcher: @escaping MatcherBlock) {
         self.init(canMatchNil: canMatchNil, matcher: matcher, notMatcher: ({ actualExpression, failureMessage in
             return !matcher(actualExpression, failureMessage)
         }))
     }
-        
+
     public convenience init(matcher: @escaping FullMatcherBlock) {
         self.init(canMatchNil: true, matcher: matcher)
     }
-        
+
     public convenience init(canMatchNil: Bool, matcher: @escaping FullMatcherBlock) {
         self.init(canMatchNil: canMatchNil, matcher: ({ actualExpression, failureMessage in
             return matcher(actualExpression, failureMessage, false)

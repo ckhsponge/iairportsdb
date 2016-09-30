@@ -1,36 +1,22 @@
 PODS:
-  - iAirportsDB (2.0.4)
-  - Nimble (4.1.0)
-  - Quick (0.9.3)
+  - iAirportsDB (3.0.0)
+  - Nimble (5.0.0)
+  - Quick (0.10.0)
 
 DEPENDENCIES:
   - iAirportsDB (from `../`)
-  - Nimble (from `https://github.com/martnst/Nimble`, branch `swift3`)
-  - Quick (from `https://github.com/Quick/Quick`, branch `swift-3.0`)
+  - Nimble
+  - Quick
 
 EXTERNAL SOURCES:
   iAirportsDB:
     :path: "../"
-  Nimble:
-    :branch: swift3
-    :git: https://github.com/martnst/Nimble
-  Quick:
-    :branch: swift-3.0
-    :git: https://github.com/Quick/Quick
-
-CHECKOUT OPTIONS:
-  Nimble:
-    :commit: ba3451596e80c9ac5ad5f76894b1eeb08e3e97e0
-    :git: https://github.com/martnst/Nimble
-  Quick:
-    :commit: 8f2bc636ecfa2cc20696f62548b38d4ab943e299
-    :git: https://github.com/Quick/Quick
 
 SPEC CHECKSUMS:
-  iAirportsDB: 7154db00484de2aeee2cf0b3e70b6fcfee8c2df0
-  Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
-  Quick: 31fb576b6cbb6b028cc5e0016e4366accbb346f5
+  iAirportsDB: 1b6ed3fcbf6e7892bcd2fbbbbf12337a29adc14a
+  Nimble: 56fc9f5020effa2206de22c3dd910f4fb011b92f
+  Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
-PODFILE CHECKSUM: 91ab4df0a1a674a09b4ee191e24164db5f73a60e
+PODFILE CHECKSUM: b744a3245990094df56df4e5d3a1968245afd334
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0.rc.2

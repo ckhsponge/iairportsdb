@@ -5,10 +5,10 @@ import Foundation
 public func beLessThanOrEqualTo<T: Comparable>(_ expectedValue: T?) -> NonNilMatcherFunc<T> {
     return NonNilMatcherFunc { actualExpression, failureMessage in
         failureMessage.postfixMessage = "be less than or equal to <\(stringify(expectedValue))>"
-      if let actual = try actualExpression.evaluate(), let expected = expectedValue {
-        return actual <= expected
-      }
-      return false
+        if let actual = try actualExpression.evaluate(), let expected = expectedValue {
+            return actual <= expected
+        }
+        return false
     }
 }
 

@@ -6,7 +6,7 @@ public func beGreaterThan<T: Comparable>(_ expectedValue: T?) -> NonNilMatcherFu
     return NonNilMatcherFunc { actualExpression, failureMessage in
         failureMessage.postfixMessage = "be greater than <\(stringify(expectedValue))>"
         if let actual = try actualExpression.evaluate(), let expected = expectedValue {
-          return actual > expected
+            return actual > expected
         }
         return false
     }

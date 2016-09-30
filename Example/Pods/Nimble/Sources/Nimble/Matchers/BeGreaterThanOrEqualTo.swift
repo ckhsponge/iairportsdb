@@ -7,7 +7,7 @@ public func beGreaterThanOrEqualTo<T: Comparable>(_ expectedValue: T?) -> NonNil
         failureMessage.postfixMessage = "be greater than or equal to <\(stringify(expectedValue))>"
         let actualValue = try actualExpression.evaluate()
         if let actual = actualValue, let expected = expectedValue {
-          return actual >= expected
+            return actual >= expected
         }
         return false
     }

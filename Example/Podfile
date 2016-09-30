@@ -6,9 +6,10 @@ target 'iAirportsDB_Example' do
   target 'iAirportsDB_Tests' do
     inherit! :search_paths
 
-pod 'Quick', :git => "https://github.com/Quick/Quick", :branch => "swift-3.0"
-pod 'Nimble', :git => "https://github.com/martnst/Nimble", :branch => "swift3"
-#  pod 'Nimble', '~> 3.0'
+#pod 'Quick', :git => "https://github.com/Quick/Quick", :branch => "swift-3.0"
+pod 'Quick'
+#pod 'Nimble', :git => "https://github.com/martnst/Nimble", :branch => "swift3"
+pod 'Nimble' #, '~> 3.0'
   end
 end
 
