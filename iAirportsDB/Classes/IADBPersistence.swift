@@ -11,7 +11,7 @@ import CoreData
 
 open class IADBPersistence: NSObject {
     
-    let persistentStorePath: String
+    var persistentStorePath: String
     
     init(path: String) {
         self.persistentStorePath = path
@@ -37,24 +37,8 @@ open class IADBPersistence: NSObject {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         //let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
         let url = URL(fileURLWithPath: self.persistentStorePath)
-        let options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: Int(true)]
-
-        var failureReason = "There was an error creating or loading the application's saved data."
-        do {
-            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
-        } catch {
-            // Report any error we got.
-            var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
-            
-            dict[NSUnderlyingErrorKey] = error as NSError
-            let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
-            // Replace this with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
-            abort()
-        }
+        
+        self.setPersistence(url: url, coordinator:coordinator)
         
         return coordinator
     }()
@@ -83,17 +67,41 @@ open class IADBPersistence: NSObject {
         }
     }
     
-    open func persistentStoreClear() {
-        let storeCoordinator = self.persistentStoreCoordinator
-        let store: NSPersistentStore = storeCoordinator.persistentStores[0]
+    open func setPersistence(url:URL, coordinator:NSPersistentStoreCoordinator) {
+        removeStore(coordinator: coordinator)
+        let options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: Int(true)]
+        
+        var failureReason = "There was an error creating or loading the application's saved data."
         do {
-            try storeCoordinator.remove(store)
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
+            self.persistentStorePath = url.path
+        } catch {
+            // Report any error we got.
+            var dict = [String: AnyObject]()
+            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
+            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
+            
+            dict[NSUnderlyingErrorKey] = error as NSError
+            let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
         }
-        catch {
-            let nserror = error as NSError
-            NSLog("Unhandled error removing store in %s at line %d: %@", #function, #line, nserror.localizedDescription)
+    }
+    
+    open func removeStore(coordinator:NSPersistentStoreCoordinator) {
+        if coordinator.persistentStores.count > 0, let store: NSPersistentStore = coordinator.persistentStores[0] {
+            do {
+                try coordinator.remove(store)
+            }
+            catch {
+                let nserror = error as NSError
+                NSLog("Unhandled error removing store in %s at line %d: %@", #function, #line, nserror.localizedDescription)
+            }
         }
-
+    }
+    
+    open func persistentStoreClear() {
+        removeStore(coordinator: self.persistentStoreCoordinator)
+        
         do {
             try FileManager.default.removeItem(atPath: self.persistentStorePath)
         }
