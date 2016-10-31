@@ -67,6 +67,10 @@ open class IADBPersistence: NSObject {
         }
     }
     
+    open func setPersistence(url:URL) {
+        self.setPersistence(url: url, coordinator:self.persistentStoreCoordinator)
+    }
+    
     open func setPersistence(url:URL, coordinator:NSPersistentStoreCoordinator) {
         removeStore(coordinator: coordinator)
         let options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: Int(true)]
