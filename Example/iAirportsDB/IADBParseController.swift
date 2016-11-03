@@ -31,8 +31,8 @@ class IADBParseController {
     }
     
     func parseAll() {
-        IADBModel.setPersistantStorePath(IADBParseController.dbPath)
-        IADBModel.clearPersistence()
+        //IADBModel.setPersistantStorePath(IADBParseController.dbPath, readOnly: false)
+        IADBModel.clearPersistence( newPath:IADBParseController.dbPath )
         for type in IADBParseController.modelTypes {
             ModelParser(fileName: fileNameForModel(type: type)!, modelType: type).go()
         }

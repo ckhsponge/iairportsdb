@@ -12,9 +12,11 @@ import CoreData
 open class IADBPersistence: NSObject {
     
     var persistentStorePath: String
+    let readOnly:Bool
     
-    init(path: String) {
+    init(path: String, readOnly:Bool = true) {
         self.persistentStorePath = path
+        self.readOnly = readOnly
         super.init()
         
     }
@@ -73,7 +75,7 @@ open class IADBPersistence: NSObject {
     
     open func setPersistence(url:URL, coordinator:NSPersistentStoreCoordinator) {
         removeStore(coordinator: coordinator)
-        let options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: Int(true)]
+        let options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: Int(true), NSReadOnlyPersistentStoreOption: self.readOnly ? Int(true) : Int(false)]
         
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
