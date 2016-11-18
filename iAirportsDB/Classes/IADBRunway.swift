@@ -19,9 +19,9 @@ open class IADBRunway: IADBModel {
     @NSManaged open var headingTrue: Float
     @NSManaged open var identifierA: String
     @NSManaged open var identifierB: String
-    @NSManaged open var lengthFeet: Int16
+    @NSManaged open var lengthFeet: Int32
     @NSManaged open var surface: String
-    @NSManaged open var widthFeet: Int16
+    @NSManaged open var widthFeet: Int32
     
     open weak var airport:IADBAirport? // weak to prevent strong reference cycle
     
@@ -78,9 +78,9 @@ open class IADBRunway: IADBModel {
         self.headingTrue = Float(values["le_heading_degT"]!) ?? -1
         self.identifierA = values["le_ident"] ?? ""
         self.identifierB = values["he_ident"] ?? ""
-        self.lengthFeet = Int16(values["length_ft"]!) ?? -1
+        self.lengthFeet = Int32(values["length_ft"]!) ?? -1
         self.surface = values["surface"] ?? ""
-        self.widthFeet = Int16(values["width_ft"]!) ?? -1
+        self.widthFeet = Int32(values["width_ft"]!) ?? -1
     }
 
 }

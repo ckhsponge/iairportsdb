@@ -150,10 +150,7 @@ open class IADBLocation: IADBModel {
         var arguments = [String]()
         var predicates = [String]()
         for identifier: String in identifiers {
-            if !identifier.isEmpty {
-                predicates.append("(identifier BEGINSWITH[c] %@)")
-                arguments.append(identifier)
-            }
+            self.beginsWith(column: "identifier", value: identifier, predicates: &predicates , arguments: &arguments)
         }
         if predicates.count == 0 {
             // no inputs results in no outputs
@@ -165,6 +162,23 @@ open class IADBLocation: IADBModel {
         return self.findAll(predicate:predicate)
     }
     
+    class func beginsWith(column:String, value:String?, predicates:inout [String], arguments:inout [String], upcase:Bool = true) {
+        guard var value = value, !value.isEmpty else { return }
+        if upcase {
+            value = value.uppercased()
+        }
+        //predicates.append("(identifier BEGINSWITH[c] %@)")
+        //arguments.append(identifier)
+        let start = value.unicodeScalars
+        var scalars = value.unicodeScalars
+        if let last = scalars.popLast(), let unicode = UnicodeScalar(last.value + 1) {
+            scalars.append(unicode)
+        }
+        predicates.append("((\(column) >= %@) AND (\(column) < %@))")
+        arguments.append(value)
+        arguments.append(String(scalars))
+    }
+    
     open class func findAll(predicate: NSPredicate) -> IADBCenteredArray {
         let (request, context) = fetchRequestContext()
         request.predicate = predicate
@@ -172,9 +186,11 @@ open class IADBLocation: IADBModel {
         //                                        initWithKey:@"name" ascending:YES];
         //    [request setSortDescriptors:@[sortDescriptor]];
         print("fetch \(self.descriptionShort()): \(request)")
+        let time = Date()
         
         do {
             let array = try context.fetch(request)
+            print("fetched \(array.count) in \(-1.0*time.timeIntervalSinceNow)s")
             if let models = array as? [IADBLocation] {
                 return IADBCenteredArray.init(array: models)
             } else {

@@ -144,8 +144,31 @@ class TableOfContentsSpec: QuickSpec {
                 
                 airports = IADBAirport.findAll(identifierOrCodeOrMunicipality:"Seoul")
                 expect(airports).to(contain(icn!))
+                
+                //airports = IADBAirport.findAll(identifierOrCodeOrMunicipality:"seoul") //TODO case insensitive search
+                //expect(airports).to(contain(icn!))
+                
+                airports = IADBAirport.findAll(identifierOrCode:"icn")
+                expect(airports).to(contain(icn!))
             }
             
+            it("can have long runway") {
+                let airport = IADBAirport.find(identifier:"CPC7")
+                expect(airport?.longestRunwayFeet()) > 60000
+            }
+            
+            it("finds fast") {
+                let start = Date()
+                let airports = IADBAirport.findAll(identifierOrCode:"ICN")
+                let icn = IADBAirport.find(identifier:"RKSI")
+                expect(airports).to(contain(icn!))
+                expect( -1.0 * start.timeIntervalSinceNow ) < 0.1
+            }
+            
+            it("finds blank") {
+                let airports = IADBAirport.findAll(identifierOrCode:"")
+                expect(airports.count).to(equal(0))
+            }
         }
     }
 }

@@ -119,19 +119,10 @@ open class IADBAirport: IADBLocationElevation {
         var arguments = [String]()
         var predicates = [String]()
         for identifier: String in identifiers {
-            if !identifier.isEmpty {
-                predicates.append("(identifier BEGINSWITH[c] %@)")
-                arguments.append(identifier)
-            }
+            self.beginsWith(column: "identifier", value: identifier, predicates: &predicates , arguments: &arguments)
         }
-        if let _code = code , _code.characters.count > 0 {
-            predicates.append("(code BEGINSWITH[c] %@)")
-            arguments.append(_code)
-        }
-        if let _municipality = municipality , _municipality.characters.count > 0 {
-            predicates.append("(municipality BEGINSWITH[c] %@)")
-            arguments.append(_municipality)
-        }
+        self.beginsWith(column: "code", value: code, predicates: &predicates , arguments: &arguments)
+        self.beginsWith(column: "municipality", value: municipality, predicates: &predicates, arguments: &arguments, upcase:false)
         if predicates.count == 0 {
             // no inputs results in no outputs
             return IADBCenteredArrayAirports()
@@ -168,11 +159,11 @@ open class IADBAirport: IADBLocationElevation {
         return self.runways.count > 0
     }
     
-    open func longestRunwayFeet() -> Int16 {
-        var length:Int16 = -1
+    open func longestRunwayFeet() -> Int {
+        var length:Int = -1
         for runway: IADBRunway in self.runways {
             if !runway.closed {
-                length = max(length, runway.lengthFeet)
+                length = max(length, Int(runway.lengthFeet))
             }
         }
         return length
