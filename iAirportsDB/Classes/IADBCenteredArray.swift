@@ -9,10 +9,8 @@
 import CoreLocation
 
 @objc open class IADBCenteredArray: NSObject, Collection {
-
     open var array: [IADBLocation]
     open var center: CLLocation?
-    
     
     public init(array: [IADBLocation], center:CLLocation?) {
         self.array = array
@@ -52,7 +50,6 @@ import CoreLocation
     
     open var startIndex: Int {
         return 0
-//        return array.count - 1;
     }
     
     open var endIndex: Int {
@@ -79,11 +76,28 @@ import CoreLocation
     }
     
     open func sortInPlace(_ center: CLLocation) {
-        array.sort { (a: IADBLocation, b: IADBLocation) -> Bool in
-            let distanceA = a.location.distance(from: center)
-            let distanceB = b.location.distance(from: center)
-            return distanceA < distanceB
+        //print("sortInPlace")
+        //let start = Date()
+        for airport in array {
+            airport.distance = center.distance(from: airport.location) //about as fast as squaring x and y distances
         }
+        //let start1 = Date()
+        if !self.isSorted() {
+            array.sort() //This is slow! ~0.25s for 5000 elements on iPad mini
+        }
+        //print("sorted \(array.count) \(-1.0*start.timeIntervalSinceNow) \(-1.0*start1.timeIntervalSinceNow)")
+    }
+    
+    //make sure distance is set on each array element before calling this
+    private func isSorted() -> Bool {
+        if array.count <= 1 { return true }
+        var sorted = true
+        for i in 0...(array.count - 2) {
+            if array[i].distance > array[i+1].distance {
+                sorted = false
+            }
+        }
+        return sorted
     }
     
     open func removeObjectsUsingBlock(_ block: (_ model: IADBLocation) -> Bool) {

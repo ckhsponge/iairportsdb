@@ -10,19 +10,27 @@ import Foundation
 import CoreLocation
 import CoreData
 
-open class IADBLocation: IADBModel {
+open class IADBLocation: IADBModel, Comparable {
     @NSManaged open var identifier: String
     @NSManaged open var latitude: Double
     @NSManaged open var longitude: Double
     
+    private static let location_timestamp = Date(timeIntervalSince1970: 0)
+    
+    var distance:CLLocationDistance = 999999999999
+    
     //don't trust the altitude, self.elevationFeet may be null
     open lazy var location: CLLocation = {
-        return CLLocation(coordinate: CLLocationCoordinate2DMake(self.latitude, self.longitude), altitude: self.elevationForLocation(), horizontalAccuracy: 0.0, verticalAccuracy: 0.0, timestamp: Date())
+        return CLLocation(coordinate: CLLocationCoordinate2DMake(self.latitude, self.longitude), altitude: self.elevationForLocation(), horizontalAccuracy: 0.0, verticalAccuracy: 0.0, timestamp: location_timestamp)
     }()
     
     //This scalar is used when constructing a CLLocation. Meters.
     func elevationForLocation() -> CLLocationDistance {
         return 0.0
+    }
+    
+    public static func <(a:IADBLocation, b:IADBLocation) -> Bool {
+        return a.distance < b.distance
     }
     
     class func subclassNames() -> [String] {
