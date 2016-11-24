@@ -20,11 +20,8 @@ open class IADBModel: NSManagedObject {
         return IADBPersistence(path: bundle.path(forResource: "iAirportsDB", ofType: "sqlite")!)
     }()
     
-    //deletes the sql file and creates a new one
-    open class func clearPersistence( newPath:String ) {
-        try! FileManager.default.removeItem(atPath: newPath)
-        self.persistence = IADBPersistence(path: newPath, readOnly: false)
-        print("Cleared local db")
+    open static func setPersistence(path:String, readOnly:Bool = true) {
+        self.persistence = IADBPersistence(path: path, readOnly:readOnly)
     }
     
     open class func managedObjectContext() -> NSManagedObjectContext {

@@ -12,7 +12,7 @@ import iAirportsDB
 
 class IADBParseController {
     static let projectPath = "/Users/ckh/dev/iAirportsDB"
-    static let dbPath = "\(projectPath)/iAirportsDB/Assets/iAirportsDB.sqlite"
+    static let dbPath = "\(projectPath)/Example/data/iAirportsDBExample.sqlite"
     
     static let modelTypes:[IADBModel.Type] = [IADBAirport.self, IADBFrequency.self, IADBNavigationAid.self, IADBRunway.self]
     
@@ -32,7 +32,10 @@ class IADBParseController {
     
     func parseAll() {
         //IADBModel.setPersistantStorePath(IADBParseController.dbPath, readOnly: false)
-        IADBModel.clearPersistence( newPath:IADBParseController.dbPath )
+        let path = IADBParseController.dbPath
+        try! FileManager.default.removeItem(atPath: path)
+        IADBModel.setPersistence(path:path, readOnly:false)
+        print("Cleared local db")
         for type in IADBParseController.modelTypes {
             ModelParser(fileName: fileNameForModel(type: type)!, modelType: type).go()
         }
@@ -57,7 +60,7 @@ class IADBParseController {
             fatalError("No data found!")
         }
         if urlData.length > 0 {
-            let filePath = "\(IADBParseController.projectPath)/data/\(fileName).csv"
+            let filePath = "\(IADBParseController.projectPath)/Example/data/\(fileName).csv"
             if urlData.write(toFile: filePath, atomically: true) {
                 print("Wrote to \(filePath)")
             }

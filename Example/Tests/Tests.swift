@@ -8,6 +8,8 @@ import CoreLocation
 class TableOfContentsSpec: QuickSpec {
     override func spec() {
         describe("these will pass") {
+            let path = Bundle.main.path(forResource: "iAirportsDBExample", ofType: "sqlite")!
+            IADBModel.setPersistence(path: path)
             
             it("can find") {
                 let sfo = IADBAirport.find(identifier:"KSFO")!
