@@ -12,7 +12,7 @@ import CoreLocation
 open class IADBLocationElevation: IADBLocation {
     @NSManaged open var name: String
     @NSManaged open var type: String
-    @NSManaged open var elevationFeet: NSNumber?
+    @NSManaged open var elevationFeet: NSNumber? // for objc compatibility Int32? is not allowed, -1 is a valid elevation
     
     //meters
     override func elevationForLocation() -> CLLocationDistance {

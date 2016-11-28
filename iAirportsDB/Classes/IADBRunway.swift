@@ -16,16 +16,17 @@ open class IADBRunway: IADBModel {
     @NSManaged var airportId: Int32
     @NSManaged open var closed: Bool
     @NSManaged open var lighted: Bool
-    @NSManaged open var headingTrue: Float
-    @NSManaged open var identifierA: String
-    @NSManaged open var identifierB: String
+    @NSManaged open var headingTrue: Float // runway 12 will have a magnetic heading of ~120
+    @NSManaged open var identifierA: String // e.g. 12
+    @NSManaged open var identifierB: String // e.g. 30
     @NSManaged open var lengthFeet: Int32
-    @NSManaged open var surface: String
+    @NSManaged open var surface: String 
     @NSManaged open var widthFeet: Int32
     
     open weak var airport:IADBAirport? // weak to prevent strong reference cycle
     
-    static let HARD_SURFACES = ["ASP", "CON", "PEM"]
+    static let HARD_SURFACES = ["ASP", "CON", "PEM", "ASF", "PAV", "BIT", "TAR"]
+    static let SOFT_SURFACES = ["UNPAVED"]
     
     // if headingDegrees is valid add the deviation, otherwise return -1
     // CoreLocation doesn't provide deviation :(
@@ -55,13 +56,16 @@ open class IADBRunway: IADBModel {
     }
     
     open func isHard() -> Bool {
-        let surface = self.surface.uppercased()
-        for match: String in IADBRunway.HARD_SURFACES {
-            if surface.contains(match) {
-                return true
-            }
-        }
-        return false
+        return IADBRunway.isHard(surface: self.surface)
+    }
+    
+    static func isHard(surface:String) -> Bool {
+        let surface = surface.uppercased()
+        return string(surface, containsAny: IADBRunway.HARD_SURFACES) && !string(surface, containsAny: IADBRunway.SOFT_SURFACES)
+    }
+    
+    static func string(_ s:String, containsAny matches:[String]) -> Bool {
+        return matches.reduce(false) { (b, match) in b || s.contains(match)}
     }
     
     override open var description: String {

@@ -159,6 +159,17 @@ class TableOfContentsSpec: QuickSpec {
                 expect(airport?.longestRunwayFeet()) > 60000
             }
             
+            it("has hard runways") {
+                expect(IADBRunway.isHard(surface: "concrete")).to(beTrue())
+                expect(IADBRunway.isHard(surface: "PEM")).to(beTrue())
+                expect(IADBRunway.isHard(surface: "asphalt")).to(beTrue())
+                expect(IADBRunway.isHard(surface: "asf")).to(beTrue())
+                expect(IADBRunway.isHard(surface: "bitumen")).to(beTrue())
+                expect(IADBRunway.isHard(surface: "tarmac")).to(beTrue())
+                expect(IADBRunway.isHard(surface: "unpaved")).to(beFalse())
+                expect(IADBRunway.isHard(surface: "grass")).to(beFalse())
+            }
+            
             it("finds fast") {
                 let start = Date()
                 let airports = IADBAirport.findAll(identifierOrCode:"ICN")
