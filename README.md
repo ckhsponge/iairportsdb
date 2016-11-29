@@ -8,7 +8,7 @@ pod 'iAirportsDB', :git => 'https://github.com/ckhsponge/iairportsdb.git'
 ```
 **IMPORTANT:** The pod now only includes an empty database. Download a complete database using the below command.
 ```
-curl -O https://github.com/ckhsponge/iairportsdb/raw/master/Example/data/iAirportsDBExample.sqlite
+curl -O https://raw.githubusercontent.com/ckhsponge/iairportsdb/master/Example/data/iAirportsDBExample.sqlite
 ```
 Add the downloaded file to your Xcode project and then configure IADB to use it using:
 ```
