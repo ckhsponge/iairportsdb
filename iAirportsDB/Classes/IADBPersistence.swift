@@ -11,7 +11,7 @@ import CoreData
 
 open class IADBPersistence: NSObject {
     
-    var persistentStorePath: String
+    open var persistentStorePath: String
     let readOnly:Bool
     
     init(path: String, readOnly:Bool = true) {
