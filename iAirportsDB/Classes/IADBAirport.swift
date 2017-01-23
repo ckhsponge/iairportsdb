@@ -14,7 +14,7 @@ import CoreLocation
 @objc(IADBAirport)
 open class IADBAirport: IADBLocationElevation {
     //identifier: String (defined in IADBLocation) // identifier or gps code e.g. RKSI, use this for pilot navigation
-    @NSManaged var airportId: Int32
+    @NSManaged open var airportId: Int32
     
     /// iata code e.g. ICN, this is what is printed on boarding passes
     @NSManaged open var code: String
