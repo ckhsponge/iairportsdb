@@ -113,6 +113,6 @@ import CoreLocation
     }
     
     override open var description: String {
-        return "Center: \(center), Airports: \(array.description)"
+        return "Center: \(String(describing: center)), Airports: \(array.description)"
     }
 }

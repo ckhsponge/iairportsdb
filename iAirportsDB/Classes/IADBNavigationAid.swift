@@ -45,7 +45,7 @@ open class IADBNavigationAid: IADBLocation {
     open override class func find(identifier: String) -> IADBNavigationAid? {
         let model = super.find(identifier:identifier)
         guard let typed = model as? IADBNavigationAid else {
-            print("Invalid type found \(model)")
+            print("Invalid type found \(String(describing: model))")
             return nil
         }
         return typed

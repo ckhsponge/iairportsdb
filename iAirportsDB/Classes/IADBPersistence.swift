@@ -77,7 +77,7 @@ open class IADBPersistence: NSObject {
         removeStore(coordinator: coordinator)
         let options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: Int(true), NSReadOnlyPersistentStoreOption: self.readOnly ? Int(true) : Int(false)]
         
-        var failureReason = "There was an error creating or loading the application's saved data."
+        let failureReason = "There was an error creating or loading the application's saved data."
         do {
             try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
             self.persistentStorePath = url.path
@@ -85,7 +85,7 @@ open class IADBPersistence: NSObject {
             // Report any error we got.
             var dict = [String: AnyObject]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
+            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject
             
             dict[NSUnderlyingErrorKey] = error as NSError
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
@@ -94,7 +94,8 @@ open class IADBPersistence: NSObject {
     }
     
     open func removeStore(coordinator:NSPersistentStoreCoordinator) {
-        if coordinator.persistentStores.count > 0, let store: NSPersistentStore = coordinator.persistentStores[0] {
+        if coordinator.persistentStores.count > 0 {
+            let store: NSPersistentStore = coordinator.persistentStores[0]
             do {
                 try coordinator.remove(store)
             }

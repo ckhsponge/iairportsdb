@@ -20,7 +20,7 @@ public struct IADBConstants {
         return nm/nmPerLatitude
     }
     static func longitudeDegreesFromNM(_ nm: Double, latitude: Double) -> Double {
-        return nm/(nmPerLatitude*cos(latitude*M_PI/180.0))
+        return nm/(nmPerLatitude*cos(latitude * Double.pi/180.0))
     }
     static let feetPerMeter = (3.28084)
     

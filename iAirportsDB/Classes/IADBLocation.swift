@@ -177,7 +177,6 @@ open class IADBLocation: IADBModel, Comparable {
         }
         //predicates.append("(identifier BEGINSWITH[c] %@)")
         //arguments.append(identifier)
-        let start = value.unicodeScalars
         var scalars = value.unicodeScalars
         if let last = scalars.popLast(), let unicode = UnicodeScalar(last.value + 1) {
             scalars.append(unicode)

@@ -30,7 +30,6 @@ open class IADBModel: NSManagedObject {
     
     open class func countAll() -> Int {
         let fetch = NSFetchRequest<IADBModel>(entityName: self.description())
-        var error: NSError? = nil
         do {
             let count = try IADBModel.managedObjectContext().count(for: fetch)
             return count
@@ -74,12 +73,7 @@ open class IADBModel: NSManagedObject {
         let (request, context) = fetchRequestContext()
         request.predicate = predicate
         do {
-            let objects = try context.fetch(request)
-            if let models = objects as? [IADBModel] {
-                return models
-            } else {
-                print( "Invalid types in findAllByAirportId \(objects)")
-            }
+            return try context.fetch(request)
         }
         catch let error as NSError {
             NSLog( "Unhandled error removing file in \(#function) at line \(#line): \(error.localizedDescription)")

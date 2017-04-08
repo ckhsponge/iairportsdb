@@ -215,7 +215,7 @@ open class IADBAirport: IADBLocationElevation {
     }
     
     override open var description: String {
-        return "<\(self.identifier) (\(self.code)) \(self.name) \(self.latitude) \(self.longitude) \(self.elevationFeet) <\(self.type)>"
+        return "<\(self.identifier) (\(self.code)) \(self.name) \(self.latitude) \(self.longitude) \(String(describing: self.elevationFeet)) <\(self.type)>"
     }
     
     open func asDictionary() -> [AnyHashable: Any] {
@@ -252,7 +252,7 @@ open class IADBAirport: IADBLocationElevation {
     open override class func find(identifier: String) -> IADBAirport? {
         let model = super.find(identifier:identifier)
         guard let typed = model as? IADBAirport else {
-            print("Invalid type found \(model)")
+            print("Invalid type found \(String(describing: model))")
             return nil
         }
         return typed
