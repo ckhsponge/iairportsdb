@@ -170,6 +170,14 @@ class TableOfContentsSpec: QuickSpec {
                 expect(IADBRunway.isHard(surface: "grass")).to(beFalse())
             }
             
+            it("finds begins with") {
+                let airports = IADBAirport.findAll(identifierOrCode:"L05")
+                let l05 = IADBAirport.find(identifier:"KL05")
+                let lvk = IADBAirport.find(identifier:"KLVK")
+                expect(airports).to(contain(l05!))
+                expect(airports).toNot(contain(lvk!))
+            }
+            
             it("finds fast") {
                 let start = Date()
                 let airports = IADBAirport.findAll(identifierOrCode:"ICN")

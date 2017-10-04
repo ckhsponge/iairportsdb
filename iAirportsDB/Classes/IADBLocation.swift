@@ -177,13 +177,15 @@ open class IADBLocation: IADBModel, Comparable {
         }
         //predicates.append("(identifier BEGINSWITH[c] %@)")
         //arguments.append(identifier)
-        var scalars = value.unicodeScalars
+        var scalars = Array.init(value.unicodeScalars)
         if let last = scalars.popLast(), let unicode = UnicodeScalar(last.value + 1) {
             scalars.append(unicode)
         }
         predicates.append("((\(column) >= %@) AND (\(column) < %@))")
         arguments.append(value)
-        arguments.append(String(scalars))
+        var scalarsString = ""
+        scalarsString.unicodeScalars.append(contentsOf: scalars)
+        arguments.append(scalarsString)
     }
     
     open class func findAll(predicate: NSPredicate) -> IADBCenteredArray {
