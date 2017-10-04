@@ -1,11 +1,11 @@
 PODS:
   - iAirportsDB (3.0.0)
-  - Nimble (5.1.1)
+  - Nimble (7.0.2)
   - Quick (0.10.0)
 
 DEPENDENCIES:
   - iAirportsDB (from `../`)
-  - Nimble (~> 5.1.1)
+  - Nimble (~> 7.0)
   - Quick
 
 EXTERNAL SOURCES:
@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   iAirportsDB: 1b6ed3fcbf6e7892bcd2fbbbbf12337a29adc14a
-  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
+  Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
-PODFILE CHECKSUM: 56cfa6f7502e240e7df2dd1900f1475d8207fa1d
+PODFILE CHECKSUM: 72451697f62f4e84f39785a7dbdcdcc83ea3ffea
 
 COCOAPODS: 1.1.1

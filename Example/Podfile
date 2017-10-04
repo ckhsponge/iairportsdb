@@ -9,7 +9,7 @@ target 'iAirportsDB_Example' do
     #pod 'Quick', :git => "https://github.com/Quick/Quick", :branch => "swift-3.0"
     pod 'Quick'
     #pod 'Nimble', :git => "https://github.com/martnst/Nimble", :branch => "swift3"
-    pod 'Nimble' , '~> 5.1.1'
+    pod 'Nimble' , '~> 7.0'
   end
 end
 
