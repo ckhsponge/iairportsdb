@@ -102,9 +102,9 @@ open class IADBAirport: IADBLocationElevation {
             return IADBCenteredArrayAirports()
         }
         var identifierB = ""
-        if identifier.characters.count >= 2 && identifier.uppercased().hasPrefix("K") {
+        if identifier.count >= 2 && identifier.uppercased().hasPrefix("K") {
             //allow "KCVH" to find CVH
-            identifierB = identifier.substring(from: identifier.characters.index(identifier.startIndex, offsetBy: 1))
+            identifierB = identifier.substring(from: identifier.index(identifier.startIndex, offsetBy: 1))
             // strip off K at beginning
         }
         else {
@@ -204,8 +204,8 @@ open class IADBAirport: IADBLocationElevation {
     }
     
     open func klessIdentifier() -> String {
-        if (self.identifier.substring(to: self.identifier.characters.index(self.identifier.startIndex, offsetBy: 1)).uppercased() == "K") {
-            return self.identifier.substring(from: self.identifier.characters.index(self.identifier.startIndex, offsetBy: 1))
+        if (self.identifier.substring(to: self.identifier.index(self.identifier.startIndex, offsetBy: 1)).uppercased() == "K") {
+            return self.identifier.substring(from: self.identifier.index(self.identifier.startIndex, offsetBy: 1))
         }
         return self.identifier
     }
