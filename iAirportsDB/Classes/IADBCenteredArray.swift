@@ -11,10 +11,12 @@ import CoreLocation
 @objc open class IADBCenteredArray: NSObject, Collection {
     open var array: [IADBLocation]
     open var center: CLLocation?
+    open var error: Error?
     
-    public init(array: [IADBLocation], center:CLLocation?) {
+    public init(array: [IADBLocation], center:CLLocation?, error:Error?) {
         self.array = array
         self.center = center
+        self.error = error
         super.init()
         
         self.removeObjectsUsingBlock { (model:IADBLocation) -> Bool in
@@ -28,7 +30,7 @@ import CoreLocation
     }
     
     override public convenience init() {
-        self.init(array:[IADBLocation](), center:nil)
+        self.init(array:[IADBLocation](), center:nil, error:nil)
     }
     
     public convenience init(array: [IADBLocation]) {
@@ -36,7 +38,15 @@ import CoreLocation
     }
     
     public convenience init(centeredArray: IADBCenteredArray) {
-        self.init(array:centeredArray.array, center:centeredArray.center)
+        self.init(array:centeredArray.array, center:centeredArray.center, error: centeredArray.error)
+    }
+    
+    public convenience init(array: [IADBLocation], center:CLLocation?) {
+        self.init(array: array, center:center, error:nil)
+    }
+    
+    public convenience init(error:Error?) {
+        self.init(array:[IADBLocation](), center:nil, error:error)
     }
     
     /// Returns the position immediately after the given index.

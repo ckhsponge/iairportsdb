@@ -197,18 +197,42 @@ open class IADBLocation: IADBModel, Comparable {
         print("fetch \(self.descriptionShort()): \(request)")
         let time = Date()
         
+        var resultError:Error?
+        var result:IADBCenteredArray?
         do {
-            let array = try context.fetch(request)
-            print("fetched \(array.count) in \(-1.0*time.timeIntervalSinceNow)s")
-            if let models = array as? [IADBLocation] {
-                return IADBCenteredArray.init(array: models)
-            } else {
-                print("Fetch contained an invalid type \(array)")
-            }
-        } catch let error as NSError {
+            try TryCatch.try({
+                do {
+                    let array = try context.fetch(request)
+                    print("fetched \(array.count) in \(-1.0*time.timeIntervalSinceNow)s")
+                    if let models = array as? [IADBLocation] {
+                        result =  IADBCenteredArray.init(array: models)
+                    } else {
+                        print("Fetch contained an invalid type \(array)")
+                        let message = "Fetch contained an invalid type: \(array) -- fetch \(self.descriptionShort()): \(request)"
+                        resultError = NSError(domain: "net.toonsy.iairportsdb", code: 1, userInfo: ["message": message])
+                    }
+                } catch {
+                    resultError = error
+                }
+            })
+        } catch let errorCaught as NSError {
             // failure
+            print("Fetch failed: \(errorCaught.localizedDescription)")
+            resultError = errorCaught
+        } catch {
             print("Fetch failed: \(error.localizedDescription)")
+            resultError = error
         }
-        return IADBCenteredArray()
+        //catch invalidArgument as NSInvalidArgumentException {
+        //    error = invalidArgument
+        //}
+        if resultError != nil {
+            return IADBCenteredArray(error:resultError)
+        }
+        if let r = result {
+            return r
+        }
+        resultError = NSError(domain: "net.toonsy.iairportsdb", code: 1, userInfo: ["message": "nothing found"])
+        return IADBCenteredArray(error:resultError)
     }
 }

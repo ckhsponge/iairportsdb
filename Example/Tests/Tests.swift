@@ -11,6 +11,13 @@ class TableOfContentsSpec: QuickSpec {
             let path = Bundle.main.path(forResource: "iAirportsDBExample", ofType: "sqlite")!
             IADBModel.setPersistence(path: path)
             
+            it("can error") {
+                var airports = IADBAirport.findAll(predicate: NSPredicate(format: "(airportId = 1)", argumentArray: nil))
+                expect(airports.error).to(beNil())
+                airports = IADBAirport.findAll(predicate: NSPredicate(format: "(airportId = x)", argumentArray: nil))
+                expect(airports.error).toNot(beNil())
+            }
+            
             it("can find") {
                 let sfo = IADBAirport.find(identifier:"KSFO")!
                 expect(sfo.identifier).to(equal("KSFO"))

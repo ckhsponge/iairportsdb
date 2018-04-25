@@ -58,6 +58,8 @@
 		5BF274C2DEF332ED79B1CD15CFEC3498 /* ThrowError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0567B0CF4C0C3BE354095B02403282EF /* ThrowError.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		5DBCC0E4C72649C9A39A00D40D944DDA /* Nimble-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 776FAE4EBCA54A047645754F3CBBE0E3 /* Nimble-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5EE70EBC0C83960BFAE66A36298A674A /* IADBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F01DC350BC820AFFB4525801E4526 /* IADBModel.swift */; };
+		5F6B4516208C0D6600DBBFEA /* TryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6B4514208C0D6500DBBFEA /* TryCatch.m */; };
+		5F6B451A208C148F00DBBFEA /* TryCatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6B4515208C0D6500DBBFEA /* TryCatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		627692C308724CBF97C599506427A15F /* NSString+QCKSelectorName.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D3B1E1A3DF012A7D190B5FABEA50E42 /* NSString+QCKSelectorName.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		62D26CE7BA3AEDB4E5E87218FDCBBA90 /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567603F9DBA3BB4BA668CFA9DCB045D3 /* Functional.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		64819C8D4EBD3386377D0F84DC909F8B /* CwlCatchException.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D932D6EF40E2C1F15E1E7B13D87B40 /* CwlCatchException.m */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
@@ -226,6 +228,8 @@
 		5B1C06E624271175B5EEC68C145C040D /* IADBLocationElevation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = IADBLocationElevation.swift; sourceTree = "<group>"; };
 		5BF4C3030D6CB1B37FE088235F0F6889 /* MatcherFunc.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MatcherFunc.swift; path = Sources/Nimble/Matchers/MatcherFunc.swift; sourceTree = "<group>"; };
 		5E910EC17406E76A74E706460B9A5D38 /* Quick-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Quick-umbrella.h"; sourceTree = "<group>"; };
+		5F6B4514208C0D6500DBBFEA /* TryCatch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TryCatch.m; sourceTree = "<group>"; };
+		5F6B4515208C0D6500DBBFEA /* TryCatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TryCatch.h; sourceTree = "<group>"; };
 		5FC60E7757F923041519C4A0E95A6D14 /* Nimble.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Nimble.modulemap; sourceTree = "<group>"; };
 		634DD8D546BFB1F8507C3071A7030A95 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		684B1CDBE4EF4FDCDB4707899470EE1D /* iAirportsDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = iAirportsDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -505,6 +509,8 @@
 		87E42852BD8C6135F1E8F01BF26DABFF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5F6B4514208C0D6500DBBFEA /* TryCatch.m */,
+				5F6B4515208C0D6500DBBFEA /* TryCatch.h */,
 				A38A5BF6994AFDEEC0AAAE5D8371AA4D /* IADBAirport.swift */,
 				29C044AC834A7DB97F24DE9239DE6A2F /* IADBCenteredArray.swift */,
 				FA88CD00688F42D0CF88E90D7B095032 /* IADBCenteredArrayAirports.swift */,
@@ -727,6 +733,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				839BD2AA33B0CB29985417A10C50C0C8 /* iAirportsDB-umbrella.h in Headers */,
+				5F6B451A208C148F00DBBFEA /* TryCatch.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1040,6 +1047,7 @@
 				DB3CD6B76C210B37AC0A8F7117FA07DD /* IADBCenteredArrayAirports.swift in Sources */,
 				37B90F48D66F6C1E0DF793E11C587321 /* IADBCenteredArrayNavigationAids.swift in Sources */,
 				6DDAA294AEFAF96830299AD51021618C /* IADBConstants.swift in Sources */,
+				5F6B4516208C0D6600DBBFEA /* TryCatch.m in Sources */,
 				EE7970F3A02CA158C94A0BAB6BA4AAFD /* IADBFrequency.swift in Sources */,
 				A75616E6706A9927321C6B2D52986D68 /* IADBLocation.swift in Sources */,
 				1407DE462860F9E56B1E1AF0011479C4 /* IADBLocationElevation.swift in Sources */,
