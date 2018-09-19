@@ -51,7 +51,7 @@ class CsvParser: Parser, CHCSVParserDelegate {
     @objc func parser(_ parser: CHCSVParser!, didReadField field: String!, at fieldIndex: Int) {
         if recordNumber == 1 {
             if columns.contains(field) {
-                print( "WARNING: duplicate column: \(field)" )
+                print( "WARNING: duplicate column: \(field ?? "")" )
             }
             columns.append(field)
         }

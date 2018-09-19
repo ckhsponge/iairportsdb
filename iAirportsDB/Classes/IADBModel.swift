@@ -10,17 +10,17 @@ import Foundation
 import CoreData
 
 open class IADBModel: NSManagedObject {
-    open static var bundle:Bundle = {
+    public static var bundle:Bundle = {
         let mainBundle = Bundle(for: IADBModel.self)
         let bundleURL = mainBundle.url(forResource: "resourcebundle", withExtension: "bundle")
         return Bundle(url: bundleURL!)!
     }()
     
-    open static var persistence: IADBPersistence = {
+    public static var persistence: IADBPersistence = {
         return IADBPersistence(path: bundle.path(forResource: "iAirportsDB", ofType: "sqlite")!)
     }()
     
-    open static func setPersistence(path:String, readOnly:Bool = true) {
+    public static func setPersistence(path:String, readOnly:Bool = true) {
         self.persistence = IADBPersistence(path: path, readOnly:readOnly)
     }
     
