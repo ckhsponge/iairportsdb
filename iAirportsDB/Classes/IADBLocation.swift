@@ -21,7 +21,7 @@ open class IADBLocation: IADBModel, Comparable {
     
     //don't trust the altitude, self.elevationFeet may be null
     open lazy var location: CLLocation = {
-        return CLLocation(coordinate: CLLocationCoordinate2DMake(self.latitude, self.longitude), altitude: self.elevationForLocation(), horizontalAccuracy: 0.0, verticalAccuracy: 0.0, timestamp: location_timestamp)
+        return CLLocation(coordinate: CLLocationCoordinate2DMake(self.latitude, self.longitude), altitude: self.elevationForLocation(), horizontalAccuracy: 0.0, verticalAccuracy: 0.0, timestamp: IADBLocation.location_timestamp)
     }()
     
     //This scalar is used when constructing a CLLocation. Meters.
@@ -117,7 +117,7 @@ open class IADBLocation: IADBModel, Comparable {
     }
     
     
-    open class func find(identifier: String) -> IADBLocation? {
+    @objc open class func find(identifier: String) -> IADBLocation? {
         let predicate = NSPredicate(format: "identifier = %@", identifier)
         let array = self.findAll(predicate:predicate)
         if array.array.count != 1 {
@@ -128,7 +128,7 @@ open class IADBLocation: IADBModel, Comparable {
     
     //[IADBLocation findAllByIdentifier:] unions finds across all subclasses
     //IADBAirport uses findAllByIdentifierOrCode: to include K airports
-    open class func findAll(identifier: String) -> IADBCenteredArray {
+    @objc open class func findAll(identifier: String) -> IADBCenteredArray {
         if self.isLocationSuperclass() {
             return self.eachSubclass({(klass: IADBLocation.Type) -> IADBCenteredArray in
                 if klass.descriptionShort() == "IADBAirport" {
@@ -146,7 +146,7 @@ open class IADBLocation: IADBModel, Comparable {
     }
     //returns locations that begin with identifier
     
-    open class func findAll(identifier: String, types: [String]?) -> IADBCenteredArray {
+    @objc open class func findAll(identifier: String, types: [String]?) -> IADBCenteredArray {
         if identifier.isEmpty {
             return IADBCenteredArray()
         }
@@ -154,7 +154,7 @@ open class IADBLocation: IADBModel, Comparable {
     }
     // similar to some code in IADBAirport finders
     
-    open class func findAll(identifiers: [String], types: [String]?) -> IADBCenteredArray {
+    @objc open class func findAll(identifiers: [String], types: [String]?) -> IADBCenteredArray {
         var arguments = [String]()
         var predicates = [String]()
         for identifier: String in identifiers {
@@ -188,7 +188,7 @@ open class IADBLocation: IADBModel, Comparable {
         arguments.append(scalarsString)
     }
     
-    open class func findAll(predicate: NSPredicate) -> IADBCenteredArray {
+    @objc open class func findAll(predicate: NSPredicate) -> IADBCenteredArray {
         let (request, context) = fetchRequestContext()
         request.predicate = predicate
         //    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]

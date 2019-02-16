@@ -46,10 +46,10 @@ open class IADBRunway: IADBModel {
         let unicodes = identifier.unicodeScalars
         if !unicodes.isEmpty && digits.contains(UnicodeScalar(unicodes[unicodes.startIndex].value)!) {
             if unicodes.count >= 2 && digits.contains(UnicodeScalar(unicodes[unicodes.index(unicodes.startIndex, offsetBy: 1)].value)!) {
-                return CDouble(identifier.substring(to: identifier.index(identifier.startIndex, offsetBy: 2)))! * 10.0
+                return CDouble(identifier.prefix(2))! * 10.0
             }
             else {
-                return CDouble(identifier.substring(to: identifier.index(identifier.startIndex, offsetBy: 1)))! * 10.0
+                return CDouble(identifier.prefix(1))! * 10.0
             }
         }
         return -1.0

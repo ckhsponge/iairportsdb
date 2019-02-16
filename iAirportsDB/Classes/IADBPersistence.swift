@@ -75,7 +75,9 @@ open class IADBPersistence: NSObject {
     
     open func setPersistence(url:URL, coordinator:NSPersistentStoreCoordinator) {
         removeStore(coordinator: coordinator)
-        let options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: Int(true), NSReadOnlyPersistentStoreOption: self.readOnly ? Int(true) : Int(false)]
+        let t:Int = 1
+        let f:Int = 0
+        let options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"], NSIgnorePersistentStoreVersioningOption: t, NSReadOnlyPersistentStoreOption: self.readOnly ? t : f]
         
         let failureReason = "There was an error creating or loading the application's saved data."
         do {

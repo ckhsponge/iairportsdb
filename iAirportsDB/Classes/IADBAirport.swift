@@ -30,7 +30,7 @@ open class IADBAirport: IADBLocationElevation {
         static let all = [Large, Medium, Small, Seaplane, Heliport, Balloonport, Closed]
         
         public static func parse(strings:[String]) -> [AirportType] {
-            return strings.flatMap { parse(string:$0) }
+            return strings.compactMap { parse(string:$0) }
         }
         
         public static func parse(string:String) -> AirportType? {
@@ -45,7 +45,7 @@ open class IADBAirport: IADBLocationElevation {
     /**
      Finds using the internal airportId
     */
-    open class func find(airportId: Int32) -> IADBAirport? {
+    @objc open class func find(airportId: Int32) -> IADBAirport? {
         let (request, context) = fetchRequestContext()
         // Set example predicate and sort orderings...
         let predicate = NSPredicate(format: "(airportId = %d)", airportId)
@@ -75,36 +75,36 @@ open class IADBAirport: IADBLocationElevation {
      returns locations that begin with identifier with K prepended or the leading K removed
      or that begin with code
      */
-    open class func findAll(identifierOrCode identifier: String)-> IADBCenteredArrayAirports {
+    @objc open class func findAll(identifierOrCode identifier: String)-> IADBCenteredArrayAirports {
         let types:[String]? = nil
         return self.findAll(identifierOrCode: identifier, types: types)
     }
     open class func findAll(identifierOrCode identifier: String, types: [IADBAirport.AirportType]?) -> IADBCenteredArrayAirports {
         return self.findAll(identifierOrCode: identifier, types: typesStrings(types))
     }
-    open class func findAll(identifierOrCode identifier: String, types: [String]?) -> IADBCenteredArrayAirports {
+    @objc open class func findAll(identifierOrCode identifier: String, types: [String]?) -> IADBCenteredArrayAirports {
         return self.findAll(identifierOrCode:identifier, orMunicipality: nil, types: types)
     }
     
-    open class func findAll(identifierOrCodeOrMunicipality identifier: String) -> IADBCenteredArrayAirports  {
+    @objc open class func findAll(identifierOrCodeOrMunicipality identifier: String) -> IADBCenteredArrayAirports  {
         let types:[String]? = nil
         return self.findAll(identifierOrCodeOrMunicipality:identifier, types: types)
     }
     open class func findAll(identifierOrCodeOrMunicipality identifier: String, types: [IADBAirport.AirportType]?) -> IADBCenteredArrayAirports  {
         return self.findAll(identifierOrCodeOrMunicipality:identifier, types: typesStrings(types))
     }
-    open class func findAll(identifierOrCodeOrMunicipality identifier: String, types: [String]?) -> IADBCenteredArrayAirports  {
+    @objc open class func findAll(identifierOrCodeOrMunicipality identifier: String, types: [String]?) -> IADBCenteredArrayAirports  {
         return self.findAll(identifierOrCode:identifier, orMunicipality: identifier, types: types)
     }
     
-    open class func findAll(identifierOrCode identifier: String, orMunicipality municipality: String?, types: [String]?) -> IADBCenteredArrayAirports  {
+    @objc open class func findAll(identifierOrCode identifier: String, orMunicipality municipality: String?, types: [String]?) -> IADBCenteredArrayAirports  {
         if identifier.isEmpty {
             return IADBCenteredArrayAirports()
         }
         var identifierB = ""
         if identifier.count >= 2 && identifier.uppercased().hasPrefix("K") {
             //allow "KCVH" to find CVH
-            identifierB = identifier.substring(from: identifier.index(identifier.startIndex, offsetBy: 1))
+            identifierB = String(identifier.dropFirst())
             // strip off K at beginning
         }
         else {
@@ -115,7 +115,7 @@ open class IADBAirport: IADBLocationElevation {
     }
     
     // similar to some code in IADBLocation finders
-    open class func findAll(identifiers: [String], orCode code: String?, orMunicipality municipality: String?, types: [String]?) -> IADBCenteredArrayAirports  {
+    @objc open class func findAll(identifiers: [String], orCode code: String?, orMunicipality municipality: String?, types: [String]?) -> IADBCenteredArrayAirports  {
         var arguments = [String]()
         var predicates = [String]()
         for identifier: String in identifiers {
@@ -203,9 +203,10 @@ open class IADBAirport: IADBLocationElevation {
         return nil
     }
     
+    // returns identifier without first K if present
     open func klessIdentifier() -> String {
-        if (self.identifier.substring(to: self.identifier.index(self.identifier.startIndex, offsetBy: 1)).uppercased() == "K") {
-            return self.identifier.substring(from: self.identifier.index(self.identifier.startIndex, offsetBy: 1))
+        if (self.identifier.uppercased().hasPrefix("K")) {
+            return String(self.identifier.dropFirst())
         }
         return self.identifier
     }
