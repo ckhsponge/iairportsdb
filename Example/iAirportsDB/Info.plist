@@ -42,5 +42,13 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Let&apos;s test your GPS!</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Let&apos;s test your GPS!</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Let&apos;s test your GPS!</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Let&apos;s test your GPS!</string>
 </dict>
 </plist>
